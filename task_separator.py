@@ -52,18 +52,40 @@ def read_tasks(path):
                 
     return tasks
 
+def read_session_name(path):
+    first_file = glob.glob(os.path.join(path, "*.*.*.*.*"))[0]
+    filename = os.path.split(first_file)[1]
+    session_name = filename.split(".1")[0]
+    return session_name
+
+def cut_wav_for_each_task(wav, tasks, output_path, session_name, speaker):
+    for index, task in enumerate(tasks):
+        task_start, task_end, task_label = task.split(" ")
+        # Convert times to milliseconds
+        task_start, task_end = float(task_start) * 1000, float(task_end) * 1000
+        print(task_start)
+        print(task_end)
+        task_wav = wav[task_start:task_end]
+        task_wav_name = session_name + f".1.{index}" + f".{speaker}.wav"
+        print(task_wav_name)
+        task_wav.export(task_wav_name, format="wav")
 
 
 def main() -> None:
 
     args = arg_parser.parse_args()
-    session_dir = Path(args.session_folder)
+    session_path = Path(args.session_folder)
 
-    words_A, words_B = read_words(session_dir)
+    words_A, words_B = read_words(session_path)
 
-    wav_A, wav_B = read_wavs(session_dir)
+    wav_A, wav_B = read_wavs(session_path)
 
-    tasks = read_tasks(session_dir)
+    tasks = read_tasks(session_path)
 
+    output_path = Path(args.output_path)
+    session_name = read_session_name(session_path)
+    cut_wav_for_each_task(wav_A, tasks, output_path, session_name, "A")
+    cut_wav_for_each_task(wav_B, tasks, output_path, session_name, "B")
+    
 if __name__ == "__main__":
     main()
