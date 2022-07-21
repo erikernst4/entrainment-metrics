@@ -3,7 +3,7 @@ import sys
 import glob
 from pathlib import Path
 import argparse
-from scipy.io import wavfile
+from pydub import AudioSegment
 
 arg_parser = argparse.ArgumentParser(description="Cut wav files for each task and create its .words files")
 arg_parser.add_argument("-s", "--session-folder", type=str, help="Folder with wavs, tasks and words")
@@ -30,8 +30,7 @@ def read_wavs(path):
     for wav_file in glob.glob(os.path.join(path, "*.wav")):
         file_extensions = wav_file.split(".")
 
-        samplerate, data = wavfile.read(wav_file)
-        wav = (samplerate, data)
+        wav = AudioSegment.from_wav(wav_file)
 
         if "A" in file_extensions:
             wav_A = wav
@@ -65,7 +64,6 @@ def main() -> None:
     wav_A, wav_B = read_wavs(session_dir)
 
     tasks = read_tasks(session_dir)
-    print(tasks)
 
 if __name__ == "__main__":
     main()
