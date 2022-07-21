@@ -9,6 +9,21 @@ arg_parser = argparse.ArgumentParser(description="Cut wav files for each task an
 arg_parser.add_argument("-s", "--session-folder", type=str, help="Folder with wavs, tasks and words")
 arg_parser.add_argument("-o", "--output-path", help="Directory to save the output files")
 
+def read_words(path):
+    words_A = []
+    words_B = []
+    for filename in glob.glob(os.path.join(path, "*.words")):
+        file_extensions = filename.split(".")
+        with open(filename, encoding="utf-8", mode="r") as word_file:
+            lines = word_file.read().splitlines() 
+
+            if "A" in file_extensions:
+                words_A = lines
+            elif "B" in file_extensions:
+                words_B = lines
+                
+    return words_A, words_B
+
 def read_wavs(path):
     wav_A = (None, None)
     wav_B = (None, None)
@@ -25,21 +40,18 @@ def read_wavs(path):
                 
     return wav_A, wav_A 
 
-def read_words(path):
-    words_A = []
-    words_B = []
-    for filename in glob.glob(os.path.join(path, "*.words")):
-        file_extensions = filename.split(".")
-        with open(filename, encoding="utf-8", mode="r") as word_file:
-            lines = word_file.read().splitlines() 
-
-            if "A" in file_extensions:
-                words_A = lines
-            elif "B" in file_extensions:
-                words_B = lines
+def read_tasks(path):
+    tasks = []
+    for filename in glob.glob(os.path.join(path, "*.tasks")):
+        with open(filename, encoding="utf-8", mode="r") as tasks_file:
+            lines = tasks_file.read().splitlines() 
+            
+            for line in lines:
+                task_label = line.split(" ")[2]
+                if task_label.startswith("Images"):
+                    tasks.append(line)
                 
-    return words_A, words_B
-
+    return tasks
 
 
 
@@ -52,8 +64,8 @@ def main() -> None:
 
     wav_A, wav_B = read_wavs(session_dir)
 
-    print(wav_A)
-    print(wav_B)
+    tasks = read_tasks(session_dir)
+    print(tasks)
 
 if __name__ == "__main__":
     main()
