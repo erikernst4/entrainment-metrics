@@ -1,7 +1,13 @@
 ## Dependencies
 - Audio (could be replaced for scipy.io.wavfile) 
-  - ffmpeg (sudo apt-get install ffmpeg libavcodec-extra)
+  - ffmpeg
+    -   ```
+        sudo apt-get install ffmpeg libavcodec-extra
+        ``` 
   - pydub
+      - ```
+        pip3 install pydub
+        ``` 
 
 ## Scripts
 Run the following command to understand the usage of each script:
