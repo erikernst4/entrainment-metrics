@@ -63,13 +63,11 @@ def cut_wav_for_each_task(wav, tasks, output_path, session_name, speaker):
         task_start, task_end, task_label = task.split(" ")
         # Convert times to milliseconds
         task_start, task_end = float(task_start) * 1000, float(task_end) * 1000
-        print(task_start)
-        print(task_end)
         task_wav = wav[task_start:task_end]
         task_wav_name = session_name + f".1.{index}" + f".{speaker}.wav"
         output_dir = os.path.join(output_path, task_wav_name)
-        print(task_wav_name)
         task_wav.export(output_dir, format="wav")
+        print(f'Saved wav for task {index} from speaker {speaker}: {task_start}ms - {task_end}ms')
 
 
 def main() -> None:
@@ -82,6 +80,7 @@ def main() -> None:
     wav_A, wav_B = read_wavs(session_path)
 
     tasks = read_tasks(session_path)
+    print(f'There are {len(tasks)} tasks in this session')
 
     output_path = Path(args.output_path)
     session_name = read_session_name(session_path)
