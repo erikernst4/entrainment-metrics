@@ -40,15 +40,18 @@ def read_wavs(path):
     return wav_A, wav_A 
 
 def read_tasks(path):
-    tasks = []
+    tasks = {}
     for filename in glob.glob(os.path.join(path, "*.tasks")):
         with open(filename, encoding="utf-8", mode="r") as tasks_file:
             lines = tasks_file.read().splitlines() 
             
+            task_id = 1
             for line in lines:
-                task_label = line.split(" ")[2]
+                task_start, task_end, task_label = line.split(" ")
+                task_start, task_end = float(task_start), float(task_end)
                 if task_label.startswith("Images"):
-                    tasks.append(line)
+                    tasks[task_id] = {"Start": task_start, "End": task_end, "Label": task_label}
+                    task_id += 1
                 
     return tasks
 
@@ -59,15 +62,29 @@ def read_session_name(path):
     return session_name
 
 def cut_wav_for_each_task(wav, tasks, output_path, session_name, speaker):
-    for index, task in enumerate(tasks):
-        task_start, task_end, task_label = task.split(" ")
+    for task_id, task in tasks.items():
         # Convert times to milliseconds
-        task_start, task_end = float(task_start) * 1000, float(task_end) * 1000
+        task_start, task_end = task["Start"] * 1000, task["End"] * 1000
         task_wav = wav[task_start:task_end]
-        task_wav_name = session_name + f".1.{index}" + f".{speaker}.wav"
+        task_wav_name = session_name + f".1.{task_id}" + f".{speaker}.wav"
         output_dir = os.path.join(output_path, task_wav_name)
         task_wav.export(output_dir, format="wav")
-        print(f'Saved wav for task {index} from speaker {speaker}: {task_start}ms - {task_end}ms')
+        print(f'Saved wav for task {task_id} from speaker {speaker}: {task["Start"]}s - {task["End"]}s')
+
+
+def create_words_for_each_task(words, tasks, output_path, session_name, speaker):
+    for task_id, task in tasks.items():
+        words_task_name = session_name + f".1.{task_id}" + f".{speaker}.words"
+        words_filename = os.path.join(output_path, words_task_name)
+        with open(words_filename, encoding="utf-8", mode="w") as word_file:
+            for line in words:
+                word_start, word_end, word = line.split(" ")
+                word_start, word_end = float(word_start), float(word_end)
+                if word_start > task["Start"] and word_end < task["End"]: # TO-ASK: What if a word is between tasks?
+                    word_start, word_end = word_start - task["Start"], word_end - task["Start"] 
+                    word_file.write(f"{word_start} {word_end} {word}\n")
+        print(f"Wrote .words for task {task_id}")
+
 
 
 def main() -> None:
@@ -87,5 +104,8 @@ def main() -> None:
     cut_wav_for_each_task(wav_A, tasks, output_path, session_name, "A")
     cut_wav_for_each_task(wav_B, tasks, output_path, session_name, "B")
     
+    create_words_for_each_task(words_A, tasks, output_path, session_name, "A")
+    create_words_for_each_task(words_B, tasks, output_path, session_name, "B")
+
 if __name__ == "__main__":
     main()
