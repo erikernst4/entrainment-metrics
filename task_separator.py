@@ -67,8 +67,9 @@ def cut_wav_for_each_task(wav, tasks, output_path, session_name, speaker):
         print(task_end)
         task_wav = wav[task_start:task_end]
         task_wav_name = session_name + f".1.{index}" + f".{speaker}.wav"
+        output_dir = os.path.join(output_path, task_wav_name)
         print(task_wav_name)
-        task_wav.export(task_wav_name, format="wav")
+        task_wav.export(output_dir, format="wav")
 
 
 def main() -> None:
