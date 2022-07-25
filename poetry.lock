@@ -1,0 +1,15 @@
+[[package]]
+name = "pydub"
+version = "0.25.1"
+description = "Manipulate audio with an simple and easy high level interface"
+category = "main"
+optional = false
+python-versions = "*"
+
+[metadata]
+lock-version = "1.1"
+python-versions = "^3.8"
+content-hash = "e0bc9102a59e95b71ed481aa93c152dae9e6a4a01f0a0fb74e6011e9fcf0a6c1"
+
+[metadata.files]
+pydub = []
