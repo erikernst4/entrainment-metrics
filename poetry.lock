@@ -26,14 +26,6 @@ optional = false
 python-versions = ">=3.8"
 
 [[package]]
-name = "pydub"
-version = "0.25.1"
-description = "Manipulate audio with an simple and easy high level interface"
-category = "main"
-optional = false
-python-versions = "*"
-
-[[package]]
 name = "scipy"
 version = "1.8.1"
 description = "SciPy: Scientific Library for Python"
@@ -47,11 +39,10 @@ numpy = ">=1.17.3,<1.25.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8,<3.11"
-content-hash = "ba65495a7b970df7a50ee7f38f993a3afcaa54031781c360509399d0519de03c"
+content-hash = "e1b30f6b61a976dd51079d2c71a3e82d1946f37c5fcbb043deccbb70d2ce649b"
 
 [metadata.files]
 click = []
 colorama = []
 numpy = []
-pydub = []
 scipy = []

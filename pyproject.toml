@@ -6,7 +6,6 @@ authors = ["Erik Ernst"]
 
 [tool.poetry.dependencies]
 python = "^3.8,<3.11"
-pydub = "^0.25.1"
 click = "8.0.2"
 scipy = "^1.8.1"
 

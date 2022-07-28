@@ -3,7 +3,7 @@ import glob
 import os
 from pathlib import Path
 
-from pydub import AudioSegment
+from scipy.io import wavfile
 
 arg_parser = argparse.ArgumentParser(
     description="Cut wav files for each task and create its .words files"
@@ -38,7 +38,8 @@ def read_wavs(path):
     for wav_file in glob.glob(os.path.join(path, "*.wav")):
         file_extensions = wav_file.split(".")
 
-        wav = AudioSegment.from_wav(wav_file)
+        samplerate, data = wavfile.read(wav_file)
+        wav = (samplerate, data)
 
         if "A" in file_extensions:
             wav_A = wav
@@ -78,12 +79,14 @@ def read_session_name(path):
 
 def cut_wav_for_each_task(wav, tasks, output_path, session_name, speaker):
     for task_id, task in tasks.items():
-        # Convert times to milliseconds
-        task_start, task_end = task["Start"] * 1000, task["End"] * 1000
-        task_wav = wav[task_start:task_end]
+        samplerate, data = wav
+        task_start, task_end = int(task["Start"]), int(task["End"])
+        cutted_data = data[task_start * samplerate : task_end * samplerate]
+
         task_wav_name = session_name + f".1.{task_id}" + f".{speaker}.wav"
         output_dir = os.path.join(output_path, task_wav_name)
-        task_wav.export(output_dir, format="wav")
+        wavfile.write(output_dir, samplerate, cutted_data)
+
         print(
             f'Saved wav for task {task_id} from speaker {speaker}: {task["Start"]}s - {task["End"]}s'
         )
