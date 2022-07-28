@@ -1,4 +1,31 @@
 [[package]]
+name = "click"
+version = "8.0.2"
+description = "Composable command line interface toolkit"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+colorama = {version = "*", markers = "platform_system == \"Windows\""}
+
+[[package]]
+name = "colorama"
+version = "0.4.5"
+description = "Cross-platform colored terminal text."
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+
+[[package]]
+name = "numpy"
+version = "1.23.1"
+description = "NumPy is the fundamental package for array computing with Python."
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[[package]]
 name = "pydub"
 version = "0.25.1"
 description = "Manipulate audio with an simple and easy high level interface"
@@ -6,10 +33,25 @@ category = "main"
 optional = false
 python-versions = "*"
 
+[[package]]
+name = "scipy"
+version = "1.8.1"
+description = "SciPy: Scientific Library for Python"
+category = "main"
+optional = false
+python-versions = ">=3.8,<3.11"
+
+[package.dependencies]
+numpy = ">=1.17.3,<1.25.0"
+
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.8"
-content-hash = "e0bc9102a59e95b71ed481aa93c152dae9e6a4a01f0a0fb74e6011e9fcf0a6c1"
+python-versions = "^3.8,<3.11"
+content-hash = "ba65495a7b970df7a50ee7f38f993a3afcaa54031781c360509399d0519de03c"
 
 [metadata.files]
+click = []
+colorama = []
+numpy = []
 pydub = []
+scipy = []
