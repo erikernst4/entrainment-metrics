@@ -6,10 +6,10 @@
         poetry shell
 
         ```  
-- Audio (could be replaced for scipy.io.wavfile) 
-  - ffmpeg (pydub dependency)
-    -   ```
-        sudo apt-get install ffmpeg libavcodec-extra
+- Speech feature extraction
+    - Praat (could be replaced) 
+        ```
+        sudo apt install praat
         ```  
 
 ## Scripts
