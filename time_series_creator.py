@@ -1,10 +1,13 @@
 import argparse
 import subprocess
 from pathlib import Path
-from typing import Any, List
+from typing import List
 
 import numpy as np
 from scipy.io import wavfile
+
+from frame import Frame, MissingFrame
+from inter_pause_unit import InterPauseUnit
 
 arg_parser = argparse.ArgumentParser(
     description="Generate a times series for a speaker for a task"
@@ -20,8 +23,11 @@ arg_parser.add_argument(
 )
 
 
-def get_inter_pause_units(words_fname: Path):
-    inter_pause_units: List[Any] = []
+def get_inter_pause_units(words_fname: Path) -> List[InterPauseUnit]:
+    """
+    Return a list of IPUs given a Path to a .word file
+    """
+    inter_pause_units: List[InterPauseUnit] = []
     with open(words_fname, encoding="utf-8", mode="r") as word_file:
         IPU_started: bool = False
         IPU_start: float = 0.0
@@ -39,10 +45,10 @@ def get_inter_pause_units(words_fname: Path):
             elif IPU_started and word != "#":
                 last_end = word_end
             elif IPU_started and word == "#":
-                inter_pause_units.append((IPU_start, last_end))
+                inter_pause_units.append(InterPauseUnit(IPU_start, last_end))
                 IPU_started = False
         if IPU_start and last_end:  # Last IPU if existent
-            inter_pause_units.append((IPU_start, last_end))
+            inter_pause_units.append(InterPauseUnit(IPU_start, last_end))
 
     return inter_pause_units
 
@@ -59,38 +65,48 @@ def is_frame_in_inter_pause_unit(inter_pause_unit, frame_start, frame_end):
     return res
 
 
-def inter_pause_units_inside_frame(inter_pause_units, frame):
+def inter_pause_units_inside_interval(inter_pause_units, interval_start, interval_end):
     # POSSIBLE TO-DO: make a logorithmic search
     IPUs = []
     for inter_pause_unit in inter_pause_units:
-        if is_frame_in_inter_pause_unit(inter_pause_unit, frame["Start"], frame["End"]):
+        if is_frame_in_inter_pause_unit(inter_pause_unit, interval_start, interval_end):
             IPUs.append(inter_pause_unit)
     return IPUs
 
 
-def separate_frames(inter_pause_units, data, samplerate):
-    FRAME_LENGHT = 16 * samplerate
-    TIME_STEP = 8 * samplerate
+def separate_frames(
+    inter_pause_units: List[InterPauseUnit], data: np.ndarray, samplerate: int
+):
+    FRAME_LENGHT: int = 16 * samplerate
+    TIME_STEP: int = 8 * samplerate
 
-    frames = []
-    audio_length = data.shape[0]
+    frames: List[Frame] = []
+    audio_length: int = data.shape[0]
 
     frame_start, frame_end = 0, FRAME_LENGHT
     while frame_start < audio_length:
         # Convert frame ends to seconds
-        frame = {}
-        frame_start_in_s = frame_start / samplerate
-        frame_end_in_s = frame_end / samplerate
+        frame_start_in_s: float = frame_start / samplerate
+        frame_end_in_s: float = frame_end / samplerate
 
-        frame["Start"] = frame_start_in_s
-        frame["End"] = frame_end_in_s
-        IPUs_inside_frame = inter_pause_units_inside_frame(inter_pause_units, frame)
+        IPUs_inside_frame: List[InterPauseUnit] = inter_pause_units_inside_interval(
+            inter_pause_units, frame_start_in_s, frame_end_in_s
+        )
+
+        frame = None
         if IPUs_inside_frame:
-            frame["Is_missing"] = False
-            frame["IPUs"] = IPUs_inside_frame
+            frame = Frame(
+                start=frame_end_in_s,
+                end=frame_end_in_s,
+                is_missing=False,
+                inter_pause_units=IPUs_inside_frame,
+            )
         else:
             # A particular frame could contain no IPUs, in which case its a/p feature values are considered ‘missing’
-            frame["Is_missing"] = True
+            frame = MissingFrame(
+                start=frame_end_in_s,
+                end=frame_end_in_s,
+            )
 
         frames.append(frame)
 
@@ -170,7 +186,7 @@ def main() -> None:
     print(f"Lenght: {data.shape[0]/samplerate} s")
 
     words_fname: Path = Path(args.words_file)
-    inter_pause_units = get_inter_pause_units(words_fname)
+    inter_pause_units: List[InterPauseUnit] = get_inter_pause_units(words_fname)
     print(f"Amount of IPUs: {len(inter_pause_units)}")
 
     frames = separate_frames(inter_pause_units, data, samplerate)

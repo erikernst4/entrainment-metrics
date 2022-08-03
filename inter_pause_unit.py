@@ -1,19 +1,19 @@
 class InterPauseUnit:
     """
-     It's an interval of time between silences in a conversation
+    It's an interval of time between silences in a conversation
 
      ...
 
-     Attributes
-     ----------
-     start: float
-         Start time of the IPU
-     end: float
-         End time of the IPU
+    Attributes
+    ----------
+    start: float
+        Start time of the IPU
+    end: float
+        End time of the IPU
 
 
     Methods
-     ----------
+    ----------
     """
 
     def __init__(
