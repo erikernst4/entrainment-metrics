@@ -22,12 +22,6 @@ class Frame:
         Whether the frame has no IPUs inside. In other words, if the frame is fulled with silence.
     interpause_units: List[InterPauseUnit]
         The IPUs that fall inside of the frame
-
-    Methods
-    ----------
-    calculate_feature_value(feature, audio_file)
-        Return the frame's value for feature given
-
     """
 
     def __init__(

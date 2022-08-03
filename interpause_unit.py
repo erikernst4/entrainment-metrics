@@ -16,14 +16,6 @@ class InterPauseUnit:
     end: float
         End time of the IPU
 
-
-    Methods
-    ----------
-    duration()
-        Time duration of the IPU
-    calculate_features(audio_file)
-        IPU values of the standard acoustics features
-
     """
 
     def __init__(
