@@ -1,6 +1,7 @@
 import argparse
 import subprocess
 from pathlib import Path
+from typing import Any, List
 
 import numpy as np
 from scipy.io import wavfile
@@ -19,59 +20,55 @@ arg_parser.add_argument(
 )
 
 
-def get_relevant_frames_utterances(words_fname):
-    relevant_frames_utterances = []
+def get_inter_pause_units(words_fname: Path):
+    inter_pause_units: List[Any] = []
     with open(words_fname, encoding="utf-8", mode="r") as word_file:
-        rfu_started = False
-        rfu_start = 0.0
-        last_end = 0.0
+        IPU_started: bool = False
+        IPU_start: float = 0.0
+        last_end: float = 0.0
         while line := word_file.readline().rstrip():  # Efficient reading
             start, end, word = line.split()
-            if not rfu_started and word == "#":
-                rfu_start = 0.0
+            word_start, word_end = float(start), float(end)
+            if not IPU_started and word == "#":
+                IPU_start = 0.0
                 last_end = 0.0
-            elif not rfu_started and word != "#":
-                rfu_start = start
-                last_end = end
-                rfu_started = True
-            elif rfu_started and word != "#":
-                last_end = end
-            elif rfu_started and word == "#":
-                rfu_start, rfu_end = float(rfu_start), float(last_end)
-                relevant_frames_utterances.append((rfu_start, rfu_end))
-                rfu_started = False
-        if rfu_start and last_end:  # Last RFU if existent
-            relevant_frames_utterances.append((float(rfu_start), float(last_end)))
+            elif not IPU_started and word != "#":
+                IPU_start = word_start
+                last_end = word_end
+                IPU_started = True
+            elif IPU_started and word != "#":
+                last_end = word_end
+            elif IPU_started and word == "#":
+                inter_pause_units.append((IPU_start, last_end))
+                IPU_started = False
+        if IPU_start and last_end:  # Last IPU if existent
+            inter_pause_units.append((IPU_start, last_end))
 
-    return relevant_frames_utterances
+    return inter_pause_units
 
 
-def is_frame_in_relevant_frame_utterance(
-    relevant_frames_utterance, frame_start, frame_end
-):
+def is_frame_in_inter_pause_unit(inter_pause_unit, frame_start, frame_end):
     res = False
 
-    rfu_start, rfu_end = relevant_frames_utterance
-    max_start = max(rfu_start, frame_start)
-    min_end = min(rfu_end, frame_end)
+    IPU_start, IPU_end = inter_pause_unit
+    max_start = max(IPU_start, frame_start)
+    min_end = min(IPU_end, frame_end)
 
     if max_start < min_end:
         res = True
     return res
 
 
-def relevant_frames_utterances_inside_frame(relevant_frames_utterances, frame):
+def inter_pause_units_inside_frame(inter_pause_units, frame):
     # POSSIBLE TO-DO: make a logorithmic search
-    rfus = []
-    for relevant_frames_utterance in relevant_frames_utterances:
-        if is_frame_in_relevant_frame_utterance(
-            relevant_frames_utterance, frame["Start"], frame["End"]
-        ):
-            rfus.append(relevant_frames_utterance)
-    return rfus
+    IPUs = []
+    for inter_pause_unit in inter_pause_units:
+        if is_frame_in_inter_pause_unit(inter_pause_unit, frame["Start"], frame["End"]):
+            IPUs.append(inter_pause_unit)
+    return IPUs
 
 
-def separate_frames(relevant_frames_utterances, data, samplerate):
+def separate_frames(inter_pause_units, data, samplerate):
     FRAME_LENGHT = 16 * samplerate
     TIME_STEP = 8 * samplerate
 
@@ -87,14 +84,12 @@ def separate_frames(relevant_frames_utterances, data, samplerate):
 
         frame["Start"] = frame_start_in_s
         frame["End"] = frame_end_in_s
-        rfus_inside_frame = relevant_frames_utterances_inside_frame(
-            relevant_frames_utterances, frame
-        )
-        if rfus_inside_frame:
+        IPUs_inside_frame = inter_pause_units_inside_frame(inter_pause_units, frame)
+        if IPUs_inside_frame:
             frame["Is_missing"] = False
-            frame["RFUs"] = rfus_inside_frame
+            frame["IPUs"] = IPUs_inside_frame
         else:
-            # A particular frame could contain no RFUs, in which case its a/p feature values are considered ‘missing’
+            # A particular frame could contain no IPUs, in which case its a/p feature values are considered ‘missing’
             frame["Is_missing"] = True
 
         frames.append(frame)
@@ -107,22 +102,22 @@ def separate_frames(relevant_frames_utterances, data, samplerate):
     return frames
 
 
-def calculate_duration_sum(relevant_frames_utterances):
+def calculate_duration_sum(inter_pause_units):
     res = 0
-    for rfu_start, rfu_end in relevant_frames_utterances:
-        res += rfu_end - rfu_start
+    for IPU_start, IPU_end in inter_pause_units:
+        res += IPU_end - IPU_start
     return res
 
 
-def calculate_features_for_rfu(relevant_frames_utterance, audio_file):
-    rfu_start, rfu_end = relevant_frames_utterance
+def calculate_features_for_IPU(inter_pause_unit, audio_file):
+    IPU_start, IPU_end = inter_pause_unit
     result = subprocess.run(
         [
             'praat',
             './praat_scripts/extractStandardAcoustics.praat',
             '../' + audio_file,
-            str(rfu_start),
-            str(rfu_end),
+            str(IPU_start),
+            str(IPU_end),
             '75',
             '500',
         ],
@@ -134,7 +129,7 @@ def calculate_features_for_rfu(relevant_frames_utterance, audio_file):
     for line in output_lines:
         feature, value = line.split(":")
         features_results[feature] = float(value)
-    # print(f"Feature results for RFU from {rfu_start} to {rfu_end}")
+    # print(f"Feature results for IPU from {IPU_start} to {IPU_end}")
     # print(features_results)
     return features_results
 
@@ -143,21 +138,21 @@ def calculate_time_series(feature, frames, audio_file):
     time_series = []
     for frame in frames:
         if not frame["Is_missing"]:
-            rfus_duration_weighten_mean_values = []
-            rfus_duration_sum = calculate_duration_sum(frame["RFUs"])
-            for relevant_frames_utterance in frame["RFUs"]:
-                rfu_start, rfu_end = relevant_frames_utterance
-                rfu_features_results = calculate_features_for_rfu(
-                    relevant_frames_utterance, audio_file
+            IPUs_duration_weighten_mean_values = []
+            IPUs_duration_sum = calculate_duration_sum(frame["IPUs"])
+            for inter_pause_unit in frame["IPUs"]:
+                IPU_start, IPU_end = inter_pause_unit
+                IPU_features_results = calculate_features_for_IPU(
+                    inter_pause_unit, audio_file
                 )
-                rfu_duration = rfu_end - rfu_start
-                rfu_duration_weighten_mean_value = (
-                    rfu_features_results[feature] * rfu_duration
-                ) / rfus_duration_sum
-                rfus_duration_weighten_mean_values.append(
-                    rfu_duration_weighten_mean_value
+                IPU_duration = IPU_end - IPU_start
+                IPU_duration_weighten_mean_value = (
+                    IPU_features_results[feature] * IPU_duration
+                ) / IPUs_duration_sum
+                IPUs_duration_weighten_mean_values.append(
+                    IPU_duration_weighten_mean_value
                 )
-            time_series.append(sum(rfus_duration_weighten_mean_values))
+            time_series.append(sum(IPUs_duration_weighten_mean_values))
         else:
             time_series.append(np.nan)
     return time_series
@@ -166,7 +161,7 @@ def calculate_time_series(feature, frames, audio_file):
 def main() -> None:
     args = arg_parser.parse_args()
 
-    wav_fname = Path(args.audio_file)
+    wav_fname: Path = Path(args.audio_file)
     samplerate, data = wavfile.read(wav_fname)
     print(f"Samplerate: {samplerate}")
     print(f"Audio data shape: {data.shape}")
@@ -174,11 +169,11 @@ def main() -> None:
     print(f"min, max: {data.min()}, {data.max()}")
     print(f"Lenght: {data.shape[0]/samplerate} s")
 
-    words_fname = Path(args.words_file)
-    relevant_frames_utterances = get_relevant_frames_utterances(words_fname)
-    print(f"Amount of RFUs: {len(relevant_frames_utterances)}")
+    words_fname: Path = Path(args.words_file)
+    inter_pause_units = get_inter_pause_units(words_fname)
+    print(f"Amount of IPUs: {len(inter_pause_units)}")
 
-    frames = separate_frames(relevant_frames_utterances, data, samplerate)
+    frames = separate_frames(inter_pause_units, data, samplerate)
     print(f"Amount of frames: {len(frames)}")
     print(f"Frames: {frames}")
 
