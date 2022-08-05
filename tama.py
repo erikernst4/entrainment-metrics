@@ -5,7 +5,7 @@ from typing import List, Union
 import numpy as np
 from scipy.io import wavfile
 
-from entrainment import calculate_time_series
+from entrainment import calculate_sample_correlation, calculate_time_series
 from frame import Frame, MissingFrame
 from interpause_unit import InterPauseUnit
 
@@ -138,6 +138,7 @@ def separate_frames(
 
 
 def print_audio_description(speaker: str, samplerate: int, data: np.ndarray) -> None:
+    print("----------------------------------------")
     print(f"Audio from speaker {speaker}")
     print(f"Samplerate: {samplerate}")
     print(f"Audio data shape: {data.shape}")
@@ -185,12 +186,20 @@ def main() -> None:
     time_series_a: List[float] = calculate_time_series(
         args.feature, frames_a, wav_a_fname
     )
+    print("----------------------------------------")
     print(f"Time series of A: {time_series_a}")
 
     time_series_b: List[float] = calculate_time_series(
         args.feature, frames_b, wav_b_fname
     )
     print(f"Time series of B: {time_series_b}")
+    print("----------------------------------------")
+
+    print("Sample cross-correlation")
+    sample_cross_correlations: List[float] = calculate_sample_correlation(
+        time_series_a, time_series_b
+    )
+    print(f"Correlaciones según lag {sample_cross_correlations}")
 
 
 if __name__ == "__main__":
