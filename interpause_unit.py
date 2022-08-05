@@ -41,7 +41,7 @@ class InterPauseUnit:
             [
                 'praat',
                 './praat_scripts/extractStandardAcoustics.praat',
-                audio_file,
+                audio_file.absolute().as_posix(),
                 str(self.start),
                 str(self.end),
                 '75',

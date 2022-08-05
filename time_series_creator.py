@@ -134,7 +134,7 @@ def calculate_time_series(
     feature: str, frames: List[Frame], audio_file: Path
 ) -> List[float]:
     """
-    Generate a time series of the frames feature values
+    Generate a time series of the frames values for the feature given
     """
     time_series: List[float] = []
     for frame in frames:
@@ -160,11 +160,8 @@ def main() -> None:
 
     frames: List[Frame] = separate_frames(interpause_units, data, samplerate)
     print(f"Amount of frames: {len(frames)}")
-    print(f"Frames: {frames}")
 
-    time_series: List[float] = calculate_time_series(
-        args.feature, frames, args.audio_file
-    )
+    time_series: List[float] = calculate_time_series(args.feature, frames, wav_fname)
     print(f"Time series: {time_series}")
 
 
