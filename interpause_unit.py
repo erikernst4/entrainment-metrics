@@ -54,7 +54,8 @@ class InterPauseUnit:
         features_results: Dict[str, float] = {}
         for line in output_lines:
             feature, value = line.split(":")
-            features_results[feature] = float(value)
+            if value != "--undefined--":
+                features_results[feature] = float(value)
         # print(f"Feature results for IPU from {IPU_start} to {IPU_end}")
         # print(features_results)
         return features_results

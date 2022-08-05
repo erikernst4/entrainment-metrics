@@ -1,10 +1,11 @@
 import argparse
 from pathlib import Path
-from typing import List
+from typing import List, Union
 
 import numpy as np
 from scipy.io import wavfile
 
+from entrainment import calculate_time_series
 from frame import Frame, MissingFrame
 from interpause_unit import InterPauseUnit
 
@@ -12,10 +13,16 @@ arg_parser = argparse.ArgumentParser(
     description="Generate a times series for a speaker for a task"
 )
 arg_parser.add_argument(
-    "-a", "--audio-file", type=str, help="Audio .wav file for a speaker for a task"
+    "-a", "--audio-file-a", type=str, help="Audio .wav file for a speaker A"
 )
 arg_parser.add_argument(
-    "-w", "--words-file", type=str, help=".words file for a speaker for a task"
+    "-b", "--audio-file-b", type=str, help="Audio .wav file for a speaker B"
+)
+arg_parser.add_argument(
+    "-wa", "--words-file-a", type=str, help=".words file for a speaker A"
+)
+arg_parser.add_argument(
+    "-wb", "--words-file-b", type=str, help=".words file for a speaker B"
 )
 arg_parser.add_argument(
     "-f", "--feature", type=str, help="Feature to calculate time series"
@@ -83,7 +90,7 @@ def interpause_units_inside_interval(
 
 def separate_frames(
     interpause_units: List[InterPauseUnit], data: np.ndarray, samplerate: int
-) -> List[Frame]:
+) -> List[Union[Frame, MissingFrame]]:
     """
     Given an audio data and samplerate, return a list of the frames inside
     """
@@ -91,7 +98,7 @@ def separate_frames(
     FRAME_LENGHT: int = 16 * samplerate
     TIME_STEP: int = 8 * samplerate
 
-    frames: List[Frame] = []
+    frames: List[Union[Frame, MissingFrame]] = []
     audio_length: int = data.shape[0]
 
     frame_start, frame_end = 0, FRAME_LENGHT
@@ -130,39 +137,60 @@ def separate_frames(
     return frames
 
 
-def calculate_time_series(
-    feature: str, frames: List[Frame], audio_file: Path
-) -> List[float]:
-    """
-    Generate a time series of the frames values for the feature given
-    """
-    time_series: List[float] = []
-    for frame in frames:
-        frame_time_series_value = frame.calculate_feature_value(feature, audio_file)
-        time_series.append(frame_time_series_value)
-    return time_series
-
-
-def main() -> None:
-    args = arg_parser.parse_args()
-
-    wav_fname: Path = Path(args.audio_file)
-    samplerate, data = wavfile.read(wav_fname)
+def print_audio_description(speaker: str, samplerate: int, data: np.ndarray) -> None:
+    print(f"Audio from speaker {speaker}")
     print(f"Samplerate: {samplerate}")
     print(f"Audio data shape: {data.shape}")
     print(f"Audio data dtype: {data.dtype}")
     print(f"min, max: {data.min()}, {data.max()}")
     print(f"Lenght: {data.shape[0]/samplerate} s")
+    print("----------------------------------------")
 
-    words_fname: Path = Path(args.words_file)
+
+def get_frames(
+    speaker: str, wav_fname: Path, words_fname: Path
+) -> List[Union[Frame, MissingFrame]]:
+    samplerate, data = wavfile.read(wav_fname)
+    print_audio_description(speaker, samplerate, data)
+
     interpause_units: List[InterPauseUnit] = get_interpause_units(words_fname)
-    print(f"Amount of IPUs: {len(interpause_units)}")
+    print(f"Amount of IPUs of speaker {speaker}: {len(interpause_units)}")
 
-    frames: List[Frame] = separate_frames(interpause_units, data, samplerate)
-    print(f"Amount of frames: {len(frames)}")
+    frames: List[Union[Frame, MissingFrame]] = separate_frames(
+        interpause_units, data, samplerate
+    )
+    print(f"Amount of frames of speaker {speaker}: {len(frames)}")
 
-    time_series: List[float] = calculate_time_series(args.feature, frames, wav_fname)
-    print(f"Time series: {time_series}")
+    return frames
+
+
+def main() -> None:
+    args = arg_parser.parse_args()
+
+    wav_a_fname: Path = Path(args.audio_file_a)
+    words_a_fname: Path = Path(args.words_file_a)
+    frames_a: List[Union[Frame, MissingFrame]] = get_frames(
+        "A", wav_a_fname, words_a_fname
+    )
+
+    wav_b_fname: Path = Path(args.audio_file_b)
+    words_b_fname: Path = Path(args.words_file_b)
+    frames_b: List[Union[Frame, MissingFrame]] = get_frames(
+        "B", wav_b_fname, words_b_fname
+    )
+
+    if len(frames_a) != len(frames_b):
+        raise ValueError("The amount of frames of each speaker is different")
+
+    time_series_a: List[float] = calculate_time_series(
+        args.feature, frames_a, wav_a_fname
+    )
+    print(f"Time series of A: {time_series_a}")
+
+    time_series_b: List[float] = calculate_time_series(
+        args.feature, frames_b, wav_b_fname
+    )
+    print(f"Time series of B: {time_series_b}")
 
 
 if __name__ == "__main__":

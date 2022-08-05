@@ -83,7 +83,7 @@ class MissingFrame(Frame):
             interpause_units=None,
         )
 
-    def calculate_time_series_value(
-        self, audio_file: Path  # pylint: disable=unused-argument
+    def calculate_feature_value(
+        self, feature: str, audio_file: Path  # pylint: disable=unused-argument
     ) -> float:
         return np.nan
