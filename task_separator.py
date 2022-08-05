@@ -2,7 +2,9 @@ import argparse
 import glob
 import os
 from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
 
+import numpy as np
 from scipy.io import wavfile
 
 arg_parser = argparse.ArgumentParser(
@@ -16,13 +18,13 @@ arg_parser.add_argument(
 )
 
 
-def read_words(path):
-    words_A = []
-    words_B = []
+def read_words(path: Path) -> Tuple[List[str], List[str]]:
+    words_A: List[str] = []
+    words_B: List[str] = []
     for filename in glob.glob(os.path.join(path, "*.words")):
         file_extensions = filename.split(".")
         with open(filename, encoding="utf-8", mode="r") as word_file:
-            lines = word_file.read().splitlines()
+            lines: List[str] = word_file.read().splitlines()
 
             if "A" in file_extensions:
                 words_A = lines
@@ -32,14 +34,16 @@ def read_words(path):
     return words_A, words_B
 
 
-def read_wavs(path):
+def read_wavs(
+    path: Path,
+) -> Tuple[Optional[Tuple[int, np.ndarray]], Optional[Tuple[int, np.ndarray]]]:
     wav_A = None
     wav_B = None
     for wav_file in glob.glob(os.path.join(path, "*.wav")):
         file_extensions = wav_file.split(".")
 
         samplerate, data = wavfile.read(wav_file)
-        wav = (samplerate, data)
+        wav: Optional[Tuple[int, np.ndarray]] = (samplerate, data)
 
         if "A" in file_extensions:
             wav_A = wav
@@ -49,20 +53,19 @@ def read_wavs(path):
     return wav_A, wav_B
 
 
-def read_tasks(path):
-    tasks = {}
+def read_tasks(path: Path) -> Dict[int, Dict[str, Any]]:
+    tasks: Dict[int, Dict[str, Any]] = {}
     for filename in glob.glob(os.path.join(path, "*.tasks")):
         with open(filename, encoding="utf-8", mode="r") as tasks_file:
-            lines = tasks_file.read().splitlines()
+            lines: List[str] = tasks_file.read().splitlines()
 
-            task_id = 1
+            task_id: int = 1
             for line in lines:
                 task_start, task_end, task_label = line.split(" ")
-                task_start, task_end = float(task_start), float(task_end)
                 if task_label.startswith("Images"):
                     tasks[task_id] = {
-                        "Start": task_start,
-                        "End": task_end,
+                        "Start": float(task_start),
+                        "End": float(task_end),
                         "Label": task_label,
                     }
                     task_id += 1
@@ -70,21 +73,28 @@ def read_tasks(path):
     return tasks
 
 
-def read_session_name(path):
+def read_session_name(path: Path) -> str:
     first_file = glob.glob(os.path.join(path, "*.*.*.*.*"))[0]
     filename = os.path.split(first_file)[1]
-    session_name = filename.split(".1")[0]
+    session_name: str = filename.split(".1")[0]
     return session_name
 
 
-def cut_wav_for_each_task(wav, tasks, output_path, session_name, speaker):
+def cut_wav_for_each_task(
+    wav: Optional[Tuple[int, np.ndarray]],
+    tasks: Dict[int, Dict[str, Any]],
+    output_path: Path,
+    session_name: str,
+    speaker: str,
+) -> None:
     for task_id, task in tasks.items():
-        samplerate, data = wav
+        if wav is not None:
+            samplerate, data = wav
         task_start, task_end = int(task["Start"]), int(task["End"])
-        cutted_data = data[task_start * samplerate : task_end * samplerate]
+        cutted_data: np.ndarray = data[task_start * samplerate : task_end * samplerate]
 
-        task_wav_name = session_name + f".1.{task_id}" + f".{speaker}.wav"
-        output_dir = os.path.join(output_path, task_wav_name)
+        task_wav_name: str = session_name + f".1.{task_id}" + f".{speaker}.wav"
+        output_dir: str = os.path.join(output_path, task_wav_name)
         wavfile.write(output_dir, samplerate, cutted_data)
 
         print(
@@ -92,14 +102,20 @@ def cut_wav_for_each_task(wav, tasks, output_path, session_name, speaker):
         )
 
 
-def create_words_for_each_task(words, tasks, output_path, session_name, speaker):
+def create_words_for_each_task(
+    words: List[str],
+    tasks: Dict[int, Dict[str, Any]],
+    output_path: Path,
+    session_name: str,
+    speaker: str,
+) -> None:
     for task_id, task in tasks.items():
-        words_task_name = session_name + f".1.{task_id}" + f".{speaker}.words"
-        words_filename = os.path.join(output_path, words_task_name)
+        words_task_name: str = session_name + f".1.{task_id}" + f".{speaker}.words"
+        words_filename: str = os.path.join(output_path, words_task_name)
         with open(words_filename, encoding="utf-8", mode="w") as word_file:
             for line in words:
-                word_start, word_end, word = line.split(" ")
-                word_start, word_end = float(word_start), float(word_end)
+                start, end, word = line.split(" ")
+                word_start, word_end = float(start), float(end)
                 if (
                     word_start > task["Start"] and word_end < task["End"]
                 ):  # TO-ASK: What if a word is between tasks?
@@ -114,17 +130,17 @@ def create_words_for_each_task(words, tasks, output_path, session_name, speaker)
 def main() -> None:
 
     args = arg_parser.parse_args()
-    session_path = Path(args.session_folder)
+    session_path: Path = Path(args.session_folder)
 
     words_A, words_B = read_words(session_path)
 
     wav_A, wav_B = read_wavs(session_path)
 
-    tasks = read_tasks(session_path)
+    tasks: Dict[int, Dict[str, Any]] = read_tasks(session_path)
     print(f'There are {len(tasks)} tasks in this session')
 
-    output_path = Path(args.output_path)
-    session_name = read_session_name(session_path)
+    output_path: Path = Path(args.output_path)
+    session_name: str = read_session_name(session_path)
     cut_wav_for_each_task(wav_A, tasks, output_path, session_name, "A")
     cut_wav_for_each_task(wav_B, tasks, output_path, session_name, "B")
 
