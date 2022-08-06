@@ -40,16 +40,17 @@ def _sqrt_product_of_the_values_sum_square_distances(
 
 
 def _lags_sum_lagged_distances_products(
-    a_values_distances_to_mean: List[float], b_values_distances_to_mean: List[float]
+    a_values_distances_to_mean: List[float],
+    b_values_distances_to_mean: List[float],
+    lags: int,
 ) -> List[float]:
     """
     TO-DO
     """
-    LAGS = 6
     amount_of_tama_frames = len(a_values_distances_to_mean)
 
     lags_sum_lagged_distances_products = []
-    for lag in range(LAGS):
+    for lag in range(lags):
         lagged_distances_products = []
         for i in range(lag, amount_of_tama_frames):
             lagged_distance_product = np.multiply(
@@ -58,6 +59,7 @@ def _lags_sum_lagged_distances_products(
             lagged_distances_products.append(lagged_distance_product)
 
         sum_lagged_distances_products = np.nan
+        # TODO: ignore rh if there are less than four non-missing terms
         if lagged_distances_products:
             sum_lagged_distances_products = np.nansum(lagged_distances_products)
         lags_sum_lagged_distances_products.append(sum_lagged_distances_products)
@@ -66,7 +68,9 @@ def _lags_sum_lagged_distances_products(
 
 
 def calculate_sample_correlation(
-    time_series_a: List[float], time_series_b: List[float]
+    time_series_a: List[float],
+    time_series_b: List[float],
+    lags: int,
 ) -> List[float]:
     """
     Calculate the correlations between two series as one of them is lagged
@@ -102,7 +106,7 @@ def calculate_sample_correlation(
     lags_sum_lagged_distances_products: List[
         float
     ] = _lags_sum_lagged_distances_products(
-        a_values_distances_to_mean, b_values_distances_to_mean
+        a_values_distances_to_mean, b_values_distances_to_mean, lags
     )
 
     print(f"Numeradores: {lags_sum_lagged_distances_products}")

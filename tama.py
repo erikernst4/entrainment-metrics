@@ -27,6 +27,12 @@ arg_parser.add_argument(
 arg_parser.add_argument(
     "-f", "--feature", type=str, help="Feature to calculate time series"
 )
+arg_parser.add_argument(
+    "-l",
+    "--lags",
+    type=str,
+    help="Variation of lags to calculate Sample cross-correlation",
+)
 
 
 def get_interpause_units(words_fname: Path) -> List[InterPauseUnit]:
@@ -197,7 +203,7 @@ def main() -> None:
 
     print("Sample cross-correlation")
     sample_cross_correlations: List[float] = calculate_sample_correlation(
-        time_series_a, time_series_b
+        time_series_a, time_series_b, int(args.lags)
     )
     print(f"Correlaciones según lag {sample_cross_correlations}")
 
