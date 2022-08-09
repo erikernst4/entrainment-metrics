@@ -59,7 +59,7 @@ def _lags_sum_lagged_distances_products(
             lagged_distances_products.append(lagged_distance_product)
 
         sum_lagged_distances_products = np.nan
-        # TODO: ignore rh if there are less than four non-missing terms
+        # TODO: ignore r_h if there are less than four non-missing terms
         if lagged_distances_products:
             sum_lagged_distances_products = np.nansum(lagged_distances_products)
         lags_sum_lagged_distances_products.append(sum_lagged_distances_products)
@@ -91,27 +91,26 @@ def calculate_sample_correlation(
     a_values_distances_to_mean: List[float] = (
         np.array(time_series_a) - time_series_a_mean
     )
-    print(f"Distancias al promedio de A: {a_values_distances_to_mean}")
+    print(f"A's distances to its mean: {a_values_distances_to_mean}")
     b_values_distances_to_mean: List[float] = (
         np.array(time_series_b) - time_series_b_mean
     )
-    print(f"Distancias al promedio de B: {b_values_distances_to_mean}")
+    print(f"B's distances to its mean: {b_values_distances_to_mean}")
 
     sqrt_product_of_the_values_sum_square_distances: float = (
         _sqrt_product_of_the_values_sum_square_distances(
             a_values_distances_to_mean, b_values_distances_to_mean
         )
     )
-    print(f"Denominador {sqrt_product_of_the_values_sum_square_distances}")
+    print(f"Denominator {sqrt_product_of_the_values_sum_square_distances}")
     lags_sum_lagged_distances_products: List[
         float
     ] = _lags_sum_lagged_distances_products(
         a_values_distances_to_mean, b_values_distances_to_mean, lags
     )
 
-    print(f"Numeradores: {lags_sum_lagged_distances_products}")
-    res: List[float] = (
+    print(f"Numerators: {lags_sum_lagged_distances_products}")
+    return (
         np.array(lags_sum_lagged_distances_products)
         / sqrt_product_of_the_values_sum_square_distances
     )
-    return res

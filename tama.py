@@ -205,7 +205,7 @@ def main() -> None:
     sample_cross_correlations: List[float] = calculate_sample_correlation(
         time_series_a, time_series_b, int(args.lags)
     )
-    print(f"Correlaciones según lag {sample_cross_correlations}")
+    print(f"Correlations with lag from 0 to {args.lags}: {sample_cross_correlations}")
 
 
 if __name__ == "__main__":

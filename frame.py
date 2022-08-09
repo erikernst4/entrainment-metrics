@@ -39,7 +39,7 @@ class Frame:
 
     def calculate_feature_value(self, feature: str, audio_file: Path) -> float:
         """
-        Return the frame's value for feature given
+        Return the frame's value for the feature given
 
         ----
         This value is calculated as the duration-weighted mean
