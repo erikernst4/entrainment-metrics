@@ -37,7 +37,9 @@ class Frame:
         if interpause_units is not None:
             self.interpause_units = interpause_units
 
-    def calculate_feature_value(self, feature: str, audio_file: Path) -> float:
+    def calculate_feature_value(
+        self, feature: str, audio_file: Path, pitch_gender: str
+    ) -> float:
         """
         Return the frame's value for the feature given
 
@@ -53,7 +55,8 @@ class Frame:
 
         for interpause_unit in self.interpause_units:
             IPU_features_results: Dict[str, float] = interpause_unit.calculate_features(
-                audio_file
+                audio_file,
+                pitch_gender,
             )
             IPU_feature_value: float = IPU_features_results[feature]
             IPU_duration_weighten_mean_value: float = (
@@ -84,6 +87,9 @@ class MissingFrame(Frame):
         )
 
     def calculate_feature_value(
-        self, feature: str, audio_file: Path  # pylint: disable=unused-argument
+        self,
+        feature: str,
+        audio_file: Path,
+        pitch_gender: str,  # pylint: disable=unused-argument
     ) -> float:
         return np.nan

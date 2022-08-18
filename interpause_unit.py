@@ -29,7 +29,9 @@ class InterPauseUnit:
     def duration(self) -> float:
         return self.end - self.start
 
-    def calculate_features(self, audio_file: Path) -> Dict[str, float]:
+    def calculate_features(
+        self, audio_file: Path, pitch_gender: str
+    ) -> Dict[str, float]:
         """
         Return the IPU values of the standard acoustics features
 
@@ -37,6 +39,17 @@ class InterPauseUnit:
         This features are calculated with praat using the script
         in praat_scripts
         """
+        min_pitch = None
+        max_pitch = None
+        if pitch_gender == "M":
+            min_pitch = 50
+            max_pitch = 300
+        elif pitch_gender == "F":
+            min_pitch = 75
+            max_pitch = 500
+        else:
+            raise ValueError("Not a valid pitch gender")
+
         result = subprocess.run(
             [
                 'praat',
@@ -44,8 +57,8 @@ class InterPauseUnit:
                 audio_file.absolute().as_posix(),
                 str(self.start),
                 str(self.end),
-                '75',
-                '500',
+                str(min_pitch),
+                str(max_pitch),
             ],
             stdout=subprocess.PIPE,
             check=True,

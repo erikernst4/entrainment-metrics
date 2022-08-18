@@ -28,6 +28,12 @@ arg_parser.add_argument(
     "-f", "--feature", type=str, help="Feature to calculate time series"
 )
 arg_parser.add_argument(
+    "-ga", "--pitch-gender-a", type=str, help="Gender of the pitch of speaker A"
+)
+arg_parser.add_argument(
+    "-gb", "--pitch-gender-b", type=str, help="Gender of the pitch of speaker B"
+)
+arg_parser.add_argument(
     "-l",
     "--lags",
     type=str,
@@ -190,13 +196,13 @@ def main() -> None:
         raise ValueError("The amount of frames of each speaker is different")
 
     time_series_a: List[float] = calculate_time_series(
-        args.feature, frames_a, wav_a_fname
+        args.feature, frames_a, wav_a_fname, args.pitch_gender_a
     )
     print("----------------------------------------")
     print(f"Time series of A: {time_series_a}")
 
     time_series_b: List[float] = calculate_time_series(
-        args.feature, frames_b, wav_b_fname
+        args.feature, frames_b, wav_b_fname, args.pitch_gender_b
     )
     print(f"Time series of B: {time_series_b}")
     print("----------------------------------------")
