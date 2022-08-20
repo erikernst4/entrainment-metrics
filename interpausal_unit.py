@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Dict, List
 
 
-class InterPauseUnit:
+class InterPausalUnit:
     """
     It's an interval of time between silences in a conversation
 

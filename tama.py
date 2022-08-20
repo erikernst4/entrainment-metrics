@@ -7,7 +7,7 @@ from scipy.io import wavfile
 
 from entrainment import calculate_sample_correlation, calculate_time_series
 from frame import Frame, MissingFrame
-from interpause_unit import InterPauseUnit
+from interpausal_unit import InterPausalUnit
 
 arg_parser = argparse.ArgumentParser(
     description="Generate a times series for a speaker for a task"
@@ -41,11 +41,11 @@ arg_parser.add_argument(
 )
 
 
-def get_interpause_units(words_fname: Path) -> List[InterPauseUnit]:
+def get_interpausal_units(words_fname: Path) -> List[InterPausalUnit]:
     """
     Return a list of IPUs given a Path to a .word file
     """
-    interpause_units: List[InterPauseUnit] = []
+    interpausal_units: List[InterPausalUnit] = []
     with open(words_fname, encoding="utf-8", mode="r") as word_file:
         IPU_started: bool = False
         IPU_start: float = 0.0
@@ -63,45 +63,45 @@ def get_interpause_units(words_fname: Path) -> List[InterPauseUnit]:
             elif IPU_started and word != "#":
                 last_end = word_end
             elif IPU_started and word == "#":
-                interpause_units.append(InterPauseUnit(IPU_start, last_end))
+                interpausal_units.append(InterPausalUnit(IPU_start, last_end))
                 IPU_started = False
         if IPU_start and last_end:  # Last IPU if existent
-            interpause_units.append(InterPauseUnit(IPU_start, last_end))
+            interpausal_units.append(InterPausalUnit(IPU_start, last_end))
 
-    return interpause_units
+    return interpausal_units
 
 
-def has_interval_intersection_with_interpause_unit(
-    interpause_unit: InterPauseUnit, interval_start: float, interval_end: float
+def has_interval_intersection_with_interpausal_unit(
+    interpausal_unit: InterPausalUnit, interval_start: float, interval_end: float
 ) -> bool:
     res: bool = False
 
-    max_start: float = max(interpause_unit.start, interval_start)
-    min_end: float = min(interpause_unit.end, interval_end)
+    max_start: float = max(interpausal_unit.start, interval_start)
+    min_end: float = min(interpausal_unit.end, interval_end)
 
     if max_start < min_end:
         res = True
     return res
 
 
-def interpause_units_inside_interval(
-    interpause_units: List[InterPauseUnit], interval_start: float, interval_end: float
-) -> List[InterPauseUnit]:
+def interpausal_units_inside_interval(
+    interpausal_units: List[InterPausalUnit], interval_start: float, interval_end: float
+) -> List[InterPausalUnit]:
     """
     Return a list of the IPUs that have intersection with the interval given
     """
     # POSSIBLE TO-DO: make a logorithmic search
-    IPUs: List[InterPauseUnit] = []
-    for interpause_unit in interpause_units:
-        if has_interval_intersection_with_interpause_unit(
-            interpause_unit, interval_start, interval_end
+    IPUs: List[InterPausalUnit] = []
+    for interpausal_unit in interpausal_units:
+        if has_interval_intersection_with_interpausal_unit(
+            interpausal_unit, interval_start, interval_end
         ):
-            IPUs.append(interpause_unit)
+            IPUs.append(interpausal_unit)
     return IPUs
 
 
 def separate_frames(
-    interpause_units: List[InterPauseUnit], data: np.ndarray, samplerate: int
+    interpausal_units: List[InterPausalUnit], data: np.ndarray, samplerate: int
 ) -> List[Union[Frame, MissingFrame]]:
     """
     Given an audio data and samplerate, return a list of the frames inside
@@ -119,8 +119,8 @@ def separate_frames(
         frame_start_in_s: float = frame_start / samplerate
         frame_end_in_s: float = frame_end / samplerate
 
-        IPUs_inside_frame: List[InterPauseUnit] = interpause_units_inside_interval(
-            interpause_units, frame_start_in_s, frame_end_in_s
+        IPUs_inside_frame: List[InterPausalUnit] = interpausal_units_inside_interval(
+            interpausal_units, frame_start_in_s, frame_end_in_s
         )
 
         frame = None
@@ -129,7 +129,7 @@ def separate_frames(
                 start=frame_end_in_s,
                 end=frame_end_in_s,
                 is_missing=False,
-                interpause_units=IPUs_inside_frame,
+                interpausal_units=IPUs_inside_frame,
             )
         else:
             # A particular frame could contain no IPUs, in which case its a/p feature values are considered ‘missing’
@@ -166,11 +166,11 @@ def get_frames(
     samplerate, data = wavfile.read(wav_fname)
     print_audio_description(speaker, samplerate, data)
 
-    interpause_units: List[InterPauseUnit] = get_interpause_units(words_fname)
-    print(f"Amount of IPUs of speaker {speaker}: {len(interpause_units)}")
+    interpausal_units: List[InterPausalUnit] = get_interpausal_units(words_fname)
+    print(f"Amount of IPUs of speaker {speaker}: {len(interpausal_units)}")
 
     frames: List[Union[Frame, MissingFrame]] = separate_frames(
-        interpause_units, data, samplerate
+        interpausal_units, data, samplerate
     )
     print(f"Amount of frames of speaker {speaker}: {len(frames)}")
 
