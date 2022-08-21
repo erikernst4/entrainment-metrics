@@ -1,6 +1,6 @@
 import argparse
 from pathlib import Path
-from typing import List, Union
+from typing import List, Optional, Union
 
 import numpy as np
 from scipy.io import wavfile
@@ -162,10 +162,11 @@ def print_audio_description(speaker: str, samplerate: int, data: np.ndarray) -> 
 
 
 def get_frames(
-    speaker: str, wav_fname: Path, words_fname: Path
+    wav_fname: Path, words_fname: Path, speaker: Optional[str] = None
 ) -> List[Union[Frame, MissingFrame]]:
     samplerate, data = wavfile.read(wav_fname)
-    print_audio_description(speaker, samplerate, data)
+    if speaker is not None:
+        print_audio_description(speaker, samplerate, data)
 
     interpausal_units: List[InterPausalUnit] = get_interpausal_units(words_fname)
     print(f"Amount of IPUs of speaker {speaker}: {len(interpausal_units)}")
@@ -184,13 +185,13 @@ def main() -> None:
     wav_a_fname: Path = Path(args.audio_file_a)
     words_a_fname: Path = Path(args.words_file_a)
     frames_a: List[Union[Frame, MissingFrame]] = get_frames(
-        "A", wav_a_fname, words_a_fname
+        wav_a_fname, words_a_fname, "A"
     )
 
     wav_b_fname: Path = Path(args.audio_file_b)
     words_b_fname: Path = Path(args.words_file_b)
     frames_b: List[Union[Frame, MissingFrame]] = get_frames(
-        "B", wav_b_fname, words_b_fname
+        wav_b_fname, words_b_fname, "B"
     )
 
     if len(frames_a) != len(frames_b):
