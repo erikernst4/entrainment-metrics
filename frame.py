@@ -37,6 +37,21 @@ class Frame:
         if interpausal_units is not None:
             self.interpausal_units = interpausal_units
 
+    def __eq__(self, other):
+        res = False
+        if isinstance(other, Frame):
+            if (
+                self.start == other.start
+                and self.end == other.end
+                and self.is_missing == other.is_missing
+                and self.interpausal_units == other.interpausal_units
+            ):
+                res = True
+        return res
+
+    def __str__(self):
+        return f"Frame(start={self.start}, end={self.end}, is_missing={self.is_missing}, interpausal_units={self.interpausal_units})"
+
     def calculate_feature_value(
         self, feature: str, audio_file: Path, pitch_gender: str
     ) -> float:
@@ -87,6 +102,16 @@ class MissingFrame(Frame):
             is_missing=True,
             interpausal_units=None,
         )
+
+    def __eq__(self, other):
+        res = False
+        if isinstance(other, MissingFrame):
+            if self.start == other.start and self.end == other.end:
+                res = True
+        return res
+
+    def __str__(self):
+        return f"MissingFrame(start={self.start}, end={self.end})"
 
     def calculate_feature_value(
         self,

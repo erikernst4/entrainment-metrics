@@ -26,6 +26,16 @@ class InterPausalUnit:
         self.start = start
         self.end = end
 
+    def __eq__(self, other):
+        res = False
+        if isinstance(other, InterPausalUnit):
+            if self.start == other.start and self.end == other.end:
+                res = True
+        return res
+
+    def __str__(self):
+        return f"InterPausalUnit(start={self.start}, end={self.end})"
+
     def duration(self) -> float:
         return self.end - self.start
 
