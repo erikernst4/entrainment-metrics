@@ -49,7 +49,7 @@ class Frame:
                 res = True
         return res
 
-    def __str__(self):
+    def __repr__(self):
         return f"Frame(start={self.start}, end={self.end}, is_missing={self.is_missing}, interpausal_units={self.interpausal_units})"
 
     def calculate_feature_value(
