@@ -1,4 +1,3 @@
-from typing import List, Union
 from unittest import TestCase
 
 from scipy.io import wavfile
@@ -12,16 +11,22 @@ class TAMATestCase(TestCase):
     def setUp(self):
         self.cases = {
             'empty': {
+                'words_fname': "./data/empty.words",
+                'audio_fname': "./data/empty.wav",
                 'audio': wavfile.read("./data/empty.wav"),
                 'expected_ipus': [],
                 'expected_frames': [],
             },
             'silence': {
+                'words_fname': "./data/silence.words",
+                'audio_fname': "./data/silence.wav",
                 'audio': wavfile.read("./data/silence.wav"),
                 'expected_ipus': [],
                 'expected_frames': [MissingFrame(0.0, 0.3999375)],
             },
             'small': {
+                'words_fname': "./data/200-300-100.words",
+                'audio_fname': "./data/200-300-100.wav",
                 'audio': wavfile.read("./data/200-300-100.wav"),
                 'expected_ipus': [
                     InterPausalUnit(0.0, 0.4),
@@ -41,48 +46,94 @@ class TAMATestCase(TestCase):
                     )
                 ],
             },
+            'long_100-200-300': {
+                'words_fname': "./data/100-200-300_long.words",
+                'audio_fname': "./data/100-200-300_long.wav",
+                'audio': wavfile.read("./data/100-200-300_long.wav"),
+                'expected_ipus': [
+                    InterPausalUnit(0.0, 4.0),
+                    InterPausalUnit(8.0, 12.0),
+                    InterPausalUnit(16.0, 24.0),
+                ],
+                'expected_frames': [
+                    Frame(
+                        0.0,
+                        16.0,
+                        False,
+                        [
+                            InterPausalUnit(0.0, 4.0),
+                            InterPausalUnit(8.0, 12.0),
+                        ],
+                    ),
+                    Frame(
+                        8.0,
+                        23.9999375,
+                        False,
+                        [
+                            InterPausalUnit(8.0, 12.0),
+                            InterPausalUnit(16.0, 24.0),
+                        ],
+                    ),
+                    Frame(
+                        16.0,
+                        23.9999375,
+                        False,
+                        [
+                            InterPausalUnit(16.0, 24.0),
+                        ],
+                    ),
+                ],
+            },
         }
 
     def test_interpausal_units_separation_empty(self):
         self.assertEqual(
-            get_interpausal_units("./data/empty.words"),
+            get_interpausal_units(self.cases['empty']['words_fname']),
             self.cases['empty']['expected_ipus'],
         )
 
     def test_interpausal_units_separation_silence(self):
         self.assertEqual(
-            get_interpausal_units("./data/silence.words"),
+            get_interpausal_units(self.cases['silence']['words_fname']),
             self.cases['silence']['expected_ipus'],
         )
 
     def test_interpausal_units_separation_small(self):
-        expected = self.cases['small']
-        expected_ipus = expected['expected_ipus']
-
-        result_ipus: List[InterPausalUnit] = get_interpausal_units(
-            "./data/200-300-100.words"
+        self.assertEqual(
+            get_interpausal_units(self.cases['small']['words_fname']),
+            self.cases['small']['expected_ipus'],
         )
-        self.assertEqual(expected_ipus, result_ipus)
+
+    def test_interpausal_units_separation_long(self):
+        self.assertEqual(
+            get_interpausal_units(self.cases['long_100-200-300']['words_fname']),
+            self.cases['long_100-200-300']['expected_ipus'],
+        )
 
     def test_frame_separation_empty(self):
-        expected_frames = self.cases['empty']['expected_frames']
-        result_frames: List[Union[Frame, MissingFrame]] = get_frames(
-            wav_fname="./data/empty.wav", words_fname="./data/empty.words"
+        case = self.cases['empty']
+        self.assertEqual(
+            case['expected_frames'],
+            get_frames(wav_fname=case['audio_fname'], words_fname=case['words_fname']),
         )
-        self.assertEqual(expected_frames, result_frames)
 
     def test_frame_separation_silence(self):
-        expected_frames = self.cases['silence']['expected_frames']
-        result_frames: List[Union[Frame, MissingFrame]] = get_frames(
-            wav_fname="./data/silence.wav", words_fname="./data/silence.words"
+        case = self.cases['silence']
+        self.assertEqual(
+            case['expected_frames'],
+            get_frames(wav_fname=case['audio_fname'], words_fname=case['words_fname']),
         )
-        print(expected_frames[0])
-        print(result_frames[0])
-        self.assertEqual(expected_frames, result_frames)
 
     def test_frame_separation_small(self):
-        expected_frames = self.cases['small']['expected_frames']
-        result_frames: List[Union[Frame, MissingFrame]] = get_frames(
-            wav_fname="./data/200-300-100.wav", words_fname="./data/200-300-100.words"
+        case = self.cases['small']
+        self.assertEqual(
+            case['expected_frames'],
+            get_frames(wav_fname=case['audio_fname'], words_fname=case['words_fname']),
         )
-        self.assertEqual(expected_frames, result_frames)
+
+    def test_frame_separation_long(self):
+        case = self.cases['long_100-200-300']
+        self.assertEqual(
+            case['expected_frames'],
+            get_frames(wav_fname=case['audio_fname'], words_fname=case['words_fname']),
+        )

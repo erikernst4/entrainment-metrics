@@ -79,7 +79,7 @@ def has_interval_intersection_with_interpausal_unit(
     max_start: float = max(interpausal_unit.start, interval_start)
     min_end: float = min(interpausal_unit.end, interval_end)
 
-    if max_start < min_end:
+    if max_start <= min_end:
         res = True
     return res
 
