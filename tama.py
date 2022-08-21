@@ -115,6 +115,10 @@ def separate_frames(
 
     frame_start, frame_end = 0, FRAME_LENGHT
     while frame_start < audio_length:
+        # Truncate frame_end
+        if frame_end > audio_length:
+            frame_end = audio_length - 1
+
         # Convert frame ends to seconds
         frame_start_in_s: float = frame_start / samplerate
         frame_end_in_s: float = frame_end / samplerate
@@ -126,7 +130,7 @@ def separate_frames(
         frame = None
         if IPUs_inside_frame:
             frame = Frame(
-                start=frame_end_in_s,
+                start=frame_start_in_s,
                 end=frame_end_in_s,
                 is_missing=False,
                 interpausal_units=IPUs_inside_frame,
@@ -134,7 +138,7 @@ def separate_frames(
         else:
             # A particular frame could contain no IPUs, in which case its a/p feature values are considered ‘missing’
             frame = MissingFrame(
-                start=frame_end_in_s,
+                start=frame_start_in_s,
                 end=frame_end_in_s,
             )
 
@@ -142,9 +146,6 @@ def separate_frames(
 
         frame_start += TIME_STEP
         frame_end += TIME_STEP
-        if frame_end > audio_length:
-            # Truncate frame_end
-            frame_end = audio_length - 1
 
     return frames
 
