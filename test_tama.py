@@ -1,3 +1,4 @@
+from pathlib import Path
 from unittest import TestCase
 
 import numpy as np
@@ -43,9 +44,9 @@ class TAMATestCase(TestCase):
                         2.4,
                         False,
                         [
-                            InterPausalUnit(0.0, 0.4),
-                            InterPausalUnit(0.8, 1.6),
-                            InterPausalUnit(2.0, 2.4),
+                            InterPausalUnit(0.0, 0.4, {'F0_MAX': 200.002}),
+                            InterPausalUnit(0.8, 1.6, {'F0_MAX': 300.002}),
+                            InterPausalUnit(2.0, 2.4, {'F0_MAX': 100.003}),
                         ],
                     )
                 ],
@@ -157,5 +158,14 @@ class TAMATestCase(TestCase):
             [np.nan],
             calculate_time_series(
                 "F0_MAX", case['expected_frames'], case['audio_fname']
+            ),
+        )
+
+    def test_calulate_time_series_small(self):
+        case = self.cases['small']
+        np.testing.assert_almost_equal(
+            [225.00225000000003],
+            calculate_time_series(
+                "F0_MAX", case['expected_frames'], Path(case['audio_fname'])
             ),
         )
