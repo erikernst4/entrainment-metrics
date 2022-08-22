@@ -66,8 +66,8 @@ class TAMATestCase(TestCase):
                         16.0,
                         False,
                         [
-                            InterPausalUnit(0.0, 4.0),
-                            InterPausalUnit(8.0, 12.0),
+                            InterPausalUnit(0.0, 4.0, {'F0_MAX': 100.003}),
+                            InterPausalUnit(8.0, 12.0, {'F0_MAX': 200.002}),
                         ],
                     ),
                     Frame(
@@ -75,8 +75,8 @@ class TAMATestCase(TestCase):
                         24.0,
                         False,
                         [
-                            InterPausalUnit(8.0, 12.0),
-                            InterPausalUnit(16.0, 24.0),
+                            InterPausalUnit(8.0, 12.0, {'F0_MAX': 200.002}),
+                            InterPausalUnit(16.0, 24.0, {'F0_MAX': 300.002}),
                         ],
                     ),
                     Frame(
@@ -84,7 +84,7 @@ class TAMATestCase(TestCase):
                         24.0,
                         False,
                         [
-                            InterPausalUnit(16.0, 24.0),
+                            InterPausalUnit(16.0, 24.0, {'F0_MAX': 300.002}),
                         ],
                     ),
                 ],
@@ -143,7 +143,7 @@ class TAMATestCase(TestCase):
             get_frames(wav_fname=case['audio_fname'], words_fname=case['words_fname']),
         )
 
-    def test_calulate_time_series_empty(self):
+    def test_calculate_time_series_empty(self):
         case = self.cases['empty']
         self.assertEqual(
             [],
@@ -152,7 +152,7 @@ class TAMATestCase(TestCase):
             ),
         )
 
-    def test_calulate_time_series_silence(self):
+    def test_calculate_time_series_silence(self):
         case = self.cases['silence']
         self.assertEqual(
             [np.nan],
@@ -161,10 +161,19 @@ class TAMATestCase(TestCase):
             ),
         )
 
-    def test_calulate_time_series_small(self):
+    def test_calculate_time_series_small(self):
         case = self.cases['small']
         np.testing.assert_almost_equal(
             [225.00225000000003],
+            calculate_time_series(
+                "F0_MAX", case['expected_frames'], Path(case['audio_fname'])
+            ),
+        )
+
+    def test_calculate_time_series_long(self):
+        case = self.cases['long_100-200-300']
+        np.testing.assert_almost_equal(
+            [150.0025, 266.6686666666667, 300.002],
             calculate_time_series(
                 "F0_MAX", case['expected_frames'], Path(case['audio_fname'])
             ),
