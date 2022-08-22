@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import List, Union
+from typing import List, Optional, Union
 
 import numpy as np
 
@@ -10,7 +10,7 @@ def calculate_time_series(
     feature: str,
     frames: List[Union[Frame, MissingFrame]],
     audio_file: Path,
-    pitch_gender: str,
+    pitch_gender: Optional[str] = None,
 ) -> List[float]:
     """
     Generate a time series of the frames values for the feature given

@@ -1,6 +1,6 @@
 import subprocess
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 
 class InterPausalUnit:
@@ -40,7 +40,7 @@ class InterPausalUnit:
         return self.end - self.start
 
     def calculate_features(
-        self, audio_file: Path, pitch_gender: str
+        self, audio_file: Path, pitch_gender: Optional[str]
     ) -> Dict[str, float]:
         """
         Return the IPU values of the standard acoustics features
@@ -56,6 +56,9 @@ class InterPausalUnit:
             max_pitch = 300
         elif pitch_gender == "F":
             min_pitch = 75
+            max_pitch = 500
+        elif pitch_gender is None:
+            min_pitch = 50
             max_pitch = 500
         else:
             raise ValueError("Not a valid pitch gender")
