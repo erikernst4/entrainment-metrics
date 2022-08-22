@@ -1,3 +1,4 @@
+import os
 import subprocess
 from pathlib import Path
 from typing import Dict, List, Optional
@@ -22,9 +23,11 @@ class InterPausalUnit:
         self,
         start: float,
         end: float,
+        features_values: Optional[Dict[str, float]] = None,
     ) -> None:
         self.start = start
         self.end = end
+        self._features_values = features_values
 
     def __eq__(self, other):
         res = False
@@ -49,39 +52,55 @@ class InterPausalUnit:
         This features are calculated with praat using the script
         in praat_scripts
         """
-        min_pitch = None
-        max_pitch = None
-        if pitch_gender == "M":
-            min_pitch = 50
-            max_pitch = 300
-        elif pitch_gender == "F":
-            min_pitch = 75
-            max_pitch = 500
-        elif pitch_gender is None:
-            min_pitch = 50
-            max_pitch = 500
-        else:
-            raise ValueError("Not a valid pitch gender")
+        if self._features_values is None:
+            min_pitch = None
+            max_pitch = None
+            if pitch_gender == "M":
+                min_pitch = 50
+                max_pitch = 300
+            elif pitch_gender == "F":
+                min_pitch = 75
+                max_pitch = 500
+            elif pitch_gender is None:
+                min_pitch = 50
+                max_pitch = 500
+            else:
+                raise ValueError("Not a valid pitch gender")
 
-        result = subprocess.run(
-            [
-                'praat',
-                './praat_scripts/extractStandardAcoustics.praat',
-                audio_file.absolute().as_posix(),
-                str(self.start),
-                str(self.end),
-                str(min_pitch),
-                str(max_pitch),
-            ],
-            stdout=subprocess.PIPE,
-            check=True,
-        )
-        output_lines: List[str] = result.stdout.decode().rstrip().splitlines()
-        features_results: Dict[str, float] = {}
-        for line in output_lines:
-            feature, value = line.split(":")
-            if value != "--undefined--":
-                features_results[feature] = float(value)
-        # print(f"Feature results for IPU from {IPU_start} to {IPU_end}")
-        # print(features_results)
-        return features_results
+            audio_file_absolute = os.fspath(audio_file.resolve())
+            print(
+                [
+                    'praat',
+                    './praat_scripts/extractStandardAcoustics.praat',
+                    # audio_file.absolute().as_posix(),
+                    audio_file_absolute,
+                    str(self.start),
+                    str(self.end),
+                    str(min_pitch),
+                    str(max_pitch),
+                ]
+            )
+            result = subprocess.run(
+                [
+                    'praat',
+                    './praat_scripts/extractStandardAcoustics.praat',
+                    # audio_file.absolute().as_posix(),
+                    audio_file_absolute,
+                    str(self.start),
+                    str(self.end),
+                    str(min_pitch),
+                    str(max_pitch),
+                ],
+                stdout=subprocess.PIPE,
+                check=True,
+            )
+            # Parse results
+            output_lines: List[str] = result.stdout.decode().rstrip().splitlines()
+            features_results: Dict[str, float] = {}
+            for line in output_lines:
+                feature, value = line.split(":")
+                if value != "--undefined--":
+                    features_results[feature] = float(value)
+
+            self._features_values = features_results
+        return self._features_values
