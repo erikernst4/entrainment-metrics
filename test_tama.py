@@ -1,7 +1,9 @@
 from unittest import TestCase
 
+import numpy as np
 from scipy.io import wavfile
 
+from entrainment import calculate_time_series
 from frame import Frame, MissingFrame
 from interpausal_unit import InterPausalUnit
 from tama import get_frames, get_interpausal_units
@@ -138,4 +140,22 @@ class TAMATestCase(TestCase):
         self.assertEqual(
             case['expected_frames'],
             get_frames(wav_fname=case['audio_fname'], words_fname=case['words_fname']),
+        )
+
+    def test_calulate_time_series_empty(self):
+        case = self.cases['empty']
+        self.assertEqual(
+            [],
+            calculate_time_series(
+                "F0_MAX", case['expected_frames'], case['audio_fname']
+            ),
+        )
+
+    def test_calulate_time_series_silence(self):
+        case = self.cases['silence']
+        self.assertEqual(
+            [np.nan],
+            calculate_time_series(
+                "F0_MAX", case['expected_frames'], case['audio_fname']
+            ),
         )
