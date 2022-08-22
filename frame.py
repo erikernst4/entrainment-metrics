@@ -110,7 +110,7 @@ class MissingFrame(Frame):
                 res = True
         return res
 
-    def __str__(self):
+    def __repr__(self):
         return f"MissingFrame(start={self.start}, end={self.end})"
 
     def calculate_feature_value(

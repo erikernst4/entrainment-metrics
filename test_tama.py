@@ -8,6 +8,8 @@ from tama import get_frames, get_interpausal_units
 
 
 class TAMATestCase(TestCase):
+    maxDiff = None
+
     def setUp(self):
         self.cases = {
             'empty': {
@@ -22,7 +24,7 @@ class TAMATestCase(TestCase):
                 'audio_fname': "./data/silence.wav",
                 'audio': wavfile.read("./data/silence.wav"),
                 'expected_ipus': [],
-                'expected_frames': [MissingFrame(0.0, 0.3999375)],
+                'expected_frames': [MissingFrame(0.0, 0.4)],
             },
             'small': {
                 'words_fname': "./data/200-300-100.words",
@@ -36,7 +38,7 @@ class TAMATestCase(TestCase):
                 'expected_frames': [
                     Frame(
                         0.0,
-                        2.3999375,
+                        2.4,
                         False,
                         [
                             InterPausalUnit(0.0, 0.4),
@@ -67,7 +69,7 @@ class TAMATestCase(TestCase):
                     ),
                     Frame(
                         8.0,
-                        23.9999375,
+                        24.0,
                         False,
                         [
                             InterPausalUnit(8.0, 12.0),
@@ -76,7 +78,7 @@ class TAMATestCase(TestCase):
                     ),
                     Frame(
                         16.0,
-                        23.9999375,
+                        24.0,
                         False,
                         [
                             InterPausalUnit(16.0, 24.0),

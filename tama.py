@@ -79,7 +79,7 @@ def has_interval_intersection_with_interpausal_unit(
     max_start: float = max(interpausal_unit.start, interval_start)
     min_end: float = min(interpausal_unit.end, interval_end)
 
-    if max_start <= min_end:
+    if max_start < min_end:
         res = True
     return res
 
@@ -117,7 +117,7 @@ def separate_frames(
     while frame_start < audio_length:
         # Truncate frame_end
         if frame_end > audio_length:
-            frame_end = audio_length - 1
+            frame_end = audio_length
 
         # Convert frame ends to seconds
         frame_start_in_s: float = frame_start / samplerate
