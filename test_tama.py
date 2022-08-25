@@ -1,3 +1,4 @@
+import warnings
 from pathlib import Path
 from unittest import TestCase
 
@@ -190,6 +191,42 @@ class TAMATestCase(TestCase):
             calculate_sample_correlation,
             case['F0_MAX_time_series'],
             [1.0, 2.0, 3.0],  # A random non-empty list
+            0,
+        )
+
+    def test_calculate_sample_correlation_one_silence(self):
+        case = self.cases['silence']
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", category=RuntimeWarning)
+            np.testing.assert_array_equal(
+                np.array([np.nan]),
+                calculate_sample_correlation(
+                    case['F0_MAX_time_series'],
+                    [1.0],  # A random non-empty list
+                    0,
+                ),
+            )
+
+    def test_calculate_sample_correlation_one_silence_many_lags(self):
+        case = self.cases['silence']
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", category=RuntimeWarning)
+            np.testing.assert_array_equal(
+                np.array([np.nan, np.nan, np.nan, np.nan, np.nan]),
+                calculate_sample_correlation(
+                    case['F0_MAX_time_series'],
+                    [1.0],  # A random non-empty list
+                    4,
+                ),
+            )
+
+    def test_calculate_sample_correlation_different_time_series_len(self):
+        case = self.cases['long_100-200-300']
+        self.assertRaises(
+            ValueError,
+            calculate_sample_correlation,
+            case['F0_MAX_time_series'],
+            [1.0],  # A random non-empty list
             0,
         )
 

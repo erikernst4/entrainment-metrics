@@ -96,6 +96,9 @@ def calculate_sample_correlation(
     if not time_series_a or not time_series_b:
         raise ValueError("Time series can not be empty")
 
+    if len(time_series_a) != len(time_series_b):
+        raise ValueError("Time series can not have different lenght")
+
     time_series_a_mean = np.nanmean(time_series_a)
     time_series_b_mean = np.nanmean(time_series_b)
 
