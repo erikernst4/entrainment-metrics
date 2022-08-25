@@ -90,6 +90,9 @@ def calculate_sample_correlation(
     terms of the behavior of a/p feature φ to the behavior her partner
     had h frames before, where h is the number of lags.
     """
+    if not time_series_a or not time_series_b:
+        raise ValueError("Time series can not be empty")
+
     time_series_a_mean = np.nanmean(time_series_a)
     time_series_b_mean = np.nanmean(time_series_b)
 
