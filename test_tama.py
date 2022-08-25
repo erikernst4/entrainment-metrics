@@ -183,12 +183,23 @@ class TAMATestCase(TestCase):
             ),
         )
 
-    def test_calculate_sample_correlation_empties(self):
+    def test_calculate_sample_correlation_one_empty(self):
         case = self.cases['empty']
         self.assertRaises(
             ValueError,
             calculate_sample_correlation,
             case['F0_MAX_time_series'],
-            case['F0_MAX_time_series'],
+            [1.0, 2.0, 3.0],  # A random non-empty list
             0,
+        )
+
+    def test_calculate_sample_correlation_long_with_itself(self):
+        case = self.cases['long_100-200-300']
+        self.assertSequenceEqual(
+            [1.0],
+            calculate_sample_correlation(
+                case['F0_MAX_time_series'],
+                case['F0_MAX_time_series'],
+                1,
+            ),
         )
