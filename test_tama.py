@@ -200,6 +200,6 @@ class TAMATestCase(TestCase):
             calculate_sample_correlation(
                 case['F0_MAX_time_series'],
                 case['F0_MAX_time_series'],
-                1,
+                0,
             ),
         )

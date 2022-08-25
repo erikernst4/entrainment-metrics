@@ -55,7 +55,7 @@ def _lags_sum_lagged_distances_products(
     amount_of_tama_frames = len(a_values_distances_to_mean)
 
     lags_sum_lagged_distances_products = []
-    for lag in range(lags):
+    for lag in range(lags + 1):
         lagged_distances_products = []
         for i in range(lag, amount_of_tama_frames):
             lagged_distance_product = np.multiply(
