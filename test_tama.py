@@ -230,13 +230,21 @@ class TAMATestCase(TestCase):
             0,
         )
 
-    def test_calculate_sample_correlation_long_with_itself(self):
+    def test_calculate_sample_correlation_not_enough_frames(self):
+        """
+        The numerators should be nan when there
+        are less than four non-missing terms
+        """
         case = self.cases['long_100-200-300']
-        self.assertSequenceEqual(
-            [1.0],
-            calculate_sample_correlation(
-                case['F0_MAX_time_series'],
-                case['F0_MAX_time_series'],
-                0,
+        self.assertEqual(
+            3,
+            np.count_nonzero(
+                ~np.isnan(
+                    calculate_sample_correlation(
+                        case['F0_MAX_time_series'],
+                        case['F0_MAX_time_series'],
+                        2,
+                    ),
+                )
             ),
         )
