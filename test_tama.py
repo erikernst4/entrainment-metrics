@@ -94,6 +94,91 @@ class TAMATestCase(TestCase):
                 ],
                 'F0_MAX_time_series': [150.0025, 266.6686666666667, 300.002],
             },
+            'long_100-200-300_x2': {
+                'words_fname': "./data/100-200-300_long_x2.words",
+                'audio_fname': "./data/100-200-300_long_x2.wav",
+                'audio': wavfile.read("./data/100-200-300_long_x2.wav"),
+                'expected_ipus': [
+                    InterPausalUnit(0.0, 4.0),
+                    InterPausalUnit(8.0, 12.0),
+                    InterPausalUnit(16.0, 24.0),
+                    InterPausalUnit(28.0, 32.0),
+                    InterPausalUnit(36.0, 40.0),
+                    InterPausalUnit(44.0, 52.0),
+                ],
+                'expected_frames': [
+                    Frame(
+                        0.0,
+                        16.0,
+                        False,
+                        [
+                            InterPausalUnit(0.0, 4.0, {'F0_MAX': 100.003}),
+                            InterPausalUnit(8.0, 12.0, {'F0_MAX': 200.002}),
+                        ],
+                    ),
+                    Frame(
+                        8.0,
+                        24.0,
+                        False,
+                        [
+                            InterPausalUnit(8.0, 12.0, {'F0_MAX': 200.002}),
+                            InterPausalUnit(16.0, 24.0, {'F0_MAX': 300.002}),
+                        ],
+                    ),
+                    Frame(
+                        16.0,
+                        32.0,
+                        False,
+                        [
+                            InterPausalUnit(16.0, 24.0, {'F0_MAX': 300.002}),
+                            InterPausalUnit(28.0, 32.0, {'F0_MAX': 100.003}),
+                        ],
+                    ),
+                    Frame(
+                        24.0,
+                        40.0,
+                        False,
+                        [
+                            InterPausalUnit(28.0, 32.0, {'F0_MAX': 100.003}),
+                            InterPausalUnit(36.0, 40.0, {'F0_MAX': 200.002}),
+                        ],
+                    ),
+                    Frame(
+                        32.0,
+                        48.0,
+                        False,
+                        [
+                            InterPausalUnit(36.0, 40.0, {'F0_MAX': 200.002}),
+                            InterPausalUnit(44.0, 52.0, {'F0_MAX': 300.002}),
+                        ],
+                    ),
+                    Frame(
+                        40.0,
+                        52.0,
+                        False,
+                        [
+                            InterPausalUnit(44.0, 52.0, {'F0_MAX': 300.002}),
+                        ],
+                    ),
+                    Frame(
+                        48.0,
+                        52.0,
+                        False,
+                        [
+                            InterPausalUnit(44.0, 52.0, {'F0_MAX': 300.002}),
+                        ],
+                    ),
+                ],
+                'F0_MAX_time_series': [
+                    150.0025,
+                    266.6686666666667,
+                    233.33566666666667,
+                    150.0025,
+                    266.6686666666667,
+                    300.002,
+                    300.002,
+                ],
+            },
         }
 
     def test_interpausal_units_separation_empty(self):
@@ -120,6 +205,12 @@ class TAMATestCase(TestCase):
             self.cases['long_100-200-300']['expected_ipus'],
         )
 
+    def test_interpausal_units_separation_long_x2(self):
+        self.assertEqual(
+            get_interpausal_units(self.cases['long_100-200-300_x2']['words_fname']),
+            self.cases['long_100-200-300_x2']['expected_ipus'],
+        )
+
     def test_frame_separation_empty(self):
         case = self.cases['empty']
         self.assertEqual(
@@ -143,6 +234,13 @@ class TAMATestCase(TestCase):
 
     def test_frame_separation_long(self):
         case = self.cases['long_100-200-300']
+        self.assertEqual(
+            case['expected_frames'],
+            get_frames(wav_fname=case['audio_fname'], words_fname=case['words_fname']),
+        )
+
+    def test_frame_separation_long_x2(self):
+        case = self.cases['long_100-200-300_x2']
         self.assertEqual(
             case['expected_frames'],
             get_frames(wav_fname=case['audio_fname'], words_fname=case['words_fname']),
@@ -177,6 +275,15 @@ class TAMATestCase(TestCase):
 
     def test_calculate_time_series_long(self):
         case = self.cases['long_100-200-300']
+        np.testing.assert_almost_equal(
+            case['F0_MAX_time_series'],
+            calculate_time_series(
+                "F0_MAX", case['expected_frames'], Path(case['audio_fname'])
+            ),
+        )
+
+    def test_calculate_time_series_long_x2(self):
+        case = self.cases['long_100-200-300_x2']
         np.testing.assert_almost_equal(
             case['F0_MAX_time_series'],
             calculate_time_series(
@@ -221,6 +328,10 @@ class TAMATestCase(TestCase):
             )
 
     def test_calculate_sample_correlation_different_time_series_len(self):
+        """
+        Both time series must correspond to an equal
+        amount of frames
+        """
         case = self.cases['long_100-200-300']
         self.assertRaises(
             ValueError,
@@ -239,12 +350,23 @@ class TAMATestCase(TestCase):
         self.assertEqual(
             3,
             np.count_nonzero(
-                ~np.isnan(
+                np.isnan(
                     calculate_sample_correlation(
                         case['F0_MAX_time_series'],
                         case['F0_MAX_time_series'],
                         2,
                     ),
                 )
+            ),
+        )
+
+    def test_calculate_sample_correlation_long(self):
+        case = self.cases['long_100-200-300_x2']
+        np.testing.assert_almost_equal(
+            [1.0, 0.034231247, -0.238247676, 0.113874971, np.nan],
+            calculate_sample_correlation(
+                case['F0_MAX_time_series'],
+                case['F0_MAX_time_series'],
+                4,
             ),
         )
