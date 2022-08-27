@@ -65,10 +65,7 @@ def _lags_sum_lagged_distances_products(
 
         sum_lagged_distances_products = np.nan
         # Ignore lagged_distances_products if there are less than four non-missing terms
-        if (
-            lagged_distances_products
-            or np.count_nonzero(~np.isnan(lagged_distance_product)) < 4
-        ):
+        if np.count_nonzero(~np.isnan(lagged_distances_products)) >= 4:
             sum_lagged_distances_products = np.nansum(lagged_distances_products)
         lags_sum_lagged_distances_products.append(sum_lagged_distances_products)
 
