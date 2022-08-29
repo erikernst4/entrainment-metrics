@@ -53,12 +53,12 @@ class Frame:
         return f"Frame(start={self.start}, end={self.end}, is_missing={self.is_missing}, interpausal_units={self.interpausal_units})"
 
     def calculate_feature_value(
-        self, feature: str, audio_file: Path, pitch_gender: str
+        self, feature: str, audio_file: Path, pitch_gender: Optional[str]
     ) -> float:
         """
         Return the frame's value for the feature given
 
-        ----
+
         This value is calculated as the duration-weighted mean
         of the value for the feature of each IPU inside the frame
 
@@ -117,6 +117,6 @@ class MissingFrame(Frame):
         self,
         feature: str,
         audio_file: Path,
-        pitch_gender: str,  # pylint: disable=unused-argument
+        pitch_gender: Optional[str],  # pylint: disable=unused-argument
     ) -> float:
         return np.nan

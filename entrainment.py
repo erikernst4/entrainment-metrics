@@ -80,7 +80,7 @@ def calculate_sample_correlation(
     """
     Calculate the correlations between two series as one of them is lagged
 
-    ----
+
     Intuitively,
     it can be interpreted similarly to Pearson’s correlation coeffi-
     cient between a time-series and a lagged version of another one,

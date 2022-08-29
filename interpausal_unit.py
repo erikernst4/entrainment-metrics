@@ -48,7 +48,7 @@ class InterPausalUnit:
         """
         Return the IPU values of the standard acoustics features
 
-        ----
+
         This features are calculated with praat using the script
         in praat_scripts
         """
