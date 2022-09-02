@@ -1,5 +1,4 @@
 import warnings
-from pathlib import Path
 from unittest import TestCase
 
 import numpy as np
@@ -251,7 +250,10 @@ class TAMATestCase(TestCase):
         self.assertEqual(
             case['F0_MAX_time_series'],
             calculate_time_series(
-                "F0_MAX", case['expected_frames'], case['audio_fname']
+                feature="F0_MAX",
+                frames=case['expected_frames'],
+                audio_file=case['audio_fname'],
+                extractor="praat",
             ),
         )
 
@@ -260,7 +262,10 @@ class TAMATestCase(TestCase):
         self.assertEqual(
             case['F0_MAX_time_series'],
             calculate_time_series(
-                "F0_MAX", case['expected_frames'], case['audio_fname']
+                feature="F0_MAX",
+                frames=case['expected_frames'],
+                audio_file=case['audio_fname'],
+                extractor="praat",
             ),
         )
 
@@ -269,7 +274,10 @@ class TAMATestCase(TestCase):
         np.testing.assert_almost_equal(
             case['F0_MAX_time_series'],
             calculate_time_series(
-                "F0_MAX", case['expected_frames'], Path(case['audio_fname'])
+                feature="F0_MAX",
+                frames=case['expected_frames'],
+                audio_file=case['audio_fname'],
+                extractor="praat",
             ),
         )
 
@@ -278,7 +286,10 @@ class TAMATestCase(TestCase):
         np.testing.assert_almost_equal(
             case['F0_MAX_time_series'],
             calculate_time_series(
-                "F0_MAX", case['expected_frames'], Path(case['audio_fname'])
+                feature="F0_MAX",
+                frames=case['expected_frames'],
+                audio_file=case['audio_fname'],
+                extractor="praat",
             ),
         )
 
@@ -287,7 +298,10 @@ class TAMATestCase(TestCase):
         np.testing.assert_almost_equal(
             case['F0_MAX_time_series'],
             calculate_time_series(
-                "F0_MAX", case['expected_frames'], Path(case['audio_fname'])
+                feature="F0_MAX",
+                frames=case['expected_frames'],
+                audio_file=case['audio_fname'],
+                extractor="praat",
             ),
         )
 
