@@ -3,6 +3,10 @@ import subprocess
 from pathlib import Path
 from typing import Dict, List, Optional
 
+import audiofile
+import opensmile
+import pandas as pd
+
 
 class InterPausalUnit:
     """
@@ -43,8 +47,19 @@ class InterPausalUnit:
         return self.end - self.start
 
     def calculate_features(
-        self, audio_file: Path, pitch_gender: Optional[str]
-    ) -> Dict[str, float]:
+        self, audio_file: Path, pitch_gender: Optional[str], extractor: str
+    ) -> Optional[Dict[str, float]]:
+        """
+        Given an audio_file calculate the features for the IPU inside
+        """
+        if extractor == "praat":
+            self._calculate_praat_features(audio_file, pitch_gender)
+        elif extractor == "opensmile":
+            self._calculate_opensmile_features(audio_file)
+
+        return self._features_values
+
+    def _calculate_praat_features(self, audio_file: Path, pitch_gender: Optional[str]):
         """
         Return the IPU values of the standard acoustics features
 
@@ -91,4 +106,21 @@ class InterPausalUnit:
                     features_results[feature] = float(value)
 
             self._features_values = features_results
-        return self._features_values
+
+    def _calculate_opensmile_features(self, audio_file: Path):
+        smile = opensmile.Smile(
+            feature_set=opensmile.FeatureSet.ComParE_2016,
+            feature_level=opensmile.FeatureLevel.Functionals,
+        )
+        signal, sampling_rate = audiofile.read(
+            audio_file,
+            offset=self.start,
+            duration=self.duration(),
+        )
+        opensmile_features_csv = smile.process_signal(signal, sampling_rate)
+        self._features_values = self._convert_opensmile_output(opensmile_features_csv)
+
+    def _convert_opensmile_output(self, df: pd.DataFrame) -> Dict[str, float]:
+        df_to_dict = df.to_dict('index')
+        features_dict = next(iter(df_to_dict.items()))[1]
+        return features_dict

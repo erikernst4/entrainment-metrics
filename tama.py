@@ -39,6 +39,9 @@ arg_parser.add_argument(
     type=str,
     help="Variation of lags to calculate Sample cross-correlation",
 )
+arg_parser.add_argument(
+    "-e", "--extractor", type=str, help="Extractor to use for calculating IPUs features"
+)
 
 
 def get_interpausal_units(words_fname: Path) -> List[InterPausalUnit]:
@@ -198,13 +201,13 @@ def main() -> None:
         raise ValueError("The amount of frames of each speaker is different")
 
     time_series_a: List[float] = calculate_time_series(
-        args.feature, frames_a, wav_a_fname, args.pitch_gender_a
+        args.feature, frames_a, wav_a_fname, args.extractor, args.pitch_gender_a
     )
     print("----------------------------------------")
     print(f"Time series of A: {time_series_a}")
 
     time_series_b: List[float] = calculate_time_series(
-        args.feature, frames_b, wav_b_fname, args.pitch_gender_b
+        args.feature, frames_b, wav_b_fname, args.extractor, args.pitch_gender_b
     )
     print(f"Time series of B: {time_series_b}")
     print("----------------------------------------")
