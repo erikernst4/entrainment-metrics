@@ -15,31 +15,28 @@ repos:
       types: [python]
       args: [--skip-string-normalization]
       exclude: docs/*
+
     - id: mypy
       name: mypy
       entry: poetry run mypy
       language: system
       types: [python]
       exclude: docs/*
+
     - id: pylint
       name: pylint
       entry: poetry run pylint
       language: system
       types: [python]
       exclude: (docs/|muttlib/dbconn/|tests/)
+
     - id: isort
       name: isort
       entry: poetry run isort
       language: system
       types: [python]
       exclude: (docs/)
-    - id: pytest
-      name: pytest
-      language: system
-      entry: poetry run nox --session tests
-      types: [python]
-      stages: [push]
-      pass_filenames: false
+
     - id: linter
       name: linter
       language: system
@@ -47,6 +44,7 @@ repos:
       types: [python]
       stages: [push]
       pass_filenames: false
+
     - id: bandit
       name: bandit
       language: system
@@ -54,9 +52,18 @@ repos:
       types: [python]
       stages: [push]
       pass_filenames: false
+
     - id: fix_all_extra
       name: fix_all_extra
       language: system
       entry: poetry run python hooks/toml_write_all_list.py
+      stages: [push]
+      pass_filenames: false
+
+    - id: pytest
+      name: 🧪 Running tests and test coverage with pytest
+      entry: poetry run pytest --asyncio-mode='strict' -o log_cli=true
+      language: python
+      types: [python]
       stages: [push]
       pass_filenames: false
