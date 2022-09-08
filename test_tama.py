@@ -178,6 +178,30 @@ class TAMATestCase(TestCase):
                     300.002,
                 ],
             },
+            'spoken': {
+                'words_fname': "./data/hola-camaron.words",
+                'audio_fname': "./data/hola-camaron.wav",
+                'audio': wavfile.read("./data/hola-camaron.wav"),
+                'expected_ipus': [
+                    InterPausalUnit(0.0, 0.342604),
+                    InterPausalUnit(0.742604, 1.085208),
+                    InterPausalUnit(1.485208, 2.129437),
+                ],
+                'expected_frames': [
+                    Frame(
+                        0.0,
+                        2.1294375,
+                        False,
+                        [
+                            InterPausalUnit(0.0, 0.342604),
+                            InterPausalUnit(0.742604, 1.085208),
+                            InterPausalUnit(1.485208, 2.129437),
+                        ],
+                    )
+                ],
+                'F0_MAX_time_series': [],
+                'F0final_sma_maxPos_time_series': [],
+            },
         }
 
     def test_interpausal_units_separation_empty(self):
@@ -210,6 +234,12 @@ class TAMATestCase(TestCase):
             self.cases['long_100-200-300_x2']['expected_ipus'],
         )
 
+    def test_interpausal_units_separation_spoken(self):
+        self.assertEqual(
+            get_interpausal_units(self.cases['spoken']['words_fname']),
+            self.cases['spoken']['expected_ipus'],
+        )
+
     def test_frame_separation_empty(self):
         case = self.cases['empty']
         self.assertEqual(
@@ -240,6 +270,13 @@ class TAMATestCase(TestCase):
 
     def test_frame_separation_long_x2(self):
         case = self.cases['long_100-200-300_x2']
+        self.assertEqual(
+            case['expected_frames'],
+            get_frames(wav_fname=case['audio_fname'], words_fname=case['words_fname']),
+        )
+
+    def test_frame_separation_spoken(self):
+        case = self.cases['spoken']
         self.assertEqual(
             case['expected_frames'],
             get_frames(wav_fname=case['audio_fname'], words_fname=case['words_fname']),
