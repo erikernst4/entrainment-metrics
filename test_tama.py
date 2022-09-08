@@ -193,14 +193,14 @@ class TAMATestCase(TestCase):
                         2.1294375,
                         False,
                         [
-                            InterPausalUnit(0.0, 0.342604),
-                            InterPausalUnit(0.742604, 1.085208),
-                            InterPausalUnit(1.485208, 2.129437),
+                            InterPausalUnit(0.0, 0.342604, {'F0_MAX': 103.970}),
+                            InterPausalUnit(0.742604, 1.085208, {'F0_MAX': 103.970}),
+                            InterPausalUnit(1.485208, 2.129437, {'F0_MAX': 92.121}),
                         ],
                     )
                 ],
-                'F0_MAX_time_series': [],
-                'F0final_sma_maxPos_time_series': [],
+                'F0_MAX_time_series': [98.22811872168445],
+                'F0final_sma_de_maxPos_time_series': [0.6340424008061056],
             },
         }
 
@@ -332,6 +332,30 @@ class TAMATestCase(TestCase):
 
     def test_calculate_time_series_long_x2(self):
         case = self.cases['long_100-200-300_x2']
+        np.testing.assert_almost_equal(
+            case['F0_MAX_time_series'],
+            calculate_time_series(
+                feature="F0_MAX",
+                frames=case['expected_frames'],
+                audio_file=case['audio_fname'],
+                extractor="praat",
+            ),
+        )
+
+    def test_calculate_time_series_opensmile_spoken(self):
+        case = self.cases['spoken']
+        np.testing.assert_almost_equal(
+            case['F0final_sma_de_maxPos_time_series'],
+            calculate_time_series(
+                feature="F0final_sma_de_maxPos",
+                frames=case['expected_frames'],
+                audio_file=case['audio_fname'],
+                extractor="opensmile",
+            ),
+        )
+
+    def test_calculate_time_series_praat_spoken(self):
+        case = self.cases['spoken']
         np.testing.assert_almost_equal(
             case['F0_MAX_time_series'],
             calculate_time_series(

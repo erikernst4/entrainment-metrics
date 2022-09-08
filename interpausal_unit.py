@@ -47,7 +47,10 @@ class InterPausalUnit:
         return self.end - self.start
 
     def calculate_features(
-        self, audio_file: Path, pitch_gender: Optional[str], extractor: str
+        self,
+        audio_file: Path,
+        pitch_gender: Optional[str] = None,
+        extractor: str = 'opensmile',
     ) -> Optional[Dict[str, float]]:
         """
         Given an audio_file calculate the features for the IPU inside
@@ -56,6 +59,8 @@ class InterPausalUnit:
             self._calculate_praat_features(audio_file, pitch_gender)
         elif extractor == "opensmile":
             self._calculate_opensmile_features(audio_file)
+        else:
+            raise ValueError('Not a valid extractor')
 
         return self._features_values
 
@@ -121,6 +126,4 @@ class InterPausalUnit:
         self._features_values = self._convert_opensmile_output(opensmile_features_csv)
 
     def _convert_opensmile_output(self, df: pd.DataFrame) -> Dict[str, float]:
-        df_to_dict = df.to_dict('index')
-        features_dict = next(iter(df_to_dict.items()))[1]
-        return features_dict
+        return df.to_dict(orient='records')[0]
