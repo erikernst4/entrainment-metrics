@@ -1,6 +1,6 @@
 import argparse
 from pathlib import Path
-from typing import List, Optional, Union
+from typing import List, Union
 
 import numpy as np
 from scipy.io import wavfile
@@ -153,7 +153,8 @@ def separate_frames(
     return frames
 
 
-def print_audio_description(speaker: str, samplerate: int, data: np.ndarray) -> None:
+def print_audio_description(speaker: str, wav_fname: Path) -> None:
+    samplerate, data = wavfile.read(wav_fname)
     print("----------------------------------------")
     print(f"Audio from speaker {speaker}")
     print(f"Samplerate: {samplerate}")
@@ -165,19 +166,16 @@ def print_audio_description(speaker: str, samplerate: int, data: np.ndarray) -> 
 
 
 def get_frames(
-    wav_fname: Path, words_fname: Path, speaker: Optional[str] = None
+    wav_fname: Path,
+    words_fname: Path,
 ) -> List[Union[Frame, MissingFrame]]:
     samplerate, data = wavfile.read(wav_fname)
-    if speaker is not None:
-        print_audio_description(speaker, samplerate, data)
 
     interpausal_units: List[InterPausalUnit] = get_interpausal_units(words_fname)
-    print(f"Amount of IPUs of speaker {speaker}: {len(interpausal_units)}")
 
     frames: List[Union[Frame, MissingFrame]] = separate_frames(
         interpausal_units, data, samplerate
     )
-    print(f"Amount of frames of speaker {speaker}: {len(frames)}")
 
     return frames
 
@@ -187,15 +185,16 @@ def main() -> None:
 
     wav_a_fname: Path = Path(args.audio_file_a)
     words_a_fname: Path = Path(args.words_file_a)
-    frames_a: List[Union[Frame, MissingFrame]] = get_frames(
-        wav_a_fname, words_a_fname, "A"
-    )
+    frames_a: List[Union[Frame, MissingFrame]] = get_frames(wav_a_fname, words_a_fname)
+    print(f"Amount of frames of speaker A: {len(frames_a)}")
+
+    print_audio_description("A", wav_a_fname)
 
     wav_b_fname: Path = Path(args.audio_file_b)
     words_b_fname: Path = Path(args.words_file_b)
-    frames_b: List[Union[Frame, MissingFrame]] = get_frames(
-        wav_b_fname, words_b_fname, "B"
-    )
+    frames_b: List[Union[Frame, MissingFrame]] = get_frames(wav_b_fname, words_b_fname)
+    print_audio_description("B", wav_b_fname)
+    print(f"Amount of frames of speaker B: {len(frames_b)}")
 
     if len(frames_a) != len(frames_b):
         raise ValueError("The amount of frames of each speaker is different")
