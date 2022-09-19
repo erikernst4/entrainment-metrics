@@ -7,7 +7,8 @@ from scipy.io import wavfile
 from entrainment import calculate_sample_correlation, calculate_time_series
 from frame import Frame, MissingFrame
 from interpausal_unit import InterPausalUnit
-from tama import get_frames, get_interpausal_units
+from tama import get_frames
+from utils import get_interpausal_units
 
 
 class TAMATestCase(TestCase):
