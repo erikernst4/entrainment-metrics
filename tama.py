@@ -8,6 +8,7 @@ from scipy.io import wavfile
 from entrainment import calculate_sample_correlation, calculate_time_series
 from frame import Frame, MissingFrame
 from interpausal_unit import InterPausalUnit
+from utils import get_interpausal_units, print_audio_description
 
 arg_parser = argparse.ArgumentParser(
     description="Generate a times series for a speaker for a task"
@@ -42,36 +43,6 @@ arg_parser.add_argument(
 arg_parser.add_argument(
     "-e", "--extractor", type=str, help="Extractor to use for calculating IPUs features"
 )
-
-
-def get_interpausal_units(words_fname: Path) -> List[InterPausalUnit]:
-    """
-    Return a list of IPUs given a Path to a .word file
-    """
-    interpausal_units: List[InterPausalUnit] = []
-    with open(words_fname, encoding="utf-8", mode="r") as word_file:
-        IPU_started: bool = False
-        IPU_start: float = 0.0
-        last_end: float = 0.0
-        while line := word_file.readline().rstrip():  # Efficient reading
-            start, end, word = line.split()
-            word_start, word_end = float(start), float(end)
-            if not IPU_started and word == "#":
-                IPU_start = 0.0
-                last_end = 0.0
-            elif not IPU_started and word != "#":
-                IPU_start = word_start
-                last_end = word_end
-                IPU_started = True
-            elif IPU_started and word != "#":
-                last_end = word_end
-            elif IPU_started and word == "#":
-                interpausal_units.append(InterPausalUnit(IPU_start, last_end))
-                IPU_started = False
-        if IPU_start and last_end:  # Last IPU if existent
-            interpausal_units.append(InterPausalUnit(IPU_start, last_end))
-
-    return interpausal_units
 
 
 def has_interval_intersection_with_interpausal_unit(
@@ -151,18 +122,6 @@ def separate_frames(
         frame_end += TIME_STEP
 
     return frames
-
-
-def print_audio_description(speaker: str, wav_fname: Path) -> None:
-    samplerate, data = wavfile.read(wav_fname)
-    print("----------------------------------------")
-    print(f"Audio from speaker {speaker}")
-    print(f"Samplerate: {samplerate}")
-    print(f"Audio data shape: {data.shape}")
-    print(f"Audio data dtype: {data.dtype}")
-    print(f"min, max: {data.min()}, {data.max()}")
-    print(f"Lenght: {data.shape[0]/samplerate} s")
-    print("----------------------------------------")
 
 
 def get_frames(
