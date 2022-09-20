@@ -37,29 +37,6 @@ repos:
       types: [python]
       exclude: (docs/)
 
-    - id: linter
-      name: linter
-      language: system
-      entry: poetry run nox --session precommit_hooks
-      types: [python]
-      stages: [push]
-      pass_filenames: false
-
-    - id: bandit
-      name: bandit
-      language: system
-      entry: poetry run nox --session bandit
-      types: [python]
-      stages: [push]
-      pass_filenames: false
-
-    - id: fix_all_extra
-      name: fix_all_extra
-      language: system
-      entry: poetry run python hooks/toml_write_all_list.py
-      stages: [push]
-      pass_filenames: false
-
     - id: pytest
       name: 🧪 Running tests and test coverage with pytest
       entry: poetry run pytest --asyncio-mode='strict' -o log_cli=true
