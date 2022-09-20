@@ -66,8 +66,6 @@ def calculate_k_nearest_neighboors_from_index(
     ipus_middle_point_in_time: List[float],
     ipus_feature_values: List[float],
 ) -> Tuple[int, List[float]]:
-    print(f"calculating nearest neighboors for {index}")
-    print(ipus_middle_point_in_time)
     k_nearest_neighboors: List[float] = []
     left_index: int = index - 1
     right_index: int = index + 1
@@ -90,14 +88,14 @@ def calculate_k_nearest_neighboors_from_index(
             k_nearest_neighboors.append(ipus_feature_values[right_index])
             right_index += 1
 
+    first_neighboor_index = left_index + 1
     # If there are not k neighboors yet, concatenate the ones left
     if len(k_nearest_neighboors) < k:
         neighboors_left_to_add: int = k - len(k_nearest_neighboors)
         if left_index >= 0:
+            first_neighboor_index = left_index - neighboors_left_to_add + 1
             k_nearest_neighboors = (
-                ipus_feature_values[
-                    left_index - neighboors_left_to_add + 1 : left_index + 1
-                ]
+                ipus_feature_values[first_neighboor_index : left_index + 1]
                 + k_nearest_neighboors
             )
         else:
@@ -107,8 +105,7 @@ def calculate_k_nearest_neighboors_from_index(
                     right_index : right_index + neighboors_left_to_add
                 ]
             )
-    print(left_index)
-    return left_index, k_nearest_neighboors
+    return first_neighboor_index, k_nearest_neighboors
 
 
 def calculate_knn_time_series(
@@ -138,7 +135,9 @@ def calculate_knn_time_series(
     k_nearest_neighboors: List[float] = ipus_feature_values[:k]
     first_neighboor_index: int = 0
     time_series.append(np.mean(k_nearest_neighboors))  # type: ignore
-    for ipu_index, ipu_middle_point_in_time in enumerate(ipus_middle_point_in_time[1:]):
+    for ipu_index, ipu_middle_point_in_time in enumerate(
+        ipus_middle_point_in_time[1:], 1
+    ):
         # Calculate k nearest neighboors
         next_neighboor_index = first_neighboor_index + k
         if ipu_index >= next_neighboor_index:
@@ -147,7 +146,7 @@ def calculate_knn_time_series(
                 first_neighboor_index,
                 k_nearest_neighboors,
             ) = calculate_k_nearest_neighboors_from_index(
-                ipu_index + 1, k, ipus_middle_point_in_time, ipus_feature_values
+                ipu_index, k, ipus_middle_point_in_time, ipus_feature_values
             )
         elif next_neighboor_index < len(ipus_middle_point_in_time):
             # EXPLAIN
@@ -166,6 +165,7 @@ def calculate_knn_time_series(
                 # Remove first and append next neighboor
                 k_nearest_neighboors = k_nearest_neighboors[1:]
                 k_nearest_neighboors.append(ipus_feature_values[next_neighboor_index])
+                first_neighboor_index += 1
 
         time_series.append(np.mean(k_nearest_neighboors))  # type: ignore
 
