@@ -12,8 +12,6 @@ from utils import get_interpausal_units
 
 
 class TAMATestCase(TestCase):
-    maxDiff = None
-
     def setUp(self):
         self.cases = {
             'empty': {

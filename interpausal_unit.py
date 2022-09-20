@@ -87,12 +87,12 @@ class InterPausalUnit:
             else:
                 raise ValueError("Not a valid pitch gender")
 
+            audio_file = Path(audio_file)
             audio_file_absolute = os.fspath(audio_file.resolve())
             result = subprocess.run(
                 [
                     'praat',
                     './praat_scripts/extractStandardAcoustics.praat',
-                    # audio_file.absolute().as_posix(),
                     audio_file_absolute,
                     str(self.start),
                     str(self.end),
