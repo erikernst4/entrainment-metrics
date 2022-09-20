@@ -66,7 +66,7 @@ def calculate_k_nearest_neighboors_from_index(
     ipus_middle_point_in_time: List[float],
     ipus_feature_values: List[float],
 ) -> Tuple[int, List[float]]:
-    k_nearest_neighboors: List[float] = []
+    k_nearest_neighboors: List[float] = [ipus_feature_values[index]]
     left_index: int = index - 1
     right_index: int = index + 1
     # Add one by one the closest till having k-neighboors
@@ -82,7 +82,7 @@ def calculate_k_nearest_neighboors_from_index(
             ipus_middle_point_in_time[right_index] - ipus_middle_point_in_time[index]
         )
         if distance_with_the_left_neighboor < distance_with_the_right_neighboor:
-            k_nearest_neighboors.append(ipus_feature_values[left_index])
+            k_nearest_neighboors.insert(0, ipus_feature_values[left_index])
             left_index -= 1
         else:
             k_nearest_neighboors.append(ipus_feature_values[right_index])
@@ -132,9 +132,14 @@ def calculate_knn_time_series(
     ) = get_interpausal_units_feature_values(
         feature, interpausal_units, audio_file, extractor, pitch_gender
     )
+    if k == 1:
+        return ipus_feature_values
+
+    # Initialize neighboors
     k_nearest_neighboors: List[float] = ipus_feature_values[:k]
     first_neighboor_index: int = 0
     time_series.append(np.mean(k_nearest_neighboors))  # type: ignore
+
     for ipu_index, ipu_middle_point_in_time in enumerate(
         ipus_middle_point_in_time[1:], 1
     ):
