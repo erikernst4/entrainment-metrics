@@ -42,6 +42,50 @@ arg_parser.add_argument(
 )
 
 
+def first_non_outlier_index(
+    ipus_feature_values: List[float],
+) -> int:
+    res = None
+    for index, value in enumerate(ipus_feature_values):
+        if not np.isnan(value):
+            res = index
+            break
+    return res  # type: ignore
+
+
+def last_non_outlier_index(
+    ipus_feature_values: List[float],
+) -> int:
+    reversed_index = first_non_outlier_index(list(reversed(ipus_feature_values)))
+    real_index = len(ipus_feature_values) - 1 - reversed_index
+    return real_index
+
+
+def calculate_common_support(
+    ipus_a: List[InterPausalUnit],
+    ipus_a_feature_values: List[float],
+    ipus_b: List[InterPausalUnit],
+    ipus_b_feature_values: List[float],
+) -> Tuple[float, float]:
+    a_first_non_outlier_index = first_non_outlier_index(ipus_a_feature_values)
+    b_first_non_outlier_index = first_non_outlier_index(ipus_b_feature_values)
+
+    start_a = ipus_a[a_first_non_outlier_index].start
+    start_b = ipus_b[b_first_non_outlier_index].start
+
+    start = max(start_a, start_b)
+
+    a_last_non_outlier_index = last_non_outlier_index(ipus_a_feature_values)
+    b_last_non_outlier_index = last_non_outlier_index(ipus_b_feature_values)
+
+    end_a = ipus_a[a_last_non_outlier_index].end
+    end_b = ipus_b[b_last_non_outlier_index].end
+
+    end = min(end_a, end_b)
+
+    return start, end
+
+
 def get_interpausal_units_middle_points_in_time(
     interpausal_units: List[InterPausalUnit],
 ) -> List[float]:
@@ -132,11 +176,8 @@ def calculate_k_nearest_neighboors_from_index(
 
 def calculate_knn_time_series(
     k: int,
-    feature: str,
-    interpausal_units: List[InterPausalUnit],
-    audio_file: Path,
-    extractor: str,
-    pitch_gender: Optional[str] = None,
+    ipus_feature_values: List[float],
+    ipus_middle_point_in_time: List[float],
 ) -> List[float]:
     """
     Generate a time series of the frames values for the feature given
@@ -144,16 +185,10 @@ def calculate_knn_time_series(
 
     O(n) being n the amount of interpausal units
     """
-    if len(interpausal_units) < k:
+    if len(ipus_feature_values) < k:
         raise ValueError("k cannot be smaller than the amount of interpausal units")
 
     time_series: List[float] = []
-    ipus_middle_point_in_time = get_interpausal_units_middle_points_in_time(
-        interpausal_units
-    )
-    ipus_feature_values = get_interpausal_units_feature_values(
-        feature, interpausal_units, audio_file, extractor, pitch_gender
-    )
 
     if k == 1:
         return ipus_feature_values
@@ -217,14 +252,29 @@ def main() -> None:
     print(f"Amount of IPUs of speaker B: {len(ipus_b)}")
     print_audio_description("B", wav_b_fname)
 
+    ipus_a_middle_points_in_time = get_interpausal_units_middle_points_in_time(ipus_a)
+    ipus_a_feature_values = get_interpausal_units_feature_values(
+        args.feature, ipus_a, wav_a_fname, args.extractor, args.pitch_gender_a
+    )
+
+    ipus_b_middle_points_in_time = get_interpausal_units_middle_points_in_time(ipus_b)
+    ipus_b_feature_values = get_interpausal_units_feature_values(
+        args.feature, ipus_b, wav_b_fname, args.extractor, args.pitch_gender_b
+    )
+
+    common_support: Tuple[float, float] = calculate_common_support(
+        ipus_a, ipus_a_feature_values, ipus_b, ipus_b_feature_values
+    )
+    print(f"Common support: {common_support}")
+
     time_series_a: List[float] = calculate_knn_time_series(
-        k, args.feature, ipus_a, wav_a_fname, args.extractor, args.pitch_gender_a
+        k, ipus_a_feature_values, ipus_a_middle_points_in_time
     )
     print("----------------------------------------")
     print(f"Time series of A: {time_series_a}")
 
     time_series_b: List[float] = calculate_knn_time_series(
-        k, args.feature, ipus_b, wav_b_fname, args.extractor, args.pitch_gender_b
+        k, ipus_b_feature_values, ipus_b_middle_points_in_time
     )
     print(f"Time series of B: {time_series_b}")
     print("----------------------------------------")
