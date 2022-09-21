@@ -13,6 +13,7 @@ repos:
       entry: poetry run black
       language: system
       types: [python]
+      stages: [commit]
       args: [--skip-string-normalization]
       exclude: docs/*
 
@@ -21,6 +22,7 @@ repos:
       entry: poetry run mypy
       language: system
       types: [python]
+      stages: [commit]
       exclude: docs/*
 
     - id: pylint
@@ -28,6 +30,7 @@ repos:
       entry: poetry run pylint
       language: system
       types: [python]
+      stages: [commit]
       exclude: (docs/|muttlib/dbconn/|tests/)
 
     - id: isort
@@ -35,6 +38,7 @@ repos:
       entry: poetry run isort
       language: system
       types: [python]
+      stages: [commit]
       exclude: (docs/)
 
     - id: pytest
