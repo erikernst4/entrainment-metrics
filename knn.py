@@ -42,6 +42,48 @@ arg_parser.add_argument(
 )
 
 
+def get_interpausal_units_middle_points_in_time(
+    interpausal_units: List[InterPausalUnit],
+) -> List[float]:
+    ipus_middle_point_in_time: List[float] = []
+    for ipu in interpausal_units:
+        ipu_middle_point_in_time = (ipu.start + ipu.end) / 2
+        ipus_middle_point_in_time.append(ipu_middle_point_in_time)
+    return ipus_middle_point_in_time
+
+
+def remove_outliers_from_ipus_feature_values(
+    ipus_feature_values: List[float],
+) -> List[float]:
+    """
+    Replace outliers with np.nan
+    """
+    MAX_DEVIATIONS = 3
+    array = np.array(ipus_feature_values)
+    mean = np.mean(array)
+    standard_deviation = np.std(array)
+    distance_from_mean = abs(array - mean)
+    outlier = distance_from_mean > MAX_DEVIATIONS * standard_deviation
+    array[outlier] = np.nan
+    return array.tolist()
+
+
+def get_interpausal_units_feature_values(
+    feature: str,
+    interpausal_units: List[InterPausalUnit],
+    audio_file: Path,
+    extractor: str,
+    pitch_gender: Optional[str] = None,
+) -> List[float]:
+    ipus_feature_values: List[float] = []
+    for ipu in interpausal_units:
+        ipu_feature_value = ipu.calculate_features(audio_file, pitch_gender, extractor)[feature]  # type: ignore
+        ipus_feature_values.append(ipu_feature_value)
+
+    ipus_feature_values = remove_outliers_from_ipus_feature_values(ipus_feature_values)
+    return ipus_feature_values
+
+
 def first_non_outlier_index(
     ipus_feature_values: List[float],
 ) -> int:
@@ -86,44 +128,31 @@ def calculate_common_support(
     return start, end
 
 
-def get_interpausal_units_middle_points_in_time(
-    interpausal_units: List[InterPausalUnit],
-) -> List[float]:
-    ipus_middle_point_in_time: List[float] = []
-    for ipu in interpausal_units:
-        ipu_middle_point_in_time = (ipu.start + ipu.end) / 2
-        ipus_middle_point_in_time.append(ipu_middle_point_in_time)
-    return ipus_middle_point_in_time
-
-
-def get_interpausal_units_feature_values(
-    feature: str,
-    interpausal_units: List[InterPausalUnit],
-    audio_file: Path,
-    extractor: str,
-    pitch_gender: Optional[str] = None,
-) -> List[float]:
-    ipus_feature_values: List[float] = []
-    for ipu in interpausal_units:
-        ipu_feature_value = ipu.calculate_features(audio_file, pitch_gender, extractor)[feature]  # type: ignore
-        ipus_feature_values.append(ipu_feature_value)
-    return ipus_feature_values
-
-
-def remove_outliers_from_ipus_feature_values(
+def crop_common_support(
+    start: float,
+    end: float,
+    ipus: List[InterPausalUnit],
     ipus_feature_values: List[float],
-) -> List[float]:
-    """
-    Replace outliers with np.nan
-    """
-    MAX_DEVIATIONS = 3
-    array = np.array(ipus_feature_values)
-    mean = np.mean(array)
-    standard_deviation = np.std(array)
-    distance_from_mean = abs(array - mean)
-    outlier = distance_from_mean > MAX_DEVIATIONS * standard_deviation
-    array[outlier] = np.nan
-    return array.tolist()
+    ipus_middle_points_in_time: List[float],
+) -> Tuple[List[float], List[float]]:
+    new_first_index = 0
+    new_last_index = -1
+
+    for index, ipu in enumerate(ipus):
+        if ipu.start >= start:
+            new_first_index = index
+            break
+
+    for index, ipu in enumerate(reversed(ipus)):
+        if ipu.end <= end:
+            new_last_index = len(ipus) - 1 - index
+            break
+
+    ipus_feature_values = ipus_feature_values[new_first_index : new_last_index + 1]
+    ipus_middle_points_in_time = ipus_middle_points_in_time[
+        new_first_index : new_last_index + 1
+    ]
+    return ipus_feature_values, ipus_middle_points_in_time
 
 
 def calculate_k_nearest_neighboors_from_index(
@@ -186,14 +215,15 @@ def calculate_knn_time_series(
     O(n) being n the amount of interpausal units
     """
     if len(ipus_feature_values) < k:
-        raise ValueError("k cannot be smaller than the amount of interpausal units")
+        raise ValueError(
+            "k cannot be bigger than the amount of non-outliers interpausal units"
+        )
 
     time_series: List[float] = []
 
     if k == 1:
         return ipus_feature_values
 
-    ipus_feature_values = remove_outliers_from_ipus_feature_values(ipus_feature_values)
     # Initialize neighboors
     k_nearest_neighboors: List[float] = ipus_feature_values[:k]
     first_neighboor_index: int = 0
@@ -262,10 +292,26 @@ def main() -> None:
         args.feature, ipus_b, wav_b_fname, args.extractor, args.pitch_gender_b
     )
 
-    common_support: Tuple[float, float] = calculate_common_support(
+    common_start, common_end = calculate_common_support(
         ipus_a, ipus_a_feature_values, ipus_b, ipus_b_feature_values
     )
-    print(f"Common support: {common_support}")
+    print(f"Common support: {(common_start, common_end)}")
+
+    ipus_a_feature_values, ipus_a_middle_points_in_time = crop_common_support(
+        common_start,
+        common_end,
+        ipus_a,
+        ipus_a_feature_values,
+        ipus_a_middle_points_in_time,
+    )
+
+    ipus_b_feature_values, ipus_b_middle_points_in_time = crop_common_support(
+        common_start,
+        common_end,
+        ipus_b,
+        ipus_b_feature_values,
+        ipus_b_middle_points_in_time,
+    )
 
     time_series_a: List[float] = calculate_knn_time_series(
         k, ipus_a_feature_values, ipus_a_middle_points_in_time
