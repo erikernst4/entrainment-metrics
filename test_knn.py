@@ -3,8 +3,8 @@ from unittest import TestCase
 import numpy as np
 from scipy.io import wavfile
 
+import knn
 from interpausal_unit import InterPausalUnit
-from knn import calculate_knn_time_series
 
 
 class KNNTestCase(TestCase):
@@ -21,6 +21,15 @@ class KNNTestCase(TestCase):
                     InterPausalUnit(28.0, 32.0, {'F0_MAX': 100.003}),
                     InterPausalUnit(36.0, 40.0, {'F0_MAX': 200.002}),
                     InterPausalUnit(44.0, 52.0, {'F0_MAX': 300.002}),
+                ],
+                'ipus_middle_points_in_time': [2.0, 10.0, 20.0, 30.0, 38.0, 48.0],
+                'ipus_feature_values': [
+                    100.003,
+                    200.002,
+                    300.002,
+                    100.003,
+                    200.002,
+                    300.002,
                 ],
                 'time_series': {
                     1: {
@@ -57,12 +66,28 @@ class KNNTestCase(TestCase):
             },
         }
 
+    def test_ipus_feature_values_longx2(self):
+        case = self.cases['long_100-200-300_x2']
+        np.testing.assert_almost_equal(
+            case['ipus_feature_values'],
+            knn.get_interpausal_units_feature_values(
+                'F0_MAX', case['ipus'], case['audio_fname'], 'praat'
+            ),
+        )
+
+    def test_ipus_middle_point_in_time_longx2(self):
+        case = self.cases['long_100-200-300_x2']
+        np.testing.assert_almost_equal(
+            case['ipus_middle_points_in_time'],
+            knn.get_interpausal_units_middle_points_in_time(case['ipus']),
+        )
+
     def test_calculate_knn_time_series_longx2_k_1(self):
         case = self.cases['long_100-200-300_x2']
         np.testing.assert_almost_equal(
             case['time_series'][1]['F0_MAX'],
-            calculate_knn_time_series(
-                1, 'F0_MAX', case['ipus'], case['audio_fname'], 'praat'
+            knn.calculate_knn_time_series(
+                1, case['ipus_feature_values'], case['ipus_middle_points_in_time']
             ),
         )
 
@@ -70,8 +95,8 @@ class KNNTestCase(TestCase):
         case = self.cases['long_100-200-300_x2']
         np.testing.assert_almost_equal(
             case['time_series'][2]['F0_MAX'],
-            calculate_knn_time_series(
-                2, 'F0_MAX', case['ipus'], case['audio_fname'], 'praat'
+            knn.calculate_knn_time_series(
+                2, case['ipus_feature_values'], case['ipus_middle_points_in_time']
             ),
         )
 
@@ -79,7 +104,7 @@ class KNNTestCase(TestCase):
         case = self.cases['long_100-200-300_x2']
         np.testing.assert_almost_equal(
             case['time_series'][3]['F0_MAX'],
-            calculate_knn_time_series(
-                3, 'F0_MAX', case['ipus'], case['audio_fname'], 'praat'
+            knn.calculate_knn_time_series(
+                3, case['ipus_feature_values'], case['ipus_middle_points_in_time']
             ),
         )
