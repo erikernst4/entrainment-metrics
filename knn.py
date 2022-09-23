@@ -45,6 +45,9 @@ arg_parser.add_argument(
 def get_interpausal_units_middle_points_in_time(
     interpausal_units: List[InterPausalUnit],
 ) -> List[float]:
+    """
+    Given a list of IPUs returns a list with the middle point in time of each IPU.
+    """
     ipus_middle_point_in_time: List[float] = []
     for ipu in interpausal_units:
         ipu_middle_point_in_time = (ipu.start + ipu.end) / 2
@@ -57,6 +60,9 @@ def remove_outliers_from_ipus_feature_values(
 ) -> List[float]:
     """
     Replace outliers with np.nan
+
+
+    Outliers are values with a distance from the mean greater than 3 times the standard deviation
     """
     MAX_DEVIATIONS = 3
     array = np.array(ipus_feature_values)
@@ -75,6 +81,9 @@ def get_interpausal_units_feature_values(
     extractor: str,
     pitch_gender: Optional[str] = None,
 ) -> List[float]:
+    """
+    Calculates the feature value for each IPU in interpausal_units
+    """
     ipus_feature_values: List[float] = []
     for ipu in interpausal_units:
         ipu_feature_value = ipu.calculate_features(audio_file, pitch_gender, extractor)[feature]  # type: ignore
@@ -109,6 +118,10 @@ def calculate_common_support(
     ipus_b: List[InterPausalUnit],
     ipus_b_feature_values: List[float],
 ) -> Tuple[float, float]:
+    """
+    Given 2 lists of IPUs with its feature values return the start and end of the intersection
+    of the speakers speech times.
+    """
     a_first_non_outlier_index = first_non_outlier_index(ipus_a_feature_values)
     b_first_non_outlier_index = first_non_outlier_index(ipus_b_feature_values)
 
@@ -135,6 +148,10 @@ def crop_common_support(
     ipus_feature_values: List[float],
     ipus_middle_points_in_time: List[float],
 ) -> Tuple[List[float], List[float]]:
+    """
+    Given IPUs, their feature values and their middle points in time
+    Return the feature values and middle points in time that fall inside between start and end.
+    """
     new_first_index = 0
     new_last_index = -1
 
@@ -161,6 +178,10 @@ def calculate_k_nearest_neighboors_from_index(
     ipus_middle_point_in_time: List[float],
     ipus_feature_values: List[float],
 ) -> Tuple[int, List[float]]:
+    """
+    Calculates the k nearest neighboors for an index from the ipus_middle_points_in_time.
+    Returns the index to the first neighboor and a list of the feature values of the nearest neighboors.
+    """
     k_nearest_neighboors: List[float] = [ipus_feature_values[index]]
     left_index: int = index - 1
     right_index: int = index + 1
@@ -209,7 +230,10 @@ def calculate_knn_time_series(
     ipus_middle_point_in_time: List[float],
 ) -> List[float]:
     """
-    Generate a time series of the frames values for the feature given
+    Generate an estimation of speakers’ a/p evolution functions by fitting a knn regression model.
+    k: number of neighboors.
+    ipus_feature_values: a list of the corresponding feature value from IPUs.
+    ipus_middle_points_in_time: a list of the corresponding middle points in time from IPUs.
 
 
     O(n) being n the amount of interpausal units
