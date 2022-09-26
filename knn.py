@@ -40,6 +40,12 @@ arg_parser.add_argument(
 arg_parser.add_argument(
     "-e", "--extractor", type=str, help="Extractor to use for calculating IPUs features"
 )
+arg_parser.add_argument(
+    "-m",
+    "--metric",
+    type=str,
+    help="Entrainment metric from a/p evolution functions to calculate",
+)
 
 
 def get_interpausal_units_middle_points_in_time(
@@ -290,6 +296,41 @@ def calculate_knn_time_series(
     return time_series
 
 
+def calculate_proximity(
+    time_series_a: List[float],
+    time_series_b: List[float],
+) -> float:
+    mean_a = np.mean(time_series_a)
+    mean_b = np.mean(time_series_b)
+    return -abs(mean_a - mean_b)  # type: ignore
+
+
+def calculate_convergence(
+    time_series_a: List[float],
+    time_series_b: List[float],
+) -> float:
+    return np.corrcoef(time_series_a, time_series_b)  # type: ignore
+
+
+def calculate_metric(
+    metric: str,
+    time_series_a: List[float],
+    time_series_b: List[float],
+) -> float:
+    """
+    Calculate entrainment metrics given a times series from each speaker
+
+    Metrics avaible: 'proximity', 'pearson'
+    """
+    if metric == "proximity":
+        res = calculate_proximity(time_series_a, time_series_b)
+    elif metric == "pearson":
+        res = calculate_convergence(time_series_a, time_series_b)
+    else:
+        raise ValueError("Not a valid metric")
+    return res
+
+
 def main() -> None:
     args = arg_parser.parse_args()
 
@@ -348,6 +389,9 @@ def main() -> None:
     )
     print(f"Time series of B: {time_series_b}")
     print("----------------------------------------")
+
+    metric_result: float = calculate_metric(args.metric, time_series_a, time_series_b)
+    print(f"{args.metric}: {metric_result}")
 
 
 if __name__ == "__main__":
