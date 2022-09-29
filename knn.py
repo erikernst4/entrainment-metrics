@@ -95,7 +95,6 @@ def get_interpausal_units_feature_values(
         ipu_feature_value = ipu.calculate_features(audio_file, pitch_gender, extractor)[feature]  # type: ignore
         ipus_feature_values.append(ipu_feature_value)
 
-    ipus_feature_values = remove_outliers_from_ipus_feature_values(ipus_feature_values)
     return ipus_feature_values
 
 
@@ -351,10 +350,16 @@ def main() -> None:
     ipus_a_feature_values = get_interpausal_units_feature_values(
         args.feature, ipus_a, wav_a_fname, args.extractor, args.pitch_gender_a
     )
+    ipus_a_feature_values = remove_outliers_from_ipus_feature_values(
+        ipus_a_feature_values
+    )
 
     ipus_b_middle_points_in_time = get_interpausal_units_middle_points_in_time(ipus_b)
     ipus_b_feature_values = get_interpausal_units_feature_values(
         args.feature, ipus_b, wav_b_fname, args.extractor, args.pitch_gender_b
+    )
+    ipus_b_feature_values = remove_outliers_from_ipus_feature_values(
+        ipus_b_feature_values
     )
 
     common_start, common_end = calculate_common_support(
