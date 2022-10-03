@@ -46,6 +46,17 @@ class InterPausalUnit:
     def duration(self) -> float:
         return self.end - self.start
 
+    def feature_value(
+        self,
+        feature: str,
+    ) -> float:
+        """
+        Return the value for the feature given if already extracted
+        """
+        if self._features_values is None or feature not in self._features_values:
+            raise ValueError(f"Feature {feature} not extracted yet")
+        return self._features_values[feature]
+
     def calculate_features(
         self,
         audio_file: Path,
