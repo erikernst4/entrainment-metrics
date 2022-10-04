@@ -40,6 +40,7 @@ class TimeSeries:
                 )
 
             self.model = KNeighborsRegressor(n_neighbors=k, **kwargs)
+
             X = self._get_middle_points_in_time()
             X = X.reshape(-1, 1)
             y = self._get_interpausal_units_feature_values(feature)
@@ -52,17 +53,16 @@ class TimeSeries:
         self,
         X: np.ndarray,
     ) -> np.ndarray:
-        res: np.ndarray = self.model.predict(X)
-        return res
+        return self.model.predict(X)
 
     def _get_interpausal_units_feature_values(
         self,
         feature: str,
-    ) -> List[float]:
+    ) -> np.ndarray:
         """
         Returns a list with the feature value for each IPU.
         """
-        return [ipu.feature_value(feature) for ipu in self.ipus]
+        return np.array([ipu.feature_value(feature) for ipu in self.ipus])
 
     def _get_middle_points_in_time(
         self,

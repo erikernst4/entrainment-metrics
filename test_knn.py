@@ -98,9 +98,10 @@ class KNNTestCase(TestCase):
         values_to_predict = np.array(values_to_predict)
         values_to_predict = values_to_predict.reshape(-1, 1)
 
+        time_series = TimeSeries(
+            feature='F0_MAX', interpausal_units=case['ipus'], method='knn', k=4
+        )
         np.testing.assert_almost_equal(
             model.predict(values_to_predict),
-            TimeSeries(
-                feature='F0_MAX', interpausal_units=case['ipus'], method='knn', k=4
-            ),
+            time_series.predict(values_to_predict),
         )
