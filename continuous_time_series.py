@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import List
 
 import numpy as np
 from sklearn.neighbors import KNeighborsRegressor
@@ -41,6 +41,7 @@ class TimeSeries:
 
             self.model = KNeighborsRegressor(n_neighbors=k, **kwargs)
             X = self._get_middle_points_in_time()
+            X = X.reshape(-1, 1)
             y = self._get_interpausal_units_feature_values(feature)
             self.model.fit(X, y)
         else:
@@ -49,9 +50,10 @@ class TimeSeries:
 
     def predict(
         self,
-        X: Union[List[float], np.ndarray],
+        X: np.ndarray,
     ) -> np.ndarray:
-        return self.model.predict(X)
+        res: np.ndarray = self.model.predict(X)
+        return res
 
     def _get_interpausal_units_feature_values(
         self,
@@ -64,8 +66,8 @@ class TimeSeries:
 
     def _get_middle_points_in_time(
         self,
-    ) -> List[float]:
+    ) -> np.ndarray:
         """
         Returns a list with the middle point in time of each IPU.
         """
-        return [(ipu.start + ipu.end) / 2 for ipu in self.ipus]
+        return np.array([(ipu.start + ipu.end) / 2 for ipu in self.ipus])

@@ -2,8 +2,10 @@ from unittest import TestCase
 
 import numpy as np
 from scipy.io import wavfile
+from sklearn.neighbors import KNeighborsRegressor
 
 import knn
+from continuous_time_series import TimeSeries
 from interpausal_unit import InterPausalUnit
 
 
@@ -82,29 +84,23 @@ class KNNTestCase(TestCase):
             knn.get_interpausal_units_middle_points_in_time(case['ipus']),
         )
 
-    def test_calculate_knn_time_series_longx2_k_1(self):
+    def test_calculate_knn_time_series_longx2(self):
         case = self.cases['long_100-200-300_x2']
-        np.testing.assert_almost_equal(
-            case['time_series'][1]['F0_MAX'],
-            knn.calculate_knn_time_series(
-                1, case['ipus_feature_values'], case['ipus_middle_points_in_time']
-            ),
-        )
+        model = KNeighborsRegressor(n_neighbors=4)
+        X = np.array(case['ipus_middle_points_in_time'])
+        X = X.reshape(-1, 1)
+        y = case['ipus_feature_values']
+        model.fit(X, y)
 
-    def test_calculate_knn_time_series_longx2_k_2(self):
-        case = self.cases['long_100-200-300_x2']
-        np.testing.assert_almost_equal(
-            case['time_series'][2]['F0_MAX'],
-            knn.calculate_knn_time_series(
-                2, case['ipus_feature_values'], case['ipus_middle_points_in_time']
-            ),
-        )
+        samplerate, data = case['audio']
+        audio_lenght = data.shape[0]
+        values_to_predict = [i for i in range(0, audio_lenght, int(0.01 * samplerate))]
+        values_to_predict = np.array(values_to_predict)
+        values_to_predict = values_to_predict.reshape(-1, 1)
 
-    def test_calculate_knn_time_series_longx2_k_3(self):
-        case = self.cases['long_100-200-300_x2']
         np.testing.assert_almost_equal(
-            case['time_series'][3]['F0_MAX'],
-            knn.calculate_knn_time_series(
-                3, case['ipus_feature_values'], case['ipus_middle_points_in_time']
+            model.predict(values_to_predict),
+            TimeSeries(
+                feature='F0_MAX', interpausal_units=case['ipus'], method='knn', k=4
             ),
         )
