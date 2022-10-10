@@ -98,7 +98,7 @@ def calculate_convergence(
     time_series_values_b = time_series_b.predict(values_to_predict)
 
     d_t = np.abs(time_series_values_a - time_series_values_b) * -1
-    return np.corrcoef(d_t, values_to_predict_in_s)
+    return np.corrcoef(d_t, values_to_predict_in_s)[0, 1]
 
 
 def calculate_synchrony(
@@ -121,7 +121,7 @@ def calculate_synchrony(
     time_series_values_a = time_series_a.predict(values_to_predict_a)
     time_series_values_b = time_series_b.predict(values_to_predict_b)
 
-    return np.corrcoef(time_series_values_a, time_series_values_b)
+    return np.corrcoef(time_series_values_a, time_series_values_b)[0, 1]
 
 
 def calculate_metric(
