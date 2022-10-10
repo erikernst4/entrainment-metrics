@@ -4,7 +4,6 @@ import numpy as np
 from scipy.io import wavfile
 from sklearn.neighbors import KNeighborsRegressor
 
-import knn
 from continuous_time_series import TimeSeries
 from interpausal_unit import InterPausalUnit
 
@@ -68,22 +67,6 @@ class KNNTestCase(TestCase):
             },
         }
 
-    def test_ipus_feature_values_longx2(self):
-        case = self.cases['long_100-200-300_x2']
-        np.testing.assert_almost_equal(
-            case['ipus_feature_values'],
-            knn.get_interpausal_units_feature_values(
-                'F0_MAX', case['ipus'], case['audio_fname'], 'praat'
-            ),
-        )
-
-    def test_ipus_middle_point_in_time_longx2(self):
-        case = self.cases['long_100-200-300_x2']
-        np.testing.assert_almost_equal(
-            case['ipus_middle_points_in_time'],
-            knn.get_interpausal_units_middle_points_in_time(case['ipus']),
-        )
-
     def test_calculate_knn_time_series_longx2(self):
         case = self.cases['long_100-200-300_x2']
         model = KNeighborsRegressor(n_neighbors=4)
@@ -93,7 +76,7 @@ class KNNTestCase(TestCase):
         model.fit(X, y)
 
         samplerate, data = case['audio']
-        audio_lenght = data.shape[0]
+        audio_lenght = data.shape[0] // samplerate
         values_to_predict = [i for i in range(0, audio_lenght, int(0.01 * samplerate))]
         values_to_predict = np.array(values_to_predict)
         values_to_predict = values_to_predict.reshape(-1, 1)
