@@ -4,6 +4,7 @@ from typing import List, Optional, Tuple
 
 import numpy as np
 
+from continuous_time_series import TimeSeries
 from interpausal_unit import InterPausalUnit
 from utils import get_interpausal_units, print_audio_description
 
@@ -48,251 +49,13 @@ arg_parser.add_argument(
 )
 
 
-def get_interpausal_units_middle_points_in_time(
-    interpausal_units: List[InterPausalUnit],
-) -> List[float]:
-    """
-    Given a list of IPUs returns a list with the middle point in time of each IPU.
-    """
-    ipus_middle_point_in_time: List[float] = []
-    for ipu in interpausal_units:
-        ipu_middle_point_in_time = (ipu.start + ipu.end) / 2
-        ipus_middle_point_in_time.append(ipu_middle_point_in_time)
-    return ipus_middle_point_in_time
-
-
-def remove_outliers_from_ipus_feature_values(
-    ipus_feature_values: List[float],
-) -> List[float]:
-    """
-    Replace outliers with np.nan
-
-
-    Outliers are values with a distance from the mean greater than 3 times the standard deviation
-    """
-    MAX_DEVIATIONS = 3
-    array = np.array(ipus_feature_values)
-    mean = np.mean(array)
-    standard_deviation = np.std(array)
-    distance_from_mean = abs(array - mean)
-    outlier = distance_from_mean > MAX_DEVIATIONS * standard_deviation
-    array[outlier] = np.nan
-    return array.tolist()
-
-
-def get_interpausal_units_feature_values(
-    feature: str,
-    interpausal_units: List[InterPausalUnit],
-    audio_file: Path,
-    extractor: str,
-    pitch_gender: Optional[str] = None,
-) -> List[float]:
-    """
-    Calculates the feature value for each IPU in interpausal_units
-    """
-    ipus_feature_values: List[float] = []
-    for ipu in interpausal_units:
-        ipu_feature_value = ipu.calculate_features(audio_file, pitch_gender, extractor)[feature]  # type: ignore
-        ipus_feature_values.append(ipu_feature_value)
-
-    return ipus_feature_values
-
-
-def first_non_outlier_index(
-    ipus_feature_values: List[float],
-) -> int:
-    res = None
-    for index, value in enumerate(ipus_feature_values):
-        if not np.isnan(value):
-            res = index
-            break
-    return res  # type: ignore
-
-
-def last_non_outlier_index(
-    ipus_feature_values: List[float],
-) -> int:
-    reversed_index = first_non_outlier_index(list(reversed(ipus_feature_values)))
-    real_index = len(ipus_feature_values) - 1 - reversed_index
-    return real_index
-
-
 def calculate_common_support(
-    ipus_a: List[InterPausalUnit],
-    ipus_a_feature_values: List[float],
-    ipus_b: List[InterPausalUnit],
-    ipus_b_feature_values: List[float],
+    time_series_a: TimeSeries,
+    time_series_b: TimeSeries,
 ) -> Tuple[float, float]:
-    """
-    Given 2 lists of IPUs with its feature values return the start and end of the intersection
-    of the speakers speech times.
-    """
-    a_first_non_outlier_index = first_non_outlier_index(ipus_a_feature_values)
-    b_first_non_outlier_index = first_non_outlier_index(ipus_b_feature_values)
-
-    start_a = ipus_a[a_first_non_outlier_index].start
-    start_b = ipus_b[b_first_non_outlier_index].start
-
-    start = max(start_a, start_b)
-
-    a_last_non_outlier_index = last_non_outlier_index(ipus_a_feature_values)
-    b_last_non_outlier_index = last_non_outlier_index(ipus_b_feature_values)
-
-    end_a = ipus_a[a_last_non_outlier_index].end
-    end_b = ipus_b[b_last_non_outlier_index].end
-
-    end = min(end_a, end_b)
-
-    return start, end
-
-
-def crop_common_support(
-    start: float,
-    end: float,
-    ipus: List[InterPausalUnit],
-    ipus_feature_values: List[float],
-    ipus_middle_points_in_time: List[float],
-) -> Tuple[List[float], List[float]]:
-    """
-    Given IPUs, their feature values and their middle points in time
-    Return the feature values and middle points in time that fall inside between start and end.
-    """
-    new_first_index = 0
-    new_last_index = -1
-
-    for index, ipu in enumerate(ipus):
-        if ipu.start >= start:
-            new_first_index = index
-            break
-
-    for index, ipu in enumerate(reversed(ipus)):
-        if ipu.end <= end:
-            new_last_index = len(ipus) - 1 - index
-            break
-
-    ipus_feature_values = ipus_feature_values[new_first_index : new_last_index + 1]
-    ipus_middle_points_in_time = ipus_middle_points_in_time[
-        new_first_index : new_last_index + 1
-    ]
-    return ipus_feature_values, ipus_middle_points_in_time
-
-
-def calculate_k_nearest_neighboors_from_index(
-    index: int,
-    k: int,
-    ipus_middle_point_in_time: List[float],
-    ipus_feature_values: List[float],
-) -> Tuple[int, List[float]]:
-    """
-    Calculates the k nearest neighboors for an index from the ipus_middle_points_in_time.
-    Returns the index to the first neighboor and a list of the feature values of the nearest neighboors.
-    """
-    k_nearest_neighboors: List[float] = [ipus_feature_values[index]]
-    left_index: int = index - 1
-    right_index: int = index + 1
-    # Add one by one the closest till having k-neighboors
-    while (
-        len(k_nearest_neighboors) < k
-        and left_index >= 0
-        and right_index < len(ipus_middle_point_in_time)
-    ):
-        distance_with_the_left_neighboor: float = (
-            ipus_middle_point_in_time[index] - ipus_middle_point_in_time[left_index]
-        )
-        distance_with_the_right_neighboor: float = (
-            ipus_middle_point_in_time[right_index] - ipus_middle_point_in_time[index]
-        )
-        if distance_with_the_left_neighboor < distance_with_the_right_neighboor:
-            k_nearest_neighboors.insert(0, ipus_feature_values[left_index])
-            left_index -= 1
-        else:
-            k_nearest_neighboors.append(ipus_feature_values[right_index])
-            right_index += 1
-
-    first_neighboor_index = left_index + 1
-    # If there are not k neighboors yet, concatenate the ones left
-    if len(k_nearest_neighboors) < k:
-        neighboors_left_to_add: int = k - len(k_nearest_neighboors)
-        if left_index >= 0:
-            first_neighboor_index = left_index - neighboors_left_to_add + 1
-            k_nearest_neighboors = (
-                ipus_feature_values[first_neighboor_index : left_index + 1]
-                + k_nearest_neighboors
-            )
-        else:
-            k_nearest_neighboors = (
-                k_nearest_neighboors
-                + ipus_feature_values[
-                    right_index : right_index + neighboors_left_to_add
-                ]
-            )
-    return first_neighboor_index, k_nearest_neighboors
-
-
-def calculate_knn_time_series(
-    k: int,
-    ipus_feature_values: List[float],
-    ipus_middle_point_in_time: List[float],
-) -> List[float]:
-    """
-    Generate an estimation of speakers’ a/p evolution functions by fitting a knn regression model.
-    k: number of neighboors.
-    ipus_feature_values: a list of the corresponding feature value from IPUs.
-    ipus_middle_points_in_time: a list of the corresponding middle points in time from IPUs.
-
-
-    O(n) being n the amount of interpausal units
-    """
-    if len(ipus_feature_values) < k:
-        raise ValueError(
-            "k cannot be bigger than the amount of non-outliers interpausal units"
-        )
-
-    time_series: List[float] = []
-
-    if k == 1:
-        return ipus_feature_values
-
-    # Initialize neighboors
-    k_nearest_neighboors: List[float] = ipus_feature_values[:k]
-    first_neighboor_index: int = 0
-    time_series.append(np.mean(k_nearest_neighboors))  # type: ignore
-
-    for ipu_index, ipu_middle_point_in_time in enumerate(
-        ipus_middle_point_in_time[1:], 1
-    ):
-        # Calculate k nearest neighboors
-        next_neighboor_index = first_neighboor_index + k
-        if ipu_index >= next_neighboor_index:
-            # If current ipu falls outside of the k_nearest_neighboors, recalculate
-            (
-                first_neighboor_index,
-                k_nearest_neighboors,
-            ) = calculate_k_nearest_neighboors_from_index(
-                ipu_index, k, ipus_middle_point_in_time, ipus_feature_values
-            )
-        elif next_neighboor_index < len(ipus_middle_point_in_time):
-            # EXPLAIN
-            ipu_distance_with_the_first_neighboor = (
-                ipu_middle_point_in_time
-                - ipus_middle_point_in_time[first_neighboor_index]
-            )
-            ipu_distance_with_the_next_neighboor = (
-                ipus_middle_point_in_time[next_neighboor_index]
-                - ipu_middle_point_in_time
-            )
-            if (
-                ipu_distance_with_the_next_neighboor
-                < ipu_distance_with_the_first_neighboor
-            ):
-                # Remove first and append next neighboor
-                k_nearest_neighboors = k_nearest_neighboors[1:]
-                k_nearest_neighboors.append(ipus_feature_values[next_neighboor_index])
-                first_neighboor_index += 1
-
-        time_series.append(np.mean(k_nearest_neighboors))  # type: ignore
-
-    return time_series
+    common_start: float = max(time_series_a.start(), time_series_b.start())
+    common_end: float = min(time_series_a.end(), time_series_b.end())
+    return common_start, common_end
 
 
 def calculate_proximity(
@@ -313,18 +76,34 @@ def calculate_convergence(
 
 def calculate_metric(
     metric: str,
-    time_series_a: List[float],
-    time_series_b: List[float],
+    time_series_a: TimeSeries,
+    time_series_b: TimeSeries,
+    start: float,
+    end: float,
+    granularity: Optional[float] = None,
+    samplerate: Optional[float] = None,
 ) -> float:
     """
     Calculate entrainment metrics given a times series from each speaker
 
     Metrics avaible: 'proximity', 'pearson'
     """
+    if granularity is None:
+        granularity = 0.01
+
+    if samplerate is None:
+        samplerate = 16000
+
+    values_to_predict = np.arange(start, end, granularity)
+    values_to_predict = values_to_predict.reshape(-1, 1)
+
+    values_a = time_series_a.predict(values_to_predict)
+    values_b = time_series_b.predict(values_to_predict)
+
     if metric == "proximity":
-        res = calculate_proximity(time_series_a, time_series_b)
+        res = calculate_proximity(values_a, values_b)
     elif metric == "pearson":
-        res = calculate_convergence(time_series_a, time_series_b)
+        res = calculate_convergence(values_a, values_b)
     else:
         raise ValueError("Not a valid metric")
     return res
@@ -346,56 +125,43 @@ def main() -> None:
     print(f"Amount of IPUs of speaker B: {len(ipus_b)}")
     print_audio_description("B", wav_b_fname)
 
-    ipus_a_middle_points_in_time = get_interpausal_units_middle_points_in_time(ipus_a)
-    ipus_a_feature_values = get_interpausal_units_feature_values(
-        args.feature, ipus_a, wav_a_fname, args.extractor, args.pitch_gender_a
-    )
-    ipus_a_feature_values = remove_outliers_from_ipus_feature_values(
-        ipus_a_feature_values
-    )
+    for ipu in ipus_a:
+        ipu.calculate_features(
+            audio_file=wav_a_fname,
+            pitch_gender=args.pitch_gender_a,
+            extractor=args.extractor,
+        )
 
-    ipus_b_middle_points_in_time = get_interpausal_units_middle_points_in_time(ipus_b)
-    ipus_b_feature_values = get_interpausal_units_feature_values(
-        args.feature, ipus_b, wav_b_fname, args.extractor, args.pitch_gender_b
-    )
-    ipus_b_feature_values = remove_outliers_from_ipus_feature_values(
-        ipus_b_feature_values
-    )
+    for ipu in ipus_b:
+        ipu.calculate_features(
+            audio_file=wav_b_fname,
+            pitch_gender=args.pitch_gender_b,
+            extractor=args.extractor,
+        )
 
-    common_start, common_end = calculate_common_support(
-        ipus_a, ipus_a_feature_values, ipus_b, ipus_b_feature_values
-    )
-    print(f"Common support: {(common_start, common_end)}")
-
-    ipus_a_feature_values, ipus_a_middle_points_in_time = crop_common_support(
-        common_start,
-        common_end,
-        ipus_a,
-        ipus_a_feature_values,
-        ipus_a_middle_points_in_time,
-    )
-
-    ipus_b_feature_values, ipus_b_middle_points_in_time = crop_common_support(
-        common_start,
-        common_end,
-        ipus_b,
-        ipus_b_feature_values,
-        ipus_b_middle_points_in_time,
-    )
-
-    time_series_a: List[float] = calculate_knn_time_series(
-        k, ipus_a_feature_values, ipus_a_middle_points_in_time
+    time_series_a: List[float] = TimeSeries(
+        interpausal_units=ipus_a,
+        feature=args.feature,
+        method='knn',
+        k=k,
     )
     print("----------------------------------------")
     print(f"Time series of A: {time_series_a}")
 
-    time_series_b: List[float] = calculate_knn_time_series(
-        k, ipus_b_feature_values, ipus_b_middle_points_in_time
+    time_series_b: List[float] = TimeSeries(
+        interpausal_units=ipus_b,
+        feature=args.feature,
+        method='knn',
+        k=k,
     )
     print(f"Time series of B: {time_series_b}")
     print("----------------------------------------")
 
-    metric_result: float = calculate_metric(args.metric, time_series_a, time_series_b)
+    common_start, common_end = calculate_common_support(time_series_a, time_series_b)
+    print(f"Common support: {(common_start, common_end)}")
+    metric_result: float = calculate_metric(
+        args.metric, time_series_a, time_series_b, common_start, common_end
+    )
     print(f"{args.metric}: {metric_result}")
 
 
