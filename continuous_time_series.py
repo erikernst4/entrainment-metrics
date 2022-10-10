@@ -54,11 +54,13 @@ class TimeSeries:
             # Here is some space to build your own model!
             raise ValueError("Model to be implemented")
 
-    def predict(
+    def _get_middle_points_in_time(
         self,
-        X: np.ndarray,
     ) -> np.ndarray:
-        return self.model.predict(X)
+        """
+        Returns a list with the middle point in time of each IPU.
+        """
+        return np.array([(ipu.start + ipu.end) / 2 for ipu in self.ipus])
 
     def _get_interpausal_units_feature_values(
         self,
@@ -89,12 +91,36 @@ class TimeSeries:
         not_outlier: np.ndarray = (
             distance_from_mean < MAX_DEVIATIONS * standard_deviation
         )
+        # Update IPUs to not outlier ipus
+        self.ipus = np.array(self.ipus)[not_outlier].tolist()
+
         return ipus_feature_values[not_outlier]
 
-    def _get_middle_points_in_time(
+    def start(
         self,
+    ) -> float:
+        return self.ipus[0].start
+
+    def end(
+        self,
+    ) -> float:
+        return self.ipus[-1].end
+
+    def predict(
+        self,
+        X: np.ndarray,
     ) -> np.ndarray:
-        """
-        Returns a list with the middle point in time of each IPU.
-        """
-        return np.array([(ipu.start + ipu.end) / 2 for ipu in self.ipus])
+        for x in X:
+            if x > self.end():
+                raise ValueError(
+                    f"""Out of bounds {x}: A value in X is greater than TimeSeries end.
+                    Remember the end of a TimeSeries is the end of the last non-outlier IPU.
+                """
+                )
+            if x < self.start():
+                raise ValueError(
+                    f"""Out of bounds {x}: A value in X is smaller than TimeSeries start.
+                    Remember the start of a TimeSeries is the start of the first non-outlier IPU.
+                """
+                )
+        return self.model.predict(X)
