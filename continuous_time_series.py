@@ -42,25 +42,19 @@ class TimeSeries:
 
             self.model = KNeighborsRegressor(n_neighbors=k, **kwargs)
 
-            X = self._get_middle_points_in_time()
-            X = X.reshape(-1, 1)
             y = self._get_interpausal_units_feature_values(feature)
 
             # Remove outliers from feature values
             y = self._remove_outliers_from_ipus_feature_values(y, MAX_DEVIATIONS)
 
+            # Define X without outliers IPUs
+            X = self._get_middle_points_in_time()
+            X = X.reshape(-1, 1)
+
             self.model.fit(X, y)
         else:
             # Here is some space to build your own model!
             raise ValueError("Model to be implemented")
-
-    def _get_middle_points_in_time(
-        self,
-    ) -> np.ndarray:
-        """
-        Returns a list with the middle point in time of each IPU.
-        """
-        return np.array([(ipu.start + ipu.end) / 2 for ipu in self.ipus])
 
     def _get_interpausal_units_feature_values(
         self,
@@ -95,6 +89,14 @@ class TimeSeries:
         self.ipus = np.array(self.ipus)[not_outlier].tolist()
 
         return ipus_feature_values[not_outlier]
+
+    def _get_middle_points_in_time(
+        self,
+    ) -> np.ndarray:
+        """
+        Returns a list with the middle point in time of each IPU.
+        """
+        return np.array([(ipu.start + ipu.end) / 2 for ipu in self.ipus])
 
     def start(
         self,
