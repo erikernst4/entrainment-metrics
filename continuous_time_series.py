@@ -18,10 +18,19 @@ class TimeSeries:
     Attributes
     ----------
     feature: str
+        The feature to get the value from each InterPausalUnit
 
     interpausal_units: List[InterPausalUnit]
+        An ordered list of InterPausalUnit's
 
-    k: int
+    method: str
+        The method to be used to predict
+
+    k: Optional[int]
+        The amount of neighbors to use in KNeighborsRegressor
+
+    MAX_DEVIATIONS: int
+        The amount of deviation to define an outlier
 
     """
 
@@ -73,10 +82,10 @@ class TimeSeries:
         MAX_DEVIATIONS: Optional[int] = None,
     ) -> None:
         """
-        Remove outliers from the ipus feature values
+        Removes IPUs with an outlier feature value and their values in ipus_feature_values
 
-
-        Outliers are values with a distance from the mean greater than MAX_DEVIATIONS times the standard deviation
+        Outliers are values with a distance from the mean greater than MAX_DEVIATIONS times the standard deviation.
+        WARNING: self.ipus and self.ipus_feature_values may be modified
         """
         if MAX_DEVIATIONS is None:
             MAX_DEVIATIONS = 3
