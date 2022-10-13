@@ -47,12 +47,6 @@ arg_parser.add_argument(
     type=str,
     help="Entrainment metric from a/p evolution functions to calculate",
 )
-arg_parser.add_argument(
-    "-sdelta",
-    "--synchrony-delta",
-    type=str,
-    help="Extractor to use for calculating IPUs features",
-)
 
 
 def calculate_common_support(
@@ -71,7 +65,7 @@ def calculate_proximity(
     end: float,
     granularity: float,
 ) -> float:
-    values_to_predict_in_s = np.arange(start, end, granularity)
+    values_to_predict_in_s = np.arange(start, end + granularity, granularity)
     values_to_predict = values_to_predict_in_s.reshape(-1, 1)
 
     time_series_values_a = time_series_a.predict(values_to_predict)
@@ -89,9 +83,9 @@ def calculate_convergence(
     start: float,
     end: float,
     granularity: float,
-) -> np.ndarray:
+) -> float:
 
-    values_to_predict_in_s = np.arange(start, end, granularity)
+    values_to_predict_in_s = np.arange(start, end + granularity, granularity)
     values_to_predict = values_to_predict_in_s.reshape(-1, 1)
 
     time_series_values_a = time_series_a.predict(values_to_predict)
@@ -107,21 +101,29 @@ def calculate_synchrony(
     start: float,
     end: float,
     granularity: float,
-    synchrony_delta: Optional[float],
-) -> np.ndarray:
-    if synchrony_delta is None:
-        synchrony_delta = 5.0
+) -> float:
+    # Initialized at min float
+    res: float = np.finfo(np.float64).min  # type: ignore
+    for synchrony_delta in [-15, -10, -5, 0, 5, 10, 15]:
+        values_to_predict_a_in_s = np.arange(
+            start + synchrony_delta, end + granularity, granularity
+        )
+        values_to_predict_b_in_s = np.arange(
+            start, end - synchrony_delta + granularity, granularity
+        )
+        values_to_predict_a, values_to_predict_b = values_to_predict_a_in_s.reshape(
+            -1, 1
+        ), values_to_predict_b_in_s.reshape(-1, 1)
 
-    values_to_predict_a_in_s = np.arange(start + synchrony_delta, end, granularity)
-    values_to_predict_b_in_s = np.arange(start, end - synchrony_delta, granularity)
-    values_to_predict_a, values_to_predict_b = values_to_predict_a_in_s.reshape(
-        -1, 1
-    ), values_to_predict_b_in_s.reshape(-1, 1)
+        time_series_values_a = time_series_a.predict(values_to_predict_a)
+        time_series_values_b = time_series_b.predict(values_to_predict_b)
 
-    time_series_values_a = time_series_a.predict(values_to_predict_a)
-    time_series_values_b = time_series_b.predict(values_to_predict_b)
+        actual_res = np.corrcoef(time_series_values_a, time_series_values_b)[0, 1]
 
-    return np.corrcoef(time_series_values_a, time_series_values_b)[0, 1]
+        if actual_res > res:
+            res = actual_res
+
+    return res
 
 
 def calculate_metric(
@@ -130,9 +132,8 @@ def calculate_metric(
     time_series_b: TimeSeries,
     start: float,
     end: float,
-    synchrony_delta: Optional[float] = None,
     granularity: Optional[float] = None,
-) -> Any:
+) -> float:
     """
     Calculate entrainment metrics given a times series from each speaker
 
@@ -150,9 +151,7 @@ def calculate_metric(
             time_series_a, time_series_b, start, end, granularity
         )
     elif metric == "synchrony":
-        res = calculate_synchrony(
-            time_series_a, time_series_b, start, end, granularity, synchrony_delta
-        )
+        res = calculate_synchrony(time_series_a, time_series_b, start, end, granularity)
     else:
         raise ValueError("Not a valid metric")
     return res
@@ -208,16 +207,12 @@ def main() -> None:
 
     common_start, common_end = calculate_common_support(time_series_a, time_series_b)
     print(f"Common support: {(common_start, common_end)}")
-    synchrony_delta = None
-    if args.synchrony_delta:
-        synchrony_delta = float(args.synchrony_delta)
     metric_result: Any = calculate_metric(
         args.metric,
         time_series_a,
         time_series_b,
         common_start,
         common_end,
-        synchrony_delta,
     )
     print(f"{args.metric}: {metric_result}")
 
