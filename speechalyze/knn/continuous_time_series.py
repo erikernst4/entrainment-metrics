@@ -5,7 +5,7 @@ from typing import List, Optional
 import numpy as np
 from sklearn.neighbors import KNeighborsRegressor
 
-from interpausal_unit import InterPausalUnit
+from speechalyze import InterPausalUnit
 
 
 class TimeSeries:

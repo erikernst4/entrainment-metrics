@@ -4,8 +4,8 @@ import numpy as np
 from scipy.io import wavfile
 from sklearn.neighbors import KNeighborsRegressor
 
-from continuous_time_series import TimeSeries
-from interpausal_unit import InterPausalUnit
+from speechalyze import InterPausalUnit
+from speechalyze.knn import TimeSeries
 
 
 class KNNTestCase(TestCase):

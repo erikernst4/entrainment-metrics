@@ -2,7 +2,7 @@ from typing import Optional, Tuple
 
 import numpy as np
 
-from continuous_time_series import TimeSeries
+from speechalyze.knn import TimeSeries
 
 
 def calculate_common_support(

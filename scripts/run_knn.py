@@ -2,10 +2,10 @@ import argparse
 from pathlib import Path
 from typing import List
 
-from continuous_time_series import TimeSeries
-from interpausal_unit import InterPausalUnit
-from knn import calculate_common_support, calculate_metric
-from utils import get_interpausal_units, print_audio_description
+from speechalyze import InterPausalUnit
+from speechalyze.knn import (TimeSeries, calculate_common_support,
+                             calculate_metric)
+from speechalyze.utils import get_interpausal_units, print_audio_description
 
 arg_parser = argparse.ArgumentParser(
     description="Return a times series for a speaker for a task"
