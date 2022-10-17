@@ -88,3 +88,15 @@ class KNNTestCase(TestCase):
             model.predict(values_to_predict),
             time_series.predict(values_to_predict),
         )
+
+    def test_calculate_knn_time_series_warnings_longx2(self):
+        case = self.cases['long_100-200-300_x2']
+        time_series = TimeSeries(
+            feature='F0_MAX', interpausal_units=case['ipus'], method='knn', k=4
+        )
+        values_before_start_to_predict = np.array([-1.0]).reshape(-1, 1)
+        values_after_end_to_predict = np.array([53.0]).reshape(-1, 1)
+
+        self.assertWarns(Warning, time_series.predict, values_before_start_to_predict)
+
+        self.assertWarns(Warning, time_series.predict, values_after_end_to_predict)
