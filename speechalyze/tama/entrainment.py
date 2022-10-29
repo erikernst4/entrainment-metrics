@@ -3,7 +3,7 @@ from typing import List, Optional, Union
 
 import numpy as np
 
-from speechalyze.tama import Frame, MissingFrame
+from .frame import Frame, MissingFrame
 
 
 def calculate_time_series(

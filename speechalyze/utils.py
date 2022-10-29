@@ -1,8 +1,9 @@
 from pathlib import Path
 from typing import List
 
-from interpausal_unit import InterPausalUnit
 from scipy.io import wavfile
+
+from .interpausal_unit import InterPausalUnit
 
 
 def get_interpausal_units(words_fname: Path) -> List[InterPausalUnit]:
