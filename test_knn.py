@@ -6,6 +6,7 @@ from sklearn.neighbors import KNeighborsRegressor
 
 from continuous_time_series import TimeSeries
 from interpausal_unit import InterPausalUnit
+from knn import calculate_metric
 
 
 class KNNTestCase(TestCase):
@@ -100,3 +101,28 @@ class KNNTestCase(TestCase):
         self.assertWarns(Warning, time_series.predict, values_before_start_to_predict)
 
         self.assertWarns(Warning, time_series.predict, values_after_end_to_predict)
+
+    def test_calculate_proximity_with_itself(self):
+        case = self.cases['long_100-200-300_x2']
+
+        time_series_a = TimeSeries(
+            feature='F0_MAX', interpausal_units=case['ipus'], method='knn', k=4
+        )
+        time_series_b = TimeSeries(
+            feature='F0_MAX', interpausal_units=case['ipus'], method='knn', k=4
+        )
+
+        self.assertEqual(
+            calculate_metric("proximity", time_series_a, time_series_b, 0.0, 52.0), 0.0
+        )
+
+    def test_calculate_convergence_with_itself(self):
+        case = self.cases['long_100-200-300_x2']
+
+        time_series_a = TimeSeries(
+            feature='F0_MAX', interpausal_units=case['ipus'], method='knn', k=4
+        )
+        self.assertEqual(
+            calculate_metric("convergence", time_series_a, time_series_a, 0.0, 52.0),
+            0.0,
+        )
