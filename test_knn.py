@@ -13,8 +13,6 @@ class KNNTestCase(TestCase):
     def setUp(self):
         self.cases = {
             'long_100-200-300_x2': {
-                'words_fname': "./data/100-200-300_long_x2.words",
-                'audio_fname': "./data/100-200-300_long_x2.wav",
                 'audio': wavfile.read("./data/100-200-300_long_x2.wav"),
                 'ipus': [
                     InterPausalUnit(0.0, 4.0, {'F0_MAX': 100.003}),
@@ -33,38 +31,16 @@ class KNNTestCase(TestCase):
                     200.002,
                     300.002,
                 ],
-                'time_series': {
-                    1: {
-                        'F0_MAX': [
-                            100.003,
-                            200.002,
-                            300.002,
-                            100.003,
-                            200.002,
-                            300.002,
-                        ],
-                    },
-                    2: {
-                        'F0_MAX': [
-                            150.0025,
-                            150.0025,
-                            200.0025,
-                            150.0025,
-                            150.0025,
-                            250.002,
-                        ],
-                    },
-                    3: {
-                        'F0_MAX': [
-                            200.002333333,
-                            200.002333333,
-                            200.002333333,
-                            200.002333333,
-                            200.002333333,
-                            200.002333333,
-                        ],
-                    },
-                },
+            },
+            'long_300-200-100_x2': {
+                'ipus': [
+                    InterPausalUnit(0.0, 8.0, {'F0_MAX': 300.002}),
+                    InterPausalUnit(12.0, 16.0, {'F0_MAX': 200.002}),
+                    InterPausalUnit(20.0, 24.0, {'F0_MAX': 100.003}),
+                    InterPausalUnit(28.0, 36.0, {'F0_MAX': 300.002}),
+                    InterPausalUnit(40.0, 44.0, {'F0_MAX': 200.002}),
+                    InterPausalUnit(48.0, 52.0, {'F0_MAX': 100.003}),
+                ],
             },
         }
 
@@ -136,4 +112,52 @@ class KNNTestCase(TestCase):
 
         self.assertEqual(
             calculate_metric("synchrony", time_series_a, time_series_a, 0.0, 52.0), 1.0
+        )
+
+    def test_calculate_proximity_oposites(self):
+        case_a = self.cases['long_100-200-300_x2']
+        case_b = self.cases['long_300-200-100_x2']
+
+        time_series_a = TimeSeries(
+            feature='F0_MAX', interpausal_units=case_a['ipus'], method='knn', k=4
+        )
+        time_series_b = TimeSeries(
+            feature='F0_MAX', interpausal_units=case_b['ipus'], method='knn', k=4
+        )
+
+        np.testing.assert_almost_equal(
+            calculate_metric("proximity", time_series_a, time_series_b, 0.0, 52.0),
+            -0.0096134877908014,
+        )
+
+    def test_calculate_convergence_oposites(self):
+        case_a = self.cases['long_100-200-300_x2']
+        case_b = self.cases['long_300-200-100_x2']
+
+        time_series_a = TimeSeries(
+            feature='F0_MAX', interpausal_units=case_a['ipus'], method='knn', k=4
+        )
+        time_series_b = TimeSeries(
+            feature='F0_MAX', interpausal_units=case_b['ipus'], method='knn', k=4
+        )
+
+        np.testing.assert_almost_equal(
+            calculate_metric("convergence", time_series_a, time_series_b, 0.0, 52.0),
+            0.0001704841413878858,
+        )
+
+    def test_calculate_synchrony_oposites(self):
+        case_a = self.cases['long_100-200-300_x2']
+        case_b = self.cases['long_300-200-100_x2']
+
+        time_series_a = TimeSeries(
+            feature='F0_MAX', interpausal_units=case_a['ipus'], method='knn', k=4
+        )
+        time_series_b = TimeSeries(
+            feature='F0_MAX', interpausal_units=case_b['ipus'], method='knn', k=4
+        )
+
+        np.testing.assert_almost_equal(
+            calculate_metric("synchrony", time_series_a, time_series_b, 0.0, 52.0),
+            -0.5070945562603957,
         )
