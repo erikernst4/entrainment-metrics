@@ -3,7 +3,7 @@ from typing import List, Optional, Union
 
 import numpy as np
 
-from frame import Frame, MissingFrame
+from .frame import Frame, MissingFrame
 
 
 def calculate_time_series(
@@ -25,7 +25,7 @@ def calculate_time_series(
     return time_series
 
 
-def _sqrt_product_of_the_values_sum_square_distances(
+def sqrt_product_of_the_values_sum_square_distances(
     a_values_distances_to_mean: List[float], b_values_distances_to_mean: List[float]
 ) -> float:
     """
@@ -45,7 +45,7 @@ def _sqrt_product_of_the_values_sum_square_distances(
     return sqrt_product
 
 
-def _lags_sum_lagged_distances_products(
+def lags_sum_lagged_distances_products(
     a_values_distances_to_mean: List[float],
     b_values_distances_to_mean: List[float],
     lags: int,
@@ -55,7 +55,7 @@ def _lags_sum_lagged_distances_products(
     """
     amount_of_tama_frames = len(a_values_distances_to_mean)
 
-    lags_sum_lagged_distances_products = []
+    res: List[float] = []
     for lag in range(lags + 1):
         lagged_distances_products = []
         for i in range(lag, amount_of_tama_frames):
@@ -68,9 +68,9 @@ def _lags_sum_lagged_distances_products(
         # Ignore lagged_distances_products if there are less than four non-missing terms
         if np.count_nonzero(~np.isnan(lagged_distances_products)) >= 4:
             sum_lagged_distances_products = np.nansum(lagged_distances_products)
-        lags_sum_lagged_distances_products.append(sum_lagged_distances_products)
+        res.append(sum_lagged_distances_products)
 
-    return lags_sum_lagged_distances_products
+    return res
 
 
 def calculate_sample_correlation(
@@ -109,20 +109,13 @@ def calculate_sample_correlation(
     )
     print(f"B's distances to its mean: {b_values_distances_to_mean}")
 
-    sqrt_product_of_the_values_sum_square_distances: float = (
-        _sqrt_product_of_the_values_sum_square_distances(
-            a_values_distances_to_mean, b_values_distances_to_mean
-        )
+    denominator: float = sqrt_product_of_the_values_sum_square_distances(
+        a_values_distances_to_mean, b_values_distances_to_mean
     )
-    print(f"Denominator {sqrt_product_of_the_values_sum_square_distances}")
-    lags_sum_lagged_distances_products: List[
-        float
-    ] = _lags_sum_lagged_distances_products(
+    print(f"Denominator {denominator}")
+    numerators: List[float] = lags_sum_lagged_distances_products(
         a_values_distances_to_mean, b_values_distances_to_mean, lags
     )
 
-    print(f"Numerators: {lags_sum_lagged_distances_products}")
-    return (
-        np.array(lags_sum_lagged_distances_products)
-        / sqrt_product_of_the_values_sum_square_distances
-    )
+    print(f"Numerators: {numerators}")
+    return np.array(numerators) / denominator

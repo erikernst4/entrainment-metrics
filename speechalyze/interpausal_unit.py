@@ -103,7 +103,7 @@ class InterPausalUnit:
             result = subprocess.run(
                 [
                     'praat',
-                    './praat_scripts/extractStandardAcoustics.praat',
+                    './scripts/extractStandardAcoustics.praat',
                     audio_file_absolute,
                     str(self.start),
                     str(self.end),

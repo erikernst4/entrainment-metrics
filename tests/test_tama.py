@@ -4,11 +4,11 @@ from unittest import TestCase
 import numpy as np
 from scipy.io import wavfile
 
-from entrainment import calculate_sample_correlation, calculate_time_series
-from frame import Frame, MissingFrame
-from interpausal_unit import InterPausalUnit
-from tama import get_frames
-from utils import get_interpausal_units
+from speechalyze import InterPausalUnit
+from speechalyze.tama import (Frame, MissingFrame,
+                              calculate_sample_correlation,
+                              calculate_time_series, get_frames)
+from speechalyze.utils import get_interpausal_units
 
 
 class TAMATestCase(TestCase):
