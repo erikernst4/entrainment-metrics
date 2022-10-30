@@ -122,7 +122,10 @@ class KNNTestCase(TestCase):
         time_series_a = TimeSeries(
             feature='F0_MAX', interpausal_units=case['ipus'], method='knn', k=4
         )
-        self.assertEqual(
-            calculate_metric("convergence", time_series_a, time_series_a, 0.0, 52.0),
-            0.0,
+        self.assertTrue(
+            np.isnan(
+                calculate_metric(
+                    "convergence", time_series_a, time_series_a, 0.0, 52.0
+                ),
+            )
         )
