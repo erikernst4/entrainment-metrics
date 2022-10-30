@@ -5,7 +5,7 @@ from scipy.io import wavfile
 from sklearn.neighbors import KNeighborsRegressor
 
 from speechalyze import InterPausalUnit
-from speechalyze.knn import TimeSeries
+from speechalyze.knn import TimeSeries, calculate_metric
 
 
 class KNNTestCase(TestCase):
