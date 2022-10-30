@@ -108,12 +108,9 @@ class KNNTestCase(TestCase):
         time_series_a = TimeSeries(
             feature='F0_MAX', interpausal_units=case['ipus'], method='knn', k=4
         )
-        time_series_b = TimeSeries(
-            feature='F0_MAX', interpausal_units=case['ipus'], method='knn', k=4
-        )
 
         self.assertEqual(
-            calculate_metric("proximity", time_series_a, time_series_b, 0.0, 52.0), 0.0
+            calculate_metric("proximity", time_series_a, time_series_a, 0.0, 52.0), 0.0
         )
 
     def test_calculate_convergence_with_itself(self):
@@ -128,4 +125,15 @@ class KNNTestCase(TestCase):
                     "convergence", time_series_a, time_series_a, 0.0, 52.0
                 ),
             )
+        )
+
+    def test_calculate_synchrony_with_itself(self):
+        case = self.cases['long_100-200-300_x2']
+
+        time_series_a = TimeSeries(
+            feature='F0_MAX', interpausal_units=case['ipus'], method='knn', k=4
+        )
+
+        self.assertEqual(
+            calculate_metric("synchrony", time_series_a, time_series_a, 0.0, 52.0), 1.0
         )
