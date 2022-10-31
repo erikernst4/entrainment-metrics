@@ -119,3 +119,23 @@ def calculate_sample_correlation(
 
     print(f"Numerators: {numerators}")
     return np.array(numerators) / denominator
+
+
+def unsigned_synchony(
+    time_series_a: List[float],
+    time_series_b: List[float],
+    lags: int,
+) -> float:
+    return abs(signed_synchrony(time_series_a, time_series_b, lags))
+
+
+def signed_synchrony(
+    time_series_a: List[float],
+    time_series_b: List[float],
+    lags: int,
+) -> float:
+    sample_cross_correlations: List[float] = calculate_sample_correlation(
+        time_series_a, time_series_b, lags
+    )
+    max_index = np.nanargmax(np.abs(sample_cross_correlations))
+    return sample_cross_correlations[max_index]

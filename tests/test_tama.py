@@ -4,10 +4,7 @@ from unittest import TestCase
 import numpy as np
 from scipy.io import wavfile
 
-from speechalyze import InterPausalUnit
-from speechalyze.tama import (Frame, MissingFrame,
-                              calculate_sample_correlation,
-                              calculate_time_series, get_frames)
+from speechalyze import InterPausalUnit, tama
 from speechalyze.utils import get_interpausal_units
 
 
@@ -27,7 +24,7 @@ class TAMATestCase(TestCase):
                 'audio_fname': "./data/silence.wav",
                 'audio': wavfile.read("./data/silence.wav"),
                 'expected_ipus': [],
-                'expected_frames': [MissingFrame(0.0, 0.4)],
+                'expected_frames': [tama.MissingFrame(0.0, 0.4)],
                 'F0_MAX_time_series': [np.nan],
             },
             'small': {
@@ -40,7 +37,7 @@ class TAMATestCase(TestCase):
                     InterPausalUnit(2.0, 2.4),
                 ],
                 'expected_frames': [
-                    Frame(
+                    tama.Frame(
                         0.0,
                         2.4,
                         False,
@@ -63,7 +60,7 @@ class TAMATestCase(TestCase):
                     InterPausalUnit(16.0, 24.0),
                 ],
                 'expected_frames': [
-                    Frame(
+                    tama.Frame(
                         0.0,
                         16.0,
                         False,
@@ -72,7 +69,7 @@ class TAMATestCase(TestCase):
                             InterPausalUnit(8.0, 12.0, {'F0_MAX': 200.002}),
                         ],
                     ),
-                    Frame(
+                    tama.Frame(
                         8.0,
                         24.0,
                         False,
@@ -81,7 +78,7 @@ class TAMATestCase(TestCase):
                             InterPausalUnit(16.0, 24.0, {'F0_MAX': 300.002}),
                         ],
                     ),
-                    Frame(
+                    tama.Frame(
                         16.0,
                         24.0,
                         False,
@@ -105,7 +102,7 @@ class TAMATestCase(TestCase):
                     InterPausalUnit(44.0, 52.0),
                 ],
                 'expected_frames': [
-                    Frame(
+                    tama.Frame(
                         0.0,
                         16.0,
                         False,
@@ -114,7 +111,7 @@ class TAMATestCase(TestCase):
                             InterPausalUnit(8.0, 12.0, {'F0_MAX': 200.002}),
                         ],
                     ),
-                    Frame(
+                    tama.Frame(
                         8.0,
                         24.0,
                         False,
@@ -123,7 +120,7 @@ class TAMATestCase(TestCase):
                             InterPausalUnit(16.0, 24.0, {'F0_MAX': 300.002}),
                         ],
                     ),
-                    Frame(
+                    tama.Frame(
                         16.0,
                         32.0,
                         False,
@@ -132,7 +129,7 @@ class TAMATestCase(TestCase):
                             InterPausalUnit(28.0, 32.0, {'F0_MAX': 100.003}),
                         ],
                     ),
-                    Frame(
+                    tama.Frame(
                         24.0,
                         40.0,
                         False,
@@ -141,7 +138,7 @@ class TAMATestCase(TestCase):
                             InterPausalUnit(36.0, 40.0, {'F0_MAX': 200.002}),
                         ],
                     ),
-                    Frame(
+                    tama.Frame(
                         32.0,
                         48.0,
                         False,
@@ -150,7 +147,7 @@ class TAMATestCase(TestCase):
                             InterPausalUnit(44.0, 52.0, {'F0_MAX': 300.002}),
                         ],
                     ),
-                    Frame(
+                    tama.Frame(
                         40.0,
                         52.0,
                         False,
@@ -158,7 +155,7 @@ class TAMATestCase(TestCase):
                             InterPausalUnit(44.0, 52.0, {'F0_MAX': 300.002}),
                         ],
                     ),
-                    Frame(
+                    tama.Frame(
                         48.0,
                         52.0,
                         False,
@@ -187,7 +184,7 @@ class TAMATestCase(TestCase):
                     InterPausalUnit(1.485208, 2.129437),
                 ],
                 'expected_frames': [
-                    Frame(
+                    tama.Frame(
                         0.0,
                         2.1294375,
                         False,
@@ -243,49 +240,61 @@ class TAMATestCase(TestCase):
         case = self.cases['empty']
         self.assertEqual(
             case['expected_frames'],
-            get_frames(wav_fname=case['audio_fname'], words_fname=case['words_fname']),
+            tama.get_frames(
+                wav_fname=case['audio_fname'], words_fname=case['words_fname']
+            ),
         )
 
     def test_frame_separation_silence(self):
         case = self.cases['silence']
         self.assertEqual(
             case['expected_frames'],
-            get_frames(wav_fname=case['audio_fname'], words_fname=case['words_fname']),
+            tama.get_frames(
+                wav_fname=case['audio_fname'], words_fname=case['words_fname']
+            ),
         )
 
     def test_frame_separation_small(self):
         case = self.cases['small']
         self.assertEqual(
             case['expected_frames'],
-            get_frames(wav_fname=case['audio_fname'], words_fname=case['words_fname']),
+            tama.get_frames(
+                wav_fname=case['audio_fname'], words_fname=case['words_fname']
+            ),
         )
 
     def test_frame_separation_long(self):
         case = self.cases['long_100-200-300']
         self.assertEqual(
             case['expected_frames'],
-            get_frames(wav_fname=case['audio_fname'], words_fname=case['words_fname']),
+            tama.get_frames(
+                wav_fname=case['audio_fname'], words_fname=case['words_fname']
+            ),
         )
 
     def test_frame_separation_long_x2(self):
         case = self.cases['long_100-200-300_x2']
         self.assertEqual(
             case['expected_frames'],
-            get_frames(wav_fname=case['audio_fname'], words_fname=case['words_fname']),
+            tama.get_frames(
+                wav_fname=case['audio_fname'], words_fname=case['words_fname']
+            ),
         )
 
     def test_frame_separation_spoken(self):
         case = self.cases['spoken']
         self.assertEqual(
             case['expected_frames'],
-            get_frames(wav_fname=case['audio_fname'], words_fname=case['words_fname']),
+            tama.get_frames(
+                wav_fname=case['audio_fname'], words_fname=case['words_fname']
+            ),
         )
 
     def test_calculate_time_series_empty(self):
         case = self.cases['empty']
         self.assertEqual(
             case['F0_MAX_time_series'],
-            calculate_time_series(
+            tama.calculate_time_series(
                 feature="F0_MAX",
                 frames=case['expected_frames'],
                 audio_file=case['audio_fname'],
@@ -297,7 +306,7 @@ class TAMATestCase(TestCase):
         case = self.cases['silence']
         self.assertEqual(
             case['F0_MAX_time_series'],
-            calculate_time_series(
+            tama.calculate_time_series(
                 feature="F0_MAX",
                 frames=case['expected_frames'],
                 audio_file=case['audio_fname'],
@@ -309,7 +318,7 @@ class TAMATestCase(TestCase):
         case = self.cases['small']
         np.testing.assert_almost_equal(
             case['F0_MAX_time_series'],
-            calculate_time_series(
+            tama.calculate_time_series(
                 feature="F0_MAX",
                 frames=case['expected_frames'],
                 audio_file=case['audio_fname'],
@@ -321,7 +330,7 @@ class TAMATestCase(TestCase):
         case = self.cases['long_100-200-300']
         np.testing.assert_almost_equal(
             case['F0_MAX_time_series'],
-            calculate_time_series(
+            tama.calculate_time_series(
                 feature="F0_MAX",
                 frames=case['expected_frames'],
                 audio_file=case['audio_fname'],
@@ -333,7 +342,7 @@ class TAMATestCase(TestCase):
         case = self.cases['long_100-200-300_x2']
         np.testing.assert_almost_equal(
             case['F0_MAX_time_series'],
-            calculate_time_series(
+            tama.calculate_time_series(
                 feature="F0_MAX",
                 frames=case['expected_frames'],
                 audio_file=case['audio_fname'],
@@ -345,7 +354,7 @@ class TAMATestCase(TestCase):
         case = self.cases['spoken']
         np.testing.assert_almost_equal(
             case['F0final_sma_de_maxPos_time_series'],
-            calculate_time_series(
+            tama.calculate_time_series(
                 feature="F0final_sma_de_maxPos",
                 frames=case['expected_frames'],
                 audio_file=case['audio_fname'],
@@ -357,7 +366,7 @@ class TAMATestCase(TestCase):
         case = self.cases['spoken']
         np.testing.assert_almost_equal(
             case['F0_MAX_time_series'],
-            calculate_time_series(
+            tama.calculate_time_series(
                 feature="F0_MAX",
                 frames=case['expected_frames'],
                 audio_file=case['audio_fname'],
@@ -369,7 +378,7 @@ class TAMATestCase(TestCase):
         case = self.cases['empty']
         self.assertRaises(
             ValueError,
-            calculate_sample_correlation,
+            tama.calculate_sample_correlation,
             case['F0_MAX_time_series'],
             [1.0, 2.0, 3.0],  # A random non-empty list
             0,
@@ -381,7 +390,7 @@ class TAMATestCase(TestCase):
             warnings.simplefilter("ignore", category=RuntimeWarning)
             np.testing.assert_array_equal(
                 np.array([np.nan]),
-                calculate_sample_correlation(
+                tama.calculate_sample_correlation(
                     case['F0_MAX_time_series'],
                     [1.0],  # A random non-empty list
                     0,
@@ -394,7 +403,7 @@ class TAMATestCase(TestCase):
             warnings.simplefilter("ignore", category=RuntimeWarning)
             np.testing.assert_array_equal(
                 np.array([np.nan, np.nan, np.nan, np.nan, np.nan]),
-                calculate_sample_correlation(
+                tama.calculate_sample_correlation(
                     case['F0_MAX_time_series'],
                     [1.0],  # A random non-empty list
                     4,
@@ -409,7 +418,7 @@ class TAMATestCase(TestCase):
         case = self.cases['long_100-200-300']
         self.assertRaises(
             ValueError,
-            calculate_sample_correlation,
+            tama.calculate_sample_correlation,
             case['F0_MAX_time_series'],
             [1.0],  # A random non-empty list
             0,
@@ -425,7 +434,7 @@ class TAMATestCase(TestCase):
             3,
             np.count_nonzero(
                 np.isnan(
-                    calculate_sample_correlation(
+                    tama.calculate_sample_correlation(
                         case['F0_MAX_time_series'],
                         case['F0_MAX_time_series'],
                         2,
@@ -438,9 +447,20 @@ class TAMATestCase(TestCase):
         case = self.cases['long_100-200-300_x2']
         np.testing.assert_almost_equal(
             [1.0, 0.034231247, -0.238247676, 0.113874971, np.nan],
-            calculate_sample_correlation(
+            tama.calculate_sample_correlation(
                 case['F0_MAX_time_series'],
                 case['F0_MAX_time_series'],
                 4,
             ),
+        )
+
+    def test_calculate_signed_synchrony(self):
+        case = self.cases['long_100-200-300_x2']
+        np.testing.assert_almost_equal(
+            tama.signed_synchrony(
+                case['F0_MAX_time_series'],
+                case['F0_MAX_time_series'],
+                4,
+            ),
+            1.0,
         )
