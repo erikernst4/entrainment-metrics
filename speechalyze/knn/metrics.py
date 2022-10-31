@@ -103,8 +103,8 @@ def calculate_metric(
     metric: str,
     time_series_a: TimeSeries,
     time_series_b: TimeSeries,
-    start: float,
-    end: float,
+    start: Optional[float] = None,
+    end: Optional[float] = None,
     granularity: Optional[float] = None,
 ) -> float:
     """
@@ -114,6 +114,15 @@ def calculate_metric(
     """
     if granularity is None:
         granularity = 0.01
+
+    if start is None or end is None:
+        common_start, common_end = calculate_common_support(
+            time_series_a, time_series_b
+        )
+        if start is None:
+            start = common_start
+        if end is None:
+            end = common_end
 
     res = None
     metric = metric.lower()
