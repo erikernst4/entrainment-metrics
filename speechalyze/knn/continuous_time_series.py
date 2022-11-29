@@ -121,8 +121,11 @@ class TimeSeries:
 
     def predict(
         self,
-        X: np.ndarray,
+        X,
     ) -> np.ndarray:
+        # Convert float to expected predict type
+        if isinstance(X, float):
+            X = np.array([X]).reshape(-1, 1)
         for x in X:
             if x > self.end():
                 warnings.warn(
