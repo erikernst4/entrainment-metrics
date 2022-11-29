@@ -3,8 +3,11 @@ from pathlib import Path
 from typing import List
 
 from speechalyze import InterPausalUnit
-from speechalyze.knn import (TimeSeries, calculate_common_support,
-                             calculate_metric)
+from speechalyze.continuous import (
+    TimeSeries,
+    calculate_common_support,
+    calculate_metric,
+)
 from speechalyze.utils import get_interpausal_units, print_audio_description
 
 arg_parser = argparse.ArgumentParser(

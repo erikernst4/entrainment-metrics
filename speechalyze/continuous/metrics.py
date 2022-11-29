@@ -3,7 +3,7 @@ from typing import Optional, Tuple
 import numpy as np
 from scipy.integrate import quad as integrate
 
-from speechalyze.knn import TimeSeries
+from speechalyze.continuous import TimeSeries
 
 
 def calculate_common_support(
