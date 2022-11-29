@@ -112,17 +112,41 @@ class TimeSeries:
     def start(
         self,
     ) -> float:
+        """
+        Returns the starting point in time in which
+        the TimeSeries is defined
+        """
         return self.ipus[0].start
 
     def end(
         self,
     ) -> float:
+        """
+        Returns the ending point in time in which
+        the TimeSeries is defined
+        """
         return self.ipus[-1].end
 
     def predict(
         self,
         X,
     ) -> np.ndarray:
+        """
+        Given a point or an array of points in time,
+        predict the TimeSeries value for the feature
+        of the TimeSeries.
+
+
+        Parameters
+        ----------
+        X: float or np.ndarray
+            A point or an array of points in time.
+
+        Returns
+        -------
+        np.ndarray
+            The predicted value/s.
+        """
         # Convert float to expected predict type
         if isinstance(X, float):
             X = np.array([X]).reshape(-1, 1)
