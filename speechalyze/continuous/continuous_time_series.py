@@ -69,6 +69,9 @@ class TimeSeries:
             # Here is some space to build your own model!
             raise ValueError("Model to be implemented")
 
+    def __repr__(self):
+        return f"TimeSeries(start={self.start()}, end={self.end()}, feature={self.feature}, interpausal_units={self.ipus})"
+
     def _get_interpausal_units_feature_values(
         self,
     ) -> np.ndarray:
