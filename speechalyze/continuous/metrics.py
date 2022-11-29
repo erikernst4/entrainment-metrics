@@ -10,6 +10,23 @@ def calculate_common_support(
     time_series_a: TimeSeries,
     time_series_b: TimeSeries,
 ) -> Tuple[float, float]:
+    """
+    Given two times series return the start and end in which
+    both TimeSeries are simultaneously defined.
+
+
+    Parameters
+    ----------
+    time_series_a: TimeSeries
+        One of the two TimeSeries to calculate the common support from.
+    time_series_b: TimeSeries
+        The other TimeSeries to calculate the common support from.
+
+    Returns
+    -------
+    Tuple[float, float]
+        The start and end of the common support respectively.
+    """
     common_start: float = max(time_series_a.start(), time_series_b.start())
     common_end: float = min(time_series_a.end(), time_series_b.end())
     return common_start, common_end
@@ -34,6 +51,28 @@ def calculate_time_series_values(
     end: float,
     granularity: float,
 ) -> Tuple[np.ndarray, np.ndarray]:
+    """
+    Predict the values of two times series between the given
+    start and end, and with the given granularity.
+
+
+    Parameters
+    ----------
+    time_series_a: TimeSeries
+        One of the two TimeSeries to predict from.
+    time_series_b: TimeSeries
+        The other TimeSeries to predict from.
+    start: Optional[float]
+        A starting point in time to predict.
+    end: Optional[float]
+       An ending point in time to predict.
+    granularity: Optional[float]
+        The step in time in which to predict from the time series.
+    Returns
+    -------
+    Tuple[np.ndarray, np.ndarray]
+        The arrays of values predicted corresponded with the two TimeSeries given respectively.
+    """
 
     values_to_predict_in_s = np.arange(start, end + granularity, granularity)
     truncate_values(values_to_predict_in_s, start, end)
@@ -52,6 +91,28 @@ def calculate_proximity(
     end: float,
     granularity: float,
 ) -> float:
+    """
+    Calculate the proximity value between two times series
+
+    Metric defined in [QUOTE sigdial2020]
+
+    Parameters
+    ----------
+    time_series_a: TimeSeries
+        One of the two TimeSeries to calculate the metric from.
+    time_series_b: TimeSeries
+        The other TimeSeries to calculate the metric from.
+    start: Optional[float]
+        A starting point in time to calculate the metric.
+    end: Optional[float]
+       An ending point in time to calculate the metric.
+    granularity: Optional[float]
+        The step in time in which to predict from the time series.
+    Returns
+    -------
+    float
+        The metric value.
+    """
 
     time_series_values_a, time_series_values_b = calculate_time_series_values(
         time_series_a, time_series_b, start, end, granularity
@@ -70,6 +131,28 @@ def calculate_convergence(
     end: float,
     granularity: float,
 ) -> float:
+    """
+    Calculate the convergence value between two times series
+
+    Metric defined in [QUOTE sigdial2020]
+
+    Parameters
+    ----------
+    time_series_a: TimeSeries
+        One of the two TimeSeries to calculate the metric from.
+    time_series_b: TimeSeries
+        The other TimeSeries to calculate the metric from.
+    start: Optional[float]
+        A starting point in time to calculate the metric.
+    end: Optional[float]
+       An ending point in time to calculate the metric.
+    granularity: Optional[float]
+        The step in time in which to predict from the time series.
+    Returns
+    -------
+    float
+        The metric value.
+    """
 
     values_to_predict_in_s = np.arange(start, end + granularity, granularity)
 
@@ -133,6 +216,28 @@ def calculate_synchrony(
     end: float,
     granularity: float,
 ) -> float:
+    """
+    Calculate the synchrony value between two times series
+
+    Metric defined in [QUOTE sigdial2020]
+
+    Parameters
+    ----------
+    time_series_a: TimeSeries
+        One of the two TimeSeries to calculate the metric from.
+    time_series_b: TimeSeries
+        The other TimeSeries to calculate the metric from.
+    start: Optional[float]
+        A starting point in time to calculate the metric.
+    end: Optional[float]
+       An ending point in time to calculate the metric.
+    granularity: Optional[float]
+        The step in time in which to predict from the time series.
+    Returns
+    -------
+    float
+        The metric value.
+    """
     # Initialized at min float
     res: float = np.finfo(np.float64).min  # type: ignore
 
@@ -171,7 +276,27 @@ def calculate_metric(
     """
     Calculate entrainment metrics given a times series from each speaker
 
-    Metrics avaible: 'proximity', 'pearson'
+    Metrics avaible: 'proximity', 'convergence' (AKA 'pearson') and 'synchrony'
+
+
+    Parameters
+    ----------
+    metric: str
+       The metric to be calculated ("synchrony", "proximity", or "convergence")
+    time_series_a: TimeSeries
+        One of the two TimeSeries to calculate the metric from.
+    time_series_b: TimeSeries
+        The other TimeSeries to calculate the metric from.
+    start: Optional[float]
+        A starting point in time to calculate the metric.
+    end: Optional[float]
+       An ending point in time to calculate the metric.
+    granularity: Optional[float]
+        The step in time in which to predict from the time series.
+    Returns
+    -------
+    float
+        The metric value.
     """
     if granularity is None:
         granularity = 0.01
