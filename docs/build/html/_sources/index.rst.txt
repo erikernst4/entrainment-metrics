@@ -17,6 +17,7 @@ Indices and tables
 
 .. toctree::
 
+   modules/ipu
    modules/index
 
 * :ref:`genindex`
