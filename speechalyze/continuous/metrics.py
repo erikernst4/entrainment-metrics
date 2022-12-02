@@ -238,8 +238,8 @@ def calculate_synchrony(
     float
         The metric value.
     """
-    # Initialized at min float
-    res: float = np.finfo(np.float64).min  # type: ignore
+    # Initialized at min absolute value
+    res: float = 0.0
 
     # Precalculate means
     time_series_values_a, time_series_values_b = calculate_time_series_values(
@@ -259,7 +259,7 @@ def calculate_synchrony(
 
         actual_res: float = np.divide(numerator, denominator)
 
-        if actual_res > res:
+        if np.abs(actual_res) > np.abs(res):
             res = actual_res
 
     return res
