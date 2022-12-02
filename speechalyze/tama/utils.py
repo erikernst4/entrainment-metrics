@@ -92,6 +92,27 @@ def get_frames(
     wav_fname: Path,
     words_fname: Path,
 ) -> List[Union[Frame, MissingFrame]]:
+    """
+    Return a list of Frames given a Path to a .word file and a .wav file
+
+    The format of the word file must be:
+    - For each line
+    f'{starting_time} {ending_time} {word}'
+    Where starting_time and ending_time are floats
+
+    Parameters
+    ----------
+    wav_fname: Path
+        The path to the wav file
+    words_fname: Path
+        The path to the words file
+
+    Returns
+    -------
+    List[Union[Frame, MissingFrame]]
+        The frames from the wav file with the InterPausalUnits from the word file.
+    """
+
     samplerate, data = wavfile.read(wav_fname)
 
     interpausal_units: List[InterPausalUnit] = get_interpausal_units(words_fname)
