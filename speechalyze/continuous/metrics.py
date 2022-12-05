@@ -201,6 +201,7 @@ def calculate_synchrony_denominator(
     square_distance_to_mean_a = np.square(time_series_values_a_crop - mean_a)
     square_distance_to_mean_b = np.square(time_series_values_b_crop - mean_b)
 
+    # Monte Carlo integration
     integral_a = np.mean(square_distance_to_mean_a) * (end - start - synchrony_delta)
     integral_b = np.mean(square_distance_to_mean_b) * (end - start - synchrony_delta)
 
@@ -241,6 +242,7 @@ def calculate_synchrony(
     """
     if synchrony_deltas is None:
         synchrony_deltas = [0.0, 5.0, 10.0, 15.0]
+
     #        synchrony_deltas = [-15.0, -10.0, -5.0, 0.0, 5.0, 10.0, 15.0]
     # Initialized at min absolute value
     res: float = 0.0
@@ -254,6 +256,10 @@ def calculate_synchrony(
     mean_b = np.mean(time_series_values_b)
 
     for synchrony_delta in synchrony_deltas:
+        # Validate synchrony_delta
+        if synchrony_delta > end - start:
+            raise ValueError(f"Synchrony delta bigger than interval {start} to {end}")
+
         denominator: float = calculate_synchrony_denominator(
             time_series_values_a,
             time_series_values_b,
