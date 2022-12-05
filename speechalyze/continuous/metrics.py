@@ -1,4 +1,4 @@
-from typing import Optional, Tuple
+from typing import List, Optional, Tuple
 
 import numpy as np
 from scipy.integrate import quad as integrate
@@ -215,6 +215,7 @@ def calculate_synchrony(
     start: float,
     end: float,
     granularity: float,
+    synchrony_deltas: Optional[List[float]] = None,
 ) -> float:
     """
     Calculate the synchrony value between two times series
@@ -238,6 +239,8 @@ def calculate_synchrony(
     float
         The metric value.
     """
+    if synchrony_deltas is None:
+        synchrony_deltas = [-15.0, -10.0, -5.0, 0.0, 5.0, 10.0, 15.0]
     # Initialized at min absolute value
     res: float = 0.0
 
@@ -249,7 +252,7 @@ def calculate_synchrony(
     mean_a = np.mean(time_series_values_a)
     mean_b = np.mean(time_series_values_b)
 
-    for synchrony_delta in [-15, -10, -5, 0, 5, 10, 15]:
+    for synchrony_delta in synchrony_deltas:
         denominator: float = calculate_synchrony_denominator(
             time_series_a, time_series_b, synchrony_delta, mean_a, mean_b, start, end  # type: ignore
         )
@@ -272,6 +275,7 @@ def calculate_metric(
     start: Optional[float] = None,
     end: Optional[float] = None,
     granularity: Optional[float] = None,
+    synchrony_deltas: Optional[List[float]] = None,
 ) -> float:
     """
     Calculate entrainment metrics given a times series from each speaker
@@ -319,7 +323,9 @@ def calculate_metric(
             time_series_a, time_series_b, start, end, granularity
         )
     elif metric == "synchrony":
-        res = calculate_synchrony(time_series_a, time_series_b, start, end, granularity)
+        res = calculate_synchrony(
+            time_series_a, time_series_b, start, end, granularity, synchrony_deltas
+        )
     else:
         raise ValueError("Not a valid metric")
     return res
