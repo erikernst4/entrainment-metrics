@@ -1,7 +1,6 @@
 from typing import List, Optional, Tuple
 
 import numpy as np
-from scipy.integrate import quad as integrate
 
 from speechalyze.continuous import TimeSeries
 
@@ -165,46 +164,47 @@ def calculate_convergence(
 
 
 def calculate_synchrony_numerator(
-    time_series_a: TimeSeries,
-    time_series_b: TimeSeries,
-    synchrony_delta: float,
-    mean_a: float,  # type: ignore
-    mean_b: float,  # type: ignore
-    start: float,
-    end: float,
-) -> float:
-    numerator: float = integrate(
-        lambda x: np.multiply(
-            time_series_a.predict(x + synchrony_delta) - mean_a,
-            time_series_b.predict(x) - mean_b,
-        ),
-        start,
-        end,
-    )[0]
-    return numerator
-
-
-def calculate_synchrony_denominator(
-    time_series_a: TimeSeries,
-    time_series_b: TimeSeries,
+    time_series_values_a: np.ndarray,
+    time_series_values_b: np.ndarray,
     synchrony_delta: float,
     mean_a: float,
     mean_b: float,
     start: float,
     end: float,
+    granularity: float,
 ) -> float:
-    square_distance_to_mean_a = integrate(
-        lambda x: np.square(time_series_a.predict(x + synchrony_delta) - mean_a),
-        start,
-        end,
-    )[0]
-    square_distance_to_mean_b = integrate(
-        lambda x: np.square(time_series_b.predict(x) - mean_b), start, end
-    )[0]
-
-    denominator = np.sqrt(
-        np.multiply(square_distance_to_mean_a, square_distance_to_mean_b)
+    values_to_crop = int(synchrony_delta / granularity)
+    time_series_values_a_crop = time_series_values_a[values_to_crop:]
+    time_series_values_b_crop = time_series_values_b[:-values_to_crop]
+    numerator_not_integrated = np.multiply(
+        time_series_values_a_crop - mean_a, time_series_values_b_crop - mean_b
     )
+    # Monte Carlo integration
+    numerator = np.mean(numerator_not_integrated) * (end - start - synchrony_delta)
+    return numerator  # type: ignore
+
+
+def calculate_synchrony_denominator(
+    time_series_values_a: np.ndarray,
+    time_series_values_b: np.ndarray,
+    synchrony_delta: float,
+    mean_a: float,
+    mean_b: float,
+    start: float,
+    end: float,
+    granularity: float,
+) -> float:
+    values_to_crop = int(synchrony_delta / granularity)
+    time_series_values_a_crop = time_series_values_a[values_to_crop:]
+    time_series_values_b_crop = time_series_values_b[:-values_to_crop]
+
+    square_distance_to_mean_a = np.square(time_series_values_a_crop - mean_a)
+    square_distance_to_mean_b = np.square(time_series_values_b_crop - mean_b)
+
+    integral_a = np.mean(square_distance_to_mean_a) * (end - start - synchrony_delta)
+    integral_b = np.mean(square_distance_to_mean_b) * (end - start - synchrony_delta)
+
+    denominator = np.sqrt(np.multiply(integral_a, integral_b))
 
     return denominator
 
@@ -240,11 +240,12 @@ def calculate_synchrony(
         The metric value.
     """
     if synchrony_deltas is None:
-        synchrony_deltas = [-15.0, -10.0, -5.0, 0.0, 5.0, 10.0, 15.0]
+        synchrony_deltas = [0.0, 5.0, 10.0, 15.0]
+    #        synchrony_deltas = [-15.0, -10.0, -5.0, 0.0, 5.0, 10.0, 15.0]
     # Initialized at min absolute value
     res: float = 0.0
 
-    # Precalculate means
+    # Precalculate values and means
     time_series_values_a, time_series_values_b = calculate_time_series_values(
         time_series_a, time_series_b, start, end, granularity
     )
@@ -254,10 +255,24 @@ def calculate_synchrony(
 
     for synchrony_delta in synchrony_deltas:
         denominator: float = calculate_synchrony_denominator(
-            time_series_a, time_series_b, synchrony_delta, mean_a, mean_b, start, end  # type: ignore
+            time_series_values_a,
+            time_series_values_b,
+            synchrony_delta,
+            mean_a,  # type: ignore
+            mean_b,  # type: ignore
+            start,
+            end,
+            granularity,
         )
         numerator: float = calculate_synchrony_numerator(
-            time_series_a, time_series_b, synchrony_delta, mean_a, mean_b, start, end  # type: ignore
+            time_series_values_a,
+            time_series_values_b,
+            synchrony_delta,
+            mean_a,  # type: ignore
+            mean_b,  # type: ignore
+            start,
+            end,
+            granularity,
         )
 
         actual_res: float = np.divide(numerator, denominator)
