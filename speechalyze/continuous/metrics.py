@@ -1,3 +1,4 @@
+from copy import deepcopy
 from typing import List, Optional, Tuple
 
 import numpy as np
@@ -173,9 +174,14 @@ def calculate_synchrony_numerator(
     end: float,
     granularity: float,
 ) -> float:
-    values_to_crop = int(synchrony_delta / granularity)
-    time_series_values_a_crop = time_series_values_a[values_to_crop:]
-    time_series_values_b_crop = time_series_values_b[:-values_to_crop]
+    time_series_values_a_crop = deepcopy(time_series_values_a)
+    time_series_values_b_crop = deepcopy(time_series_values_b)
+
+    if synchrony_delta != 0:
+        values_to_crop = int(synchrony_delta / granularity)
+        time_series_values_a_crop = time_series_values_a[values_to_crop:]
+        time_series_values_b_crop = time_series_values_b[:-values_to_crop]
+
     numerator_not_integrated = np.multiply(
         time_series_values_a_crop - mean_a, time_series_values_b_crop - mean_b
     )
@@ -194,9 +200,13 @@ def calculate_synchrony_denominator(
     end: float,
     granularity: float,
 ) -> float:
-    values_to_crop = int(synchrony_delta / granularity)
-    time_series_values_a_crop = time_series_values_a[values_to_crop:]
-    time_series_values_b_crop = time_series_values_b[:-values_to_crop]
+    time_series_values_a_crop = deepcopy(time_series_values_a)
+    time_series_values_b_crop = deepcopy(time_series_values_b)
+
+    if synchrony_delta != 0:
+        values_to_crop = int(synchrony_delta / granularity)
+        time_series_values_a_crop = time_series_values_a[values_to_crop:]
+        time_series_values_b_crop = time_series_values_b[:-values_to_crop]
 
     square_distance_to_mean_a = np.square(time_series_values_a_crop - mean_a)
     square_distance_to_mean_b = np.square(time_series_values_b_crop - mean_b)
