@@ -157,6 +157,7 @@ class KNNTestCase(TestCase):
         np.testing.assert_almost_equal(
             calculate_metric("synchrony", time_series_a, time_series_b),
             -0.9380466517541128,
+            decimal=4,
         )
 
     def test_calculate_synchrony_w_deltas_bigger_than_interval(self):

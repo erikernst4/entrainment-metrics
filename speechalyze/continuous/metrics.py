@@ -201,6 +201,99 @@ def calculate_synchrony_montecarlo(
     return res
 
 
+def calculate_numerator_trapz(
+    time_series_values_a_crop: np.ndarray,
+    time_series_values_b_crop: np.ndarray,
+    values_to_predict_a_in_s: np.ndarray,
+    values_to_predict_b_in_s: np.ndarray,  # pylint: disable=unused-argument
+    mean_a: float,
+    mean_b: float,
+) -> float:  # type: ignore
+    numerator_not_integrated = np.multiply(
+        time_series_values_a_crop - mean_a, time_series_values_b_crop - mean_b
+    )
+
+    return np.trapz(
+        numerator_not_integrated, values_to_predict_a_in_s
+    )  # X is not correct
+
+
+def calculate_denominator_trapz(
+    time_series_values_a_crop: np.ndarray,
+    time_series_values_b_crop: np.ndarray,
+    values_to_predict_a_in_s: np.ndarray,
+    values_to_predict_b_in_s: np.ndarray,
+    mean_a: float,
+    mean_b: float,
+) -> float:  # type: ignore
+
+    square_distance_to_mean_a = np.square(time_series_values_a_crop - mean_a)
+    square_distance_to_mean_b = np.square(time_series_values_b_crop - mean_b)
+
+    integral_a = np.trapz(square_distance_to_mean_a, values_to_predict_a_in_s)
+    integral_b = np.trapz(square_distance_to_mean_b, values_to_predict_b_in_s)
+
+    denominator = np.sqrt(np.multiply(integral_a, integral_b))
+
+    return denominator
+
+
+def calculate_synchrony_trapz(
+    time_series_a: TimeSeries,
+    time_series_b: TimeSeries,
+    start: float,
+    end: float,
+    granularity: float,
+    synchrony_deltas: List[float],
+) -> float:
+    # Initialized at min absolute value
+    res: float = 0.0
+
+    # Precalculate global means
+    time_series_values_a = time_series_a.predict_interval(start, end, granularity)
+    time_series_values_b = time_series_b.predict_interval(start, end, granularity)
+
+    mean_a = np.mean(time_series_values_a)
+    mean_b = np.mean(time_series_values_b)
+
+    for synchrony_delta in synchrony_deltas:
+        # Validate synchrony_delta
+        if synchrony_delta > end - start:
+            raise ValueError(f"Synchrony delta bigger than interval {start} to {end}")
+
+        time_series_values_a_crop = deepcopy(time_series_values_a)
+        time_series_values_b_crop = deepcopy(time_series_values_b)
+
+        values_to_predict_a_in_s = np.arange(
+            start + synchrony_delta, end + granularity, granularity
+        )
+        values_to_predict_b_in_s = np.arange(
+            start, end + granularity - synchrony_delta, granularity
+        )
+
+        if len(values_to_predict_a_in_s) != len(values_to_predict_b_in_s):
+            raise ValueError("Aprendé a codear gil!")
+
+        if synchrony_delta != 0:
+            values_to_crop = int(synchrony_delta / granularity)
+            time_series_values_a_crop = time_series_values_a_crop[values_to_crop:]
+            time_series_values_b_crop = time_series_values_b_crop[:-values_to_crop]
+
+        numerator = calculate_numerator_trapz(
+            time_series_values_a_crop, time_series_values_b_crop, values_to_predict_a_in_s, values_to_predict_b_in_s, mean_a, mean_b  # type: ignore
+        )
+
+        denominator = calculate_denominator_trapz(
+            time_series_values_a_crop, time_series_values_b_crop, values_to_predict_a_in_s, values_to_predict_b_in_s, mean_a, mean_b  # type: ignore
+        )
+
+        actual_res: float = np.divide(numerator, denominator)
+
+        if np.abs(actual_res) > np.abs(res):
+            res = actual_res
+    return res
+
+
 def calculate_synchrony(
     time_series_a: TimeSeries,
     time_series_b: TimeSeries,
@@ -244,7 +337,9 @@ def calculate_synchrony(
             time_series_a, time_series_b, start, end, granularity, synchrony_deltas
         )
     elif integration_method == "trapz":
-        res = 0.0
+        res = calculate_synchrony_trapz(
+            time_series_a, time_series_b, start, end, granularity, synchrony_deltas
+        )
     else:
         raise ValueError("Not a valid integration_method given")
 
