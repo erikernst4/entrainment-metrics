@@ -44,46 +44,6 @@ def truncate_values(
     values[less_than_start_values] = start
 
 
-def calculate_time_series_values(
-    time_series_a: TimeSeries,
-    time_series_b: TimeSeries,
-    start: float,
-    end: float,
-    granularity: float,
-) -> Tuple[np.ndarray, np.ndarray]:
-    """
-    Predict the values of two times series between the given
-    start and end, and with the given granularity.
-
-
-    Parameters
-    ----------
-    time_series_a: TimeSeries
-        One of the two TimeSeries to predict from.
-    time_series_b: TimeSeries
-        The other TimeSeries to predict from.
-    start: Optional[float]
-        A starting point in time to predict.
-    end: Optional[float]
-       An ending point in time to predict.
-    granularity: Optional[float]
-        The step in time in which to predict from the time series.
-    Returns
-    -------
-    Tuple[np.ndarray, np.ndarray]
-        The arrays of values predicted corresponded with the two TimeSeries given respectively.
-    """
-
-    values_to_predict_in_s = np.arange(start, end + granularity, granularity)
-    truncate_values(values_to_predict_in_s, start, end)
-    values_to_predict = values_to_predict_in_s.reshape(-1, 1)
-
-    time_series_values_a = time_series_a.predict(values_to_predict)
-    time_series_values_b = time_series_b.predict(values_to_predict)
-
-    return time_series_values_a, time_series_values_b
-
-
 def calculate_proximity(
     time_series_a: TimeSeries,
     time_series_b: TimeSeries,
@@ -114,9 +74,8 @@ def calculate_proximity(
         The metric value.
     """
 
-    time_series_values_a, time_series_values_b = calculate_time_series_values(
-        time_series_a, time_series_b, start, end, granularity
-    )
+    time_series_values_a = time_series_a.predict_interval(start, end, granularity)
+    time_series_values_b = time_series_b.predict_interval(start, end, granularity)
 
     mean_a = np.mean(time_series_values_a)
     mean_b = np.mean(time_series_values_b)
@@ -156,9 +115,8 @@ def calculate_convergence(
 
     values_to_predict_in_s = np.arange(start, end + granularity, granularity)
 
-    time_series_values_a, time_series_values_b = calculate_time_series_values(
-        time_series_a, time_series_b, start, end, granularity
-    )
+    time_series_values_a = time_series_a.predict_interval(start, end, granularity)
+    time_series_values_b = time_series_b.predict_interval(start, end, granularity)
 
     d_t = np.abs(time_series_values_a - time_series_values_b) * -1
     return np.corrcoef(d_t, values_to_predict_in_s)[0, 1]
@@ -208,9 +166,8 @@ def calculate_synchrony_montecarlo(
     res: float = 0.0
 
     # Precalculate values and means
-    time_series_values_a, time_series_values_b = calculate_time_series_values(
-        time_series_a, time_series_b, start, end, granularity
-    )
+    time_series_values_a = time_series_a.predict_interval(start, end, granularity)
+    time_series_values_b = time_series_b.predict_interval(start, end, granularity)
 
     mean_a = np.mean(time_series_values_a)
     mean_b = np.mean(time_series_values_b)

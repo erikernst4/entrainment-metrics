@@ -167,3 +167,48 @@ class TimeSeries:
                 """
                 )
         return self.model.predict(X)
+
+    def predict_interval(
+        self,
+        start: Optional[float],
+        end: Optional[float],
+        granularity: Optional[float],
+    ) -> np.ndarray:
+        """
+        Predict the values of the times series between the given
+        start and end, and with the given granularity.
+
+
+        Parameters
+        ----------
+        start: Optional[float]
+            A starting point in time to predict.
+        end: Optional[float]
+            An ending point in time to predict.
+        granularity: Optional[float]
+            The step in time in which to predict from the time series.
+        Returns
+        -------
+        np.ndarray
+            The array with the values predicted.
+        """
+
+        if start is None:
+            start = self.start()
+
+        if end is None:
+            end = self.end()
+
+        if granularity is None:
+            granularity = 0.01
+
+        # Prepare values to predict
+        values_to_predict_in_s = np.arange(start, end + granularity, granularity)
+
+        # Last value to predict could be greater than the end
+        if values_to_predict_in_s[-1] > end:
+            values_to_predict_in_s[-1] = end
+
+        values_to_predict = values_to_predict_in_s.reshape(-1, 1)
+
+        return self.predict(values_to_predict)
