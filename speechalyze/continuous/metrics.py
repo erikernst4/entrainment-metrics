@@ -202,34 +202,8 @@ def calculate_synchrony_montecarlo(
     start: float,
     end: float,
     granularity: float,
-    synchrony_deltas: Optional[List[float]] = None,
+    synchrony_deltas: List[float],
 ) -> float:
-    """
-    Calculate the synchrony value between two times series
-
-    Metric defined in [QUOTE sigdial2020]
-
-    Parameters
-    ----------
-    time_series_a: TimeSeries
-        One of the two TimeSeries to calculate the metric from.
-    time_series_b: TimeSeries
-        The other TimeSeries to calculate the metric from.
-    start: Optional[float]
-        A starting point in time to calculate the metric.
-    end: Optional[float]
-       An ending point in time to calculate the metric.
-    granularity: Optional[float]
-        The step in time in which to predict from the time series.
-    Returns
-    -------
-    float
-        The metric value.
-    """
-    if synchrony_deltas is None:
-        synchrony_deltas = [0.0, 5.0, 10.0, 15.0]
-        # synchrony_deltas = [-15.0, -10.0, -5.0, 0.0, 5.0, 10.0, 15.0]
-
     # Initialized at min absolute value
     res: float = 0.0
 
@@ -266,6 +240,56 @@ def calculate_synchrony_montecarlo(
 
         if np.abs(actual_res) > np.abs(res):
             res = actual_res
+
+    return res
+
+
+def calculate_synchrony(
+    time_series_a: TimeSeries,
+    time_series_b: TimeSeries,
+    start: float,
+    end: float,
+    granularity: float,
+    synchrony_deltas: Optional[List[float]] = None,
+    integration_method: Optional[str] = None,
+) -> float:
+    """
+    Calculate the synchrony value between two times series
+
+    Metric defined in [QUOTE sigdial2020]
+
+    Parameters
+    ----------
+    time_series_a: TimeSeries
+        One of the two TimeSeries to calculate the metric from.
+    time_series_b: TimeSeries
+        The other TimeSeries to calculate the metric from.
+    start: Optional[float]
+        A starting point in time to calculate the metric.
+    end: Optional[float]
+       An ending point in time to calculate the metric.
+    granularity: Optional[float]
+        The step in time in which to predict from the time series.
+    integration_method: Optional[str] = None
+        The integration method to use. Methods available: "montecarlo" and "trapz"
+
+    Returns
+    -------
+    float
+        The metric value.
+    """
+    if synchrony_deltas is None:
+        synchrony_deltas = [0.0, 5.0, 10.0, 15.0]
+        # synchrony_deltas = [-15.0, -10.0, -5.0, 0.0, 5.0, 10.0, 15.0]
+
+    if integration_method is None or integration_method == "montecarlo":
+        res = calculate_synchrony_montecarlo(
+            time_series_a, time_series_b, start, end, granularity, synchrony_deltas
+        )
+    elif integration_method == "trapz":
+        res = 0.0
+    else:
+        raise ValueError("Not a valid integration_method given")
 
     return res
 
@@ -325,7 +349,7 @@ def calculate_metric(
             time_series_a, time_series_b, start, end, granularity
         )
     elif metric == "synchrony":
-        res = calculate_synchrony_montecarlo(
+        res = calculate_synchrony(
             time_series_a, time_series_b, start, end, granularity, synchrony_deltas
         )
     else:
