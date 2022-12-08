@@ -164,63 +164,39 @@ def calculate_convergence(
     return np.corrcoef(d_t, values_to_predict_in_s)[0, 1]
 
 
-def calculate_synchrony_numerator(
-    time_series_values_a: np.ndarray,
-    time_series_values_b: np.ndarray,
-    synchrony_delta: float,
+def calculate_numerator_montecarlo(
+    time_series_values_a_crop: np.ndarray,
+    time_series_values_b_crop: np.ndarray,
     mean_a: float,
     mean_b: float,
-    start: float,
-    end: float,
-    granularity: float,
 ) -> float:
-    time_series_values_a_crop = deepcopy(time_series_values_a)
-    time_series_values_b_crop = deepcopy(time_series_values_b)
-
-    if synchrony_delta != 0:
-        values_to_crop = int(synchrony_delta / granularity)
-        time_series_values_a_crop = time_series_values_a[values_to_crop:]
-        time_series_values_b_crop = time_series_values_b[:-values_to_crop]
-
     numerator_not_integrated = np.multiply(
         time_series_values_a_crop - mean_a, time_series_values_b_crop - mean_b
     )
-    # Monte Carlo integration
-    numerator = np.mean(numerator_not_integrated) * (end - start - synchrony_delta)
+    # Monte Carlo integration, the lenght of the interval is simplified with the denominator
+    numerator = np.mean(numerator_not_integrated)
     return numerator  # type: ignore
 
 
-def calculate_synchrony_denominator(
-    time_series_values_a: np.ndarray,
-    time_series_values_b: np.ndarray,
-    synchrony_delta: float,
+def calculate_denominator_montecarlo(
+    time_series_values_a_crop: np.ndarray,
+    time_series_values_b_crop: np.ndarray,
     mean_a: float,
     mean_b: float,
-    start: float,
-    end: float,
-    granularity: float,
-) -> float:
-    time_series_values_a_crop = deepcopy(time_series_values_a)
-    time_series_values_b_crop = deepcopy(time_series_values_b)
-
-    if synchrony_delta != 0:
-        values_to_crop = int(synchrony_delta / granularity)
-        time_series_values_a_crop = time_series_values_a[values_to_crop:]
-        time_series_values_b_crop = time_series_values_b[:-values_to_crop]
-
+) -> float:  # type: ignore
     square_distance_to_mean_a = np.square(time_series_values_a_crop - mean_a)
     square_distance_to_mean_b = np.square(time_series_values_b_crop - mean_b)
 
-    # Monte Carlo integration
-    integral_a = np.mean(square_distance_to_mean_a) * (end - start - synchrony_delta)
-    integral_b = np.mean(square_distance_to_mean_b) * (end - start - synchrony_delta)
+    # Monte Carlo integration, the lenght of the interval is simplified with the numerator
+    integral_a = np.mean(square_distance_to_mean_a)
+    integral_b = np.mean(square_distance_to_mean_b)
 
     denominator = np.sqrt(np.multiply(integral_a, integral_b))
 
     return denominator
 
 
-def calculate_synchrony(
+def calculate_synchrony_montecarlo(
     time_series_a: TimeSeries,
     time_series_b: TimeSeries,
     start: float,
@@ -252,8 +228,8 @@ def calculate_synchrony(
     """
     if synchrony_deltas is None:
         synchrony_deltas = [0.0, 5.0, 10.0, 15.0]
+        # synchrony_deltas = [-15.0, -10.0, -5.0, 0.0, 5.0, 10.0, 15.0]
 
-    #        synchrony_deltas = [-15.0, -10.0, -5.0, 0.0, 5.0, 10.0, 15.0]
     # Initialized at min absolute value
     res: float = 0.0
 
@@ -270,25 +246,20 @@ def calculate_synchrony(
         if synchrony_delta > end - start:
             raise ValueError(f"Synchrony delta bigger than interval {start} to {end}")
 
-        denominator: float = calculate_synchrony_denominator(
-            time_series_values_a,
-            time_series_values_b,
-            synchrony_delta,
-            mean_a,  # type: ignore
-            mean_b,  # type: ignore
-            start,
-            end,
-            granularity,
+        time_series_values_a_crop = deepcopy(time_series_values_a)
+        time_series_values_b_crop = deepcopy(time_series_values_b)
+
+        if synchrony_delta != 0:
+            values_to_crop = int(synchrony_delta / granularity)
+            time_series_values_a_crop = time_series_values_a_crop[values_to_crop:]
+            time_series_values_b_crop = time_series_values_b_crop[:-values_to_crop]
+
+        numerator = calculate_numerator_montecarlo(
+            time_series_values_a_crop, time_series_values_b_crop, mean_a, mean_b  # type: ignore
         )
-        numerator: float = calculate_synchrony_numerator(
-            time_series_values_a,
-            time_series_values_b,
-            synchrony_delta,
-            mean_a,  # type: ignore
-            mean_b,  # type: ignore
-            start,
-            end,
-            granularity,
+
+        denominator = calculate_denominator_montecarlo(
+            time_series_values_a_crop, time_series_values_b_crop, mean_a, mean_b  # type: ignore
         )
 
         actual_res: float = np.divide(numerator, denominator)
@@ -354,7 +325,7 @@ def calculate_metric(
             time_series_a, time_series_b, start, end, granularity
         )
     elif metric == "synchrony":
-        res = calculate_synchrony(
+        res = calculate_synchrony_montecarlo(
             time_series_a, time_series_b, start, end, granularity, synchrony_deltas
         )
     else:
