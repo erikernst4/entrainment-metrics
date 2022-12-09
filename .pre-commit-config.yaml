@@ -47,7 +47,7 @@ repos:
 
     - id: pytest
       name: 🧪 Running tests and test coverage with pytest
-      entry: poetry run pytest --asyncio-mode='strict' -o log_cli=true
+      entry: poetry run pytest -o log_cli=true
       language: python
       types: [python]
       stages: [push]
