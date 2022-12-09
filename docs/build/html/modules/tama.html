@@ -40,7 +40,12 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="ipu.html">InterPausalUnit</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Modules</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">TAMA</a><ul class="simple">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">TAMA</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-speechalyze.tama.frame">Frame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-speechalyze.tama.utils">Utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-speechalyze.tama.entrainment">Entrainment</a><ul class="simple">
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="continuous.html">Continuous</a></li>
@@ -73,8 +78,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
 
-  <div class="section" id="module-speechalyze.tama.frame">
-<span id="tama"></span><h1>TAMA<a class="headerlink" href="#module-speechalyze.tama.frame" title="Permalink to this heading"></a></h1>
+  <div class="section" id="tama">
+<h1>TAMA<a class="headerlink" href="#tama" title="Permalink to this heading"></a></h1>
+<div class="section" id="module-speechalyze.tama.frame">
+<span id="frame"></span><h2>Frame<a class="headerlink" href="#module-speechalyze.tama.frame" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="speechalyze.tama.frame.Frame">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">speechalyze.tama.frame.</span></span><span class="sig-name descname"><span class="pre">Frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_missing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpausal_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ipu.html#speechalyze.interpausal_unit.InterPausalUnit" title="speechalyze.interpausal_unit.InterPausalUnit"><span class="pre">InterPausalUnit</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#speechalyze.tama.frame.Frame" title="Permalink to this definition"></a></dt>
@@ -151,7 +158,10 @@ of the value for the feature of each IPU inside the frame</p>
 
 </dd></dl>
 
-<span class="target" id="module-speechalyze.tama.utils"></span><dl class="py function">
+</div>
+<div class="section" id="module-speechalyze.tama.utils">
+<span id="utils"></span><h2>Utils<a class="headerlink" href="#module-speechalyze.tama.utils" title="Permalink to this heading"></a></h2>
+<dl class="py function">
 <dt class="sig sig-object py" id="speechalyze.tama.utils.get_frames">
 <span class="sig-prename descclassname"><span class="pre">speechalyze.tama.utils.</span></span><span class="sig-name descname"><span class="pre">get_frames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wav_fname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">words_fname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#speechalyze.tama.frame.Frame" title="speechalyze.tama.frame.Frame"><span class="pre">Frame</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#speechalyze.tama.frame.MissingFrame" title="speechalyze.tama.frame.MissingFrame"><span class="pre">MissingFrame</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#speechalyze.tama.utils.get_frames" title="Permalink to this definition"></a></dt>
 <dd><p>Return a list of Frames given a Path to a .word file and a .wav file</p>
@@ -175,7 +185,10 @@ Where starting_time and ending_time are floats</p>
 </dl>
 </dd></dl>
 
-<span class="target" id="module-speechalyze.tama.entrainment"></span><dl class="py function">
+</div>
+<div class="section" id="module-speechalyze.tama.entrainment">
+<span id="entrainment"></span><h2>Entrainment<a class="headerlink" href="#module-speechalyze.tama.entrainment" title="Permalink to this heading"></a></h2>
+<dl class="py function">
 <dt class="sig sig-object py" id="speechalyze.tama.entrainment.calculate_sample_correlation">
 <span class="sig-prename descclassname"><span class="pre">speechalyze.tama.entrainment.</span></span><span class="sig-name descname"><span class="pre">calculate_sample_correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_series_a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_series_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#speechalyze.tama.entrainment.calculate_sample_correlation" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate the correlations between two series as one of them is lagged</p>
@@ -196,6 +209,7 @@ had h frames before, where h is the number of lags.</p>
 </dd></dl>
 
 <div class="toctree-wrapper compound">
+</div>
 </div>
 </div>
 
