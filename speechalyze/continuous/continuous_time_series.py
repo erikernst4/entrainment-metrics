@@ -10,7 +10,8 @@ from speechalyze import InterPausalUnit
 
 class TimeSeries:
     """
-    TODO
+    The evolution of an acoustic-prosodic feature
+    value in time.
 
 
      ...
