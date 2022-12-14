@@ -9,6 +9,21 @@ from .interpausal_unit import InterPausalUnit
 def get_interpausal_units(words_fname: Path) -> List[InterPausalUnit]:
     """
     Return a list of IPUs given a Path to a .word file
+
+    The format of the file must be:
+        - For each line
+            f'{starting_time} {ending_time} {word}'
+        Where starting_time and ending_time are floats
+
+    Parameters
+    ----------
+    words_fname: Path
+        The path to the words file
+
+    Returns
+    -------
+    List[InterPausalUnit]
+        The InterPausalUnits from the words file.
     """
     interpausal_units: List[InterPausalUnit] = []
     with open(words_fname, encoding="utf-8", mode="r") as word_file:
