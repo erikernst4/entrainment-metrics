@@ -204,18 +204,16 @@ def calculate_synchrony_montecarlo(
 def calculate_numerator_trapz(
     time_series_values_a_crop: np.ndarray,
     time_series_values_b_crop: np.ndarray,
-    values_to_predict_a_in_s: np.ndarray,
-    values_to_predict_b_in_s: np.ndarray,  # pylint: disable=unused-argument
+    values_to_predict_a_in_s: np.ndarray,  # pylint: disable=unused-argument
+    values_to_predict_b_in_s: np.ndarray,
     mean_a: float,
     mean_b: float,
 ) -> float:  # type: ignore
     numerator_not_integrated = np.multiply(
         time_series_values_a_crop - mean_a, time_series_values_b_crop - mean_b
     )
-
-    return np.trapz(
-        numerator_not_integrated, values_to_predict_a_in_s
-    )  # X is not correct
+    # TODO: Explain why values_to_predict_b_in_s is ok
+    return np.trapz(numerator_not_integrated, values_to_predict_b_in_s)
 
 
 def calculate_denominator_trapz(
