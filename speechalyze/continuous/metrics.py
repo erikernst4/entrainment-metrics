@@ -209,16 +209,28 @@ def calculate_synchrony_montecarlo(
 def calculate_numerator_trapz(
     time_series_values_a_crop: np.ndarray,
     time_series_values_b_crop: np.ndarray,
-    values_to_predict_a_in_s: np.ndarray,  # pylint: disable=unused-argument
-    values_to_predict_b_in_s: np.ndarray,
+    values_to_predict_in_s: np.ndarray,
     mean_a: float,
     mean_b: float,
 ) -> float:  # type: ignore
     numerator_not_integrated = np.multiply(
         time_series_values_a_crop - mean_a, time_series_values_b_crop - mean_b
     )
-    # TODO: Explain why values_to_predict_b_in_s is ok
-    return np.trapz(numerator_not_integrated, values_to_predict_b_in_s)
+
+    # We integrate for the xs of values_to_predict_b_in_s in order
+    # to keep start <= x + synchrony_delta <= end
+
+    # If synchrony_delta > 0, values_to_predict_b_in_s is the interval [start, end - synchrony_delta]
+    # start <= start + synchrony_delta
+    # and
+    # end - synchrony_delta + synchrony_delta = end <= end
+
+    # If synchrony_delta < 0, values_to_predict_b_in_s is the interval [start + abs(synchrony_delta), end]
+    # start <= start + abs(synchrony_delta) + synchrony_delta = start
+    # and
+    # end + synchrony_delta <= end
+
+    return np.trapz(numerator_not_integrated, values_to_predict_in_s)
 
 
 def calculate_denominator_trapz(
@@ -267,23 +279,36 @@ def calculate_synchrony_trapz(
         time_series_values_a_crop = deepcopy(time_series_values_a)
         time_series_values_b_crop = deepcopy(time_series_values_b)
 
-        values_to_predict_a_in_s = np.arange(
-            start + synchrony_delta, end + granularity, granularity
-        )
-        values_to_predict_b_in_s = np.arange(
-            start, end + granularity - synchrony_delta, granularity
-        )
+        values_to_predict_a_in_s = None
+        values_to_predict_b_in_s = None
 
-        if len(values_to_predict_a_in_s) != len(values_to_predict_b_in_s):
-            raise ValueError("Aprendé a codear gil!")
+        if synchrony_delta >= 0:
+            values_to_predict_a_in_s = np.arange(
+                start + synchrony_delta, end + granularity, granularity
+            )
+            values_to_predict_b_in_s = np.arange(
+                start, end + granularity - synchrony_delta, granularity
+            )
+            if synchrony_delta > 0:
+                values_to_crop = int(synchrony_delta / granularity)
+                time_series_values_a_crop = time_series_values_a_crop[values_to_crop:]
+                time_series_values_b_crop = time_series_values_b_crop[:-values_to_crop]
 
-        if synchrony_delta != 0:
+        elif synchrony_delta < 0:
+            # Crop the other way with abs(synchrony_delta)
+            synchrony_delta = abs(synchrony_delta)
             values_to_crop = int(synchrony_delta / granularity)
-            time_series_values_a_crop = time_series_values_a_crop[values_to_crop:]
-            time_series_values_b_crop = time_series_values_b_crop[:-values_to_crop]
+            time_series_values_a_crop = time_series_values_b_crop[:-values_to_crop]
+            time_series_values_b_crop = time_series_values_a_crop[values_to_crop:]
+            values_to_predict_a_in_s = np.arange(
+                start, end + granularity - synchrony_delta, granularity
+            )
+            values_to_predict_b_in_s = np.arange(
+                start + synchrony_delta, end + granularity, granularity
+            )
 
         numerator = calculate_numerator_trapz(
-            time_series_values_a_crop, time_series_values_b_crop, values_to_predict_a_in_s, values_to_predict_b_in_s, mean_a, mean_b  # type: ignore
+            time_series_values_a_crop, time_series_values_b_crop, values_to_predict_b_in_s, mean_a, mean_b  # type: ignore
         )
 
         denominator = calculate_denominator_trapz(
@@ -356,6 +381,7 @@ def calculate_metric(
     end: Optional[float] = None,
     granularity: Optional[float] = None,
     synchrony_deltas: Optional[List[float]] = None,
+    integration_method: Optional[str] = None,
 ) -> float:
     """
     Calculate entrainment metrics given a times series from each speaker
@@ -404,7 +430,13 @@ def calculate_metric(
         )
     elif metric == "synchrony":
         res = calculate_synchrony(
-            time_series_a, time_series_b, start, end, granularity, synchrony_deltas
+            time_series_a,
+            time_series_b,
+            start,
+            end,
+            granularity,
+            synchrony_deltas,
+            integration_method,
         )
     else:
         raise ValueError("Not a valid metric")
