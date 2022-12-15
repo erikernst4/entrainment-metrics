@@ -180,10 +180,15 @@ def calculate_synchrony_montecarlo(
         time_series_values_a_crop = deepcopy(time_series_values_a)
         time_series_values_b_crop = deepcopy(time_series_values_b)
 
-        if synchrony_delta != 0:
+        if synchrony_delta > 0:
             values_to_crop = int(synchrony_delta / granularity)
             time_series_values_a_crop = time_series_values_a_crop[values_to_crop:]
             time_series_values_b_crop = time_series_values_b_crop[:-values_to_crop]
+
+        elif synchrony_delta < 0:
+            values_to_crop = int(synchrony_delta / granularity)
+            time_series_values_a_crop = time_series_values_b_crop[:-values_to_crop]
+            time_series_values_b_crop = time_series_values_a_crop[values_to_crop:]
 
         numerator = calculate_numerator_montecarlo(
             time_series_values_a_crop, time_series_values_b_crop, mean_a, mean_b  # type: ignore
@@ -327,8 +332,7 @@ def calculate_synchrony(
         The metric value.
     """
     if synchrony_deltas is None:
-        synchrony_deltas = [0.0, 5.0, 10.0, 15.0]
-        # synchrony_deltas = [-15.0, -10.0, -5.0, 0.0, 5.0, 10.0, 15.0]
+        synchrony_deltas = [-15.0, -10.0, -5.0, 0.0, 5.0, 10.0, 15.0]
 
     if integration_method is None or integration_method == "montecarlo":
         res = calculate_synchrony_montecarlo(
