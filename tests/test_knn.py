@@ -155,6 +155,60 @@ class KNNTestCase(TestCase):
         )
 
         np.testing.assert_almost_equal(
-            calculate_metric("synchrony", time_series_a, time_series_b),
-            -0.9380342373191826,
+            calculate_metric(
+                "synchrony",
+                time_series_a,
+                time_series_b,
+                synchrony_deltas=[0.0, 5.0, 10.0, 15.0],
+            ),
+            -0.9380466517541128,
+        )
+
+    def test_calculate_synchrony_w_deltas_bigger_than_interval(self):
+        case_a = self.cases['long_100-200-300_x2']
+        case_b = self.cases['long_300-200-100_x2']
+
+        time_series_a = TimeSeries(
+            feature='F0_MAX', interpausal_units=case_a['ipus'], method='knn', k=4
+        )
+        time_series_b = TimeSeries(
+            feature='F0_MAX', interpausal_units=case_b['ipus'], method='knn', k=4
+        )
+
+        self.assertRaises(
+            ValueError,
+            calculate_metric,
+            "synchrony",
+            time_series_a,
+            time_series_b,
+            synchrony_deltas=[100.0],
+        )
+
+    def test_calculate_synchrony_w_different_methods_is_similar(self):
+        case_a = self.cases['long_100-200-300_x2']
+        case_b = self.cases['long_300-200-100_x2']
+
+        time_series_a = TimeSeries(
+            feature='F0_MAX', interpausal_units=case_a['ipus'], method='knn', k=4
+        )
+        time_series_b = TimeSeries(
+            feature='F0_MAX', interpausal_units=case_b['ipus'], method='knn', k=4
+        )
+
+        np.testing.assert_almost_equal(
+            calculate_metric(
+                "synchrony",
+                time_series_a,
+                time_series_b,
+                synchrony_deltas=[0.0, 5.0, 10.0, 15.0],
+                integration_method="montecarlo",
+            ),
+            calculate_metric(
+                "synchrony",
+                time_series_a,
+                time_series_b,
+                synchrony_deltas=[0.0, 5.0, 10.0, 15.0],
+                integration_method="trapz",
+            ),
+            decimal=4,
         )
