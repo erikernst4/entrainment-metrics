@@ -219,6 +219,9 @@ def calculate_numerator_trapz(
 
     # We integrate for the xs of values_to_predict_b_in_s in order
     # to keep start <= x + synchrony_delta <= end
+    # In other words, to keep the integral well defined,
+    # evaluating in points inside the domain
+    # [see the integral in the paper].
 
     # If synchrony_delta > 0, values_to_predict_b_in_s is the interval [start, end - synchrony_delta]
     # start <= start + synchrony_delta
