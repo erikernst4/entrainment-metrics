@@ -44,6 +44,7 @@ class TimeSeries:
         MAX_DEVIATIONS: Optional[int] = None,
         **kwargs,
     ) -> None:
+
         self.ipus: List[InterPausalUnit] = deepcopy(interpausal_units)
 
         self.feature = feature
@@ -54,9 +55,12 @@ class TimeSeries:
         self._prepare_data(MAX_DEVIATIONS)
 
         if method == "knn":
-            if k is not None and len(interpausal_units) < k:
+            if k is None:
+                k = 7
+
+            if len(interpausal_units) < k:
                 raise ValueError(
-                    "k cannot be bigger than the amount of interpausal units"
+                    "k cannot be bigger than the amount of interpausal units, default k is 7"
                 )
 
             self.model = KNeighborsRegressor(n_neighbors=k, **kwargs)
