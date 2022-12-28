@@ -43,6 +43,7 @@
 <li class="toctree-l2"><a class="reference internal" href="getting_ipus.html">Getting Interpausal Units</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Time-Aligned Moving Average (TAMA)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#using-frames">Using Frames</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#constructing-time-series-of-acoustic-prosodic-features">Constructing time series of acoustic-prosodic features</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="continuous_time_series.html">Continuous TimeSeries</a></li>
@@ -102,6 +103,34 @@
 
 <span class="n">some_frames</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">tama</span><span class="o">.</span><span class="n">Frame</span><span class="p">,</span> <span class="n">tama</span><span class="o">.</span><span class="n">MissingFrame</span><span class="p">]]</span> <span class="o">=</span> <span class="n">get_frames</span><span class="p">(</span>
     <span class="n">wav_fname</span><span class="p">,</span> <span class="n">words_fname</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="constructing-time-series-of-acoustic-prosodic-features">
+<h2>Constructing time series of acoustic-prosodic features<a class="headerlink" href="#constructing-time-series-of-acoustic-prosodic-features" title="Permalink to this heading"></a></h2>
+<p>Once you have a list of frames corresponding to the frames in a audio you can generate time-series data of several a/p features. If the InterPausalUnit’s inside of your frames already have the features of interest calculated then you can directly calculate the time series like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">speechalyze.tama</span> <span class="kn">import</span> <span class="n">calculate_time_series</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+<span class="n">time_series_a</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_time_series</span><span class="p">(</span>
+    <span class="n">args</span><span class="o">.</span><span class="n">feature</span><span class="p">,</span> <span class="n">frames_a</span><span class="p">,</span>
+    <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;FEATURE_CALCULATED&quot;</span><span class="p">,</span>
+    <span class="n">frames</span><span class="o">=</span><span class="n">some_frames</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>But, if your IPUs don’t have their feature values calculated then you can the known speechalyze extractors:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">speechalyze.tama</span> <span class="kn">import</span> <span class="n">calculate_time_series</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+<span class="n">time_series_a</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_time_series</span><span class="p">(</span>
+    <span class="n">args</span><span class="o">.</span><span class="n">feature</span><span class="p">,</span> <span class="n">frames_a</span><span class="p">,</span>
+    <span class="n">feature</span><span class="o">=</span><span class="s2">&quot;F0_MAX&quot;</span><span class="p">,</span>
+    <span class="n">frames</span><span class="o">=</span><span class="n">some_frames</span><span class="p">,</span>
+    <span class="n">audio_file</span><span class="o">=</span><span class="s2">&quot;path/to/audio.wav&quot;</span><span class="p">,</span>
+    <span class="n">extractor</span><span class="o">=</span><span class="s2">&quot;praat&quot;</span><span class="p">,</span>
+    <span class="n">pitch_gender</span><span class="o">=</span><span class="s2">&quot;F&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
