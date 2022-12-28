@@ -55,9 +55,9 @@ class Frame:
     def calculate_feature_value(
         self,
         feature: str,
-        audio_file: Path,
-        pitch_gender: Optional[str],
-        extractor: Optional[str],
+        audio_file: Optional[Path] = None,
+        pitch_gender: Optional[str] = None,
+        extractor: Optional[str] = None,
     ) -> float:
         """
         Return the frame's value for the feature given
@@ -119,8 +119,8 @@ class MissingFrame(Frame):
     def calculate_feature_value(
         self,
         feature: str,
-        audio_file: Path,
-        pitch_gender: Optional[str],  # pylint: disable=unused-argument
-        extractor: Optional[str],
+        audio_file: Optional[Path] = None,
+        pitch_gender: Optional[str] = None,  # pylint: disable=unused-argument
+        extractor: Optional[str] = None,
     ) -> float:
         return np.nan

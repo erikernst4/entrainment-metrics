@@ -59,29 +59,34 @@ class InterPausalUnit:
 
     def calculate_features(
         self,
-        audio_file: Path,
+        audio_file: Optional[Path] = None,
         pitch_gender: Optional[str] = None,
         extractor: Optional[str] = None,
     ) -> Optional[Dict[str, float]]:
         """
         Given an audio_file calculate the features for the IPU inside
         """
+        available_extractors = ["praat", "opensmile"]
         # Set opensmile as default
         if extractor is None and self._features_values is None:
             extractor = "opensmile"
 
         if extractor is None:
             pass
-        elif extractor == "praat":
-            self._calculate_praat_features(audio_file, pitch_gender)
-        elif extractor == "opensmile":
-            self._calculate_opensmile_features(audio_file)
-        else:
+        elif extractor not in available_extractors:
             raise ValueError('Not a valid extractor')
+        elif extractor in available_extractors and audio_file is None:
+            raise ValueError('audio_file is a required parameter')
+        elif extractor == "praat":
+            self._calculate_praat_features(audio_file, pitch_gender)  # type: ignore
+        elif extractor == "opensmile":
+            self._calculate_opensmile_features(audio_file)  # type: ignore
 
         return self._features_values
 
-    def _calculate_praat_features(self, audio_file: Path, pitch_gender: Optional[str]):
+    def _calculate_praat_features(
+        self, audio_file: Path, pitch_gender: Optional[str]
+    ) -> None:
         """
         Return the IPU values of the standard acoustics features
 
