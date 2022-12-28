@@ -298,7 +298,6 @@ class TAMATestCase(TestCase):
                 feature="F0_MAX",
                 frames=case['expected_frames'],
                 audio_file=case['audio_fname'],
-                extractor="praat",
             ),
         )
 
@@ -310,7 +309,6 @@ class TAMATestCase(TestCase):
                 feature="F0_MAX",
                 frames=case['expected_frames'],
                 audio_file=case['audio_fname'],
-                extractor="praat",
             ),
         )
 
@@ -322,7 +320,6 @@ class TAMATestCase(TestCase):
                 feature="F0_MAX",
                 frames=case['expected_frames'],
                 audio_file=case['audio_fname'],
-                extractor="praat",
             ),
         )
 
@@ -334,7 +331,6 @@ class TAMATestCase(TestCase):
                 feature="F0_MAX",
                 frames=case['expected_frames'],
                 audio_file=case['audio_fname'],
-                extractor="praat",
             ),
         )
 
@@ -346,7 +342,6 @@ class TAMATestCase(TestCase):
                 feature="F0_MAX",
                 frames=case['expected_frames'],
                 audio_file=case['audio_fname'],
-                extractor="praat",
             ),
         )
 

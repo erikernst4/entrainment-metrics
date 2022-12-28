@@ -10,7 +10,7 @@ def calculate_time_series(
     feature: str,
     frames: List[Union[Frame, MissingFrame]],
     audio_file: Path,
-    extractor: str,
+    extractor: Optional[str] = None,
     pitch_gender: Optional[str] = None,
 ) -> List[float]:
     """

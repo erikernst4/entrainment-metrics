@@ -57,7 +57,7 @@ class Frame:
         feature: str,
         audio_file: Path,
         pitch_gender: Optional[str],
-        extractor: str,
+        extractor: Optional[str],
     ) -> float:
         """
         Return the frame's value for the feature given
@@ -121,6 +121,6 @@ class MissingFrame(Frame):
         feature: str,
         audio_file: Path,
         pitch_gender: Optional[str],  # pylint: disable=unused-argument
-        extractor: str,
+        extractor: Optional[str],
     ) -> float:
         return np.nan

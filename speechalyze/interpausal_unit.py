@@ -61,12 +61,18 @@ class InterPausalUnit:
         self,
         audio_file: Path,
         pitch_gender: Optional[str] = None,
-        extractor: str = 'opensmile',
+        extractor: Optional[str] = None,
     ) -> Optional[Dict[str, float]]:
         """
         Given an audio_file calculate the features for the IPU inside
         """
-        if extractor == "praat":
+        # Set opensmile as default
+        if extractor is None and self._features_values is None:
+            extractor = "opensmile"
+
+        if extractor is None:
+            pass
+        elif extractor == "praat":
             self._calculate_praat_features(audio_file, pitch_gender)
         elif extractor == "opensmile":
             self._calculate_opensmile_features(audio_file)
