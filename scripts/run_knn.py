@@ -2,10 +2,10 @@ import argparse
 from pathlib import Path
 from typing import List
 
-from speechalyze import InterPausalUnit
+from speechalyze import (InterPausalUnit, get_interpausal_units,
+                         print_audio_description)
 from speechalyze.continuous import (TimeSeries, calculate_common_support,
                                     calculate_metric)
-from speechalyze.utils import get_interpausal_units, print_audio_description
 
 arg_parser = argparse.ArgumentParser(
     description="Return a times series for a speaker for a task"
