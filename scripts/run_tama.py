@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import List, Union
 
 from speechalyze import print_audio_description, tama
+from speechalyze.tama import get_frames
 
 arg_parser = argparse.ArgumentParser(
     description="Generate a times series for a speaker for a task"
@@ -44,7 +45,7 @@ def main() -> None:
 
     wav_a_fname: Path = Path(args.audio_file_a)
     words_a_fname: Path = Path(args.words_file_a)
-    frames_a: List[Union[tama.Frame, tama.MissingFrame]] = tama.get_frames(
+    frames_a: List[Union[tama.Frame, tama.MissingFrame]] = get_frames(
         wav_a_fname, words_a_fname
     )
     print(f"Amount of frames of speaker A: {len(frames_a)}")
@@ -53,7 +54,7 @@ def main() -> None:
 
     wav_b_fname: Path = Path(args.audio_file_b)
     words_b_fname: Path = Path(args.words_file_b)
-    frames_b: List[Union[tama.Frame, tama.MissingFrame]] = tama.get_frames(
+    frames_b: List[Union[tama.Frame, tama.MissingFrame]] = get_frames(
         wav_b_fname, words_b_fname
     )
     print_audio_description("B", wav_b_fname)
