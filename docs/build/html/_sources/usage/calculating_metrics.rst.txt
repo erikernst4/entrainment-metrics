@@ -1,0 +1,13 @@
+Calculating Metrics
+===================
+
+When you already have some TimeSeries is when fun starts. Now you are able to calculate some metrics over them. The metrics available are ‘proximity’, ‘convergence’, and ‘synchrony’. Calculating any of these metrics is as easy as running the following code:
+
+.. code-block:: python
+
+   from speechalyze.continuous import calculate_metric
+   metric_result: float = calculate_metric(
+       "synchrony",
+       time_series_a,
+       time_series_b,
+   )

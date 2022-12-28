@@ -10,7 +10,7 @@ TimeSeries
 Metrics
 -------
 .. automodule:: speechalyze.continuous.metrics
-    :members: calculate_common_support, calculate_metric, calculate_time_series_values
+    :members: calculate_common_support, calculate_metric
 
 .. toctree::
    :maxdepth: 2

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Time-Aligned Moving Average (TAMA) &mdash; Speechalyze  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Continuous TimeSeries" href="continuous_time_series.html" />
+    <link rel="prev" title="Getting Interpausal Units" href="getting_ipus.html" />
+</head>
+
+<body class="wy-body-for-nav">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Speechalyze
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Usage</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_ipus.html">Getting Interpausal Units</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Time-Aligned Moving Average (TAMA)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#using-frames">Using Frames</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="continuous_time_series.html">Continuous TimeSeries</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/ipu.html">InterPausalUnit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/index.html">Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Speechalyze</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Usage</a> &raquo;</li>
+      <li>Time-Aligned Moving Average (TAMA)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/usage/tama.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+
+  <div class="section" id="time-aligned-moving-average-tama">
+<h1>Time-Aligned Moving Average (TAMA)<a class="headerlink" href="#time-aligned-moving-average-tama" title="Permalink to this heading"></a></h1>
+<div class="section" id="using-frames">
+<h2>Using Frames<a class="headerlink" href="#using-frames" title="Permalink to this heading"></a></h2>
+<p>If you have already have the list of InterPausalUnit’s inside a frame, you can create your Frame object with its constructor:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">speechalyze.tama</span> <span class="kn">import</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">MissingFrame</span>
+<span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span>
+    <span class="n">start</span><span class="o">=</span><span class="mf">8.0</span><span class="p">,</span>
+    <span class="n">end</span><span class="o">=</span><span class="mf">24.0</span><span class="p">,</span>
+    <span class="n">is_missing</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+    <span class="n">interpausal_units</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">InterPausalUnit</span><span class="p">(</span><span class="mf">8.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;F0_MAX&#39;</span><span class="p">:</span> <span class="mf">200.002</span><span class="p">}),</span>
+        <span class="n">InterPausalUnit</span><span class="p">(</span><span class="mf">16.0</span><span class="p">,</span> <span class="mf">24.0</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;F0_MAX&#39;</span><span class="p">:</span> <span class="mf">300.002</span><span class="p">}),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">missing_frame</span> <span class="o">=</span> <span class="n">MissingFrame</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In case you don’t have the specific list of InterPausalUnit’s for each frame inside a wav file but you do have a .word file (as described in the InterPausalUnit section), then you can get your frames like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">speechalyze.tama</span> <span class="kn">import</span> <span class="n">get_frames</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="n">some_frames</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">tama</span><span class="o">.</span><span class="n">Frame</span><span class="p">,</span> <span class="n">tama</span><span class="o">.</span><span class="n">MissingFrame</span><span class="p">]]</span> <span class="o">=</span> <span class="n">get_frames</span><span class="p">(</span>
+    <span class="n">wav_fname</span><span class="p">,</span> <span class="n">words_fname</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="getting_ipus.html" class="btn btn-neutral float-left" title="Getting Interpausal Units" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="continuous_time_series.html" class="btn btn-neutral float-right" title="Continuous TimeSeries" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Agustín Gravano / Ramiro Gálvez / Erik Ernst.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+</body>
+</html>

@@ -10,23 +10,12 @@ Welcome to Speechalyze's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-Usage
-=====
-
-Installation
-------------
-
-To use speechalyze, first install it using pip:
-
-.. code-block:: console
-
-   $ pip install speechalyze
-
 Indices and tables
 ==================
 
 .. toctree::
 
+   usage/index
    modules/ipu
    modules/index
 
