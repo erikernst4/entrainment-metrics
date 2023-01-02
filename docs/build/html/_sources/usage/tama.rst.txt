@@ -63,3 +63,48 @@ But, if your IPUs don't have their feature values calculated then you can the kn
        extractor="praat",
        pitch_gender="F",
    )
+
+Sample cross-correlation as a proxy for entrainment
+---------------------------------------------------
+
+The sample cross-correlation is a measure which aims at capturing the correlation between two series as one of them is lagged (i.e., its points are shifted a number of positions). Intuitively, it can be interpreted similarly to Pearson’s correlation coefficient between a time-series and a lagged version of another one.
+
+Having two time series calculated you can calculate the sample cross-correlation as simply as this:
+
+.. code-block:: python
+
+   from speechalyze.tama import calculate_sample_correlation
+   from typing import List
+
+   sample_cross_correlations: List[float] = calculate_sample_correlation(
+       time_series_a=time_series_a,
+       time_series_b=time_series_b,
+       lags=an_amount_of_lags,
+   )
+
+Measuring acoustic-prosodic synchrony
+-------------------------------------
+
+We provide two ways of measuring acoustic-prosodic synchrony in the library. Signed and Unsigned Synchrony Measure.
+
+For Signed Synchrony Measure positive values of S represent positive synchrony (or entrainment) in a straightforward way, and negative values represent negative synchrony (disentrainment).
+
+In the other hand, for Unsigned Synchrony Measure, by taking the absolute value, this second measure gives equal treatment to positive and negative synchrony values. In other words, high values of the time series are indicative of high levels of either entrainment or disentrainment; and low values correspond to a total lack of coordination in either direction.
+
+Here's an example of how to get both metrics:
+
+.. code-block:: python
+
+   from speechalyze.tama import signed_synchrony, unsigned_synchrony
+   res_signed_synchrony = signed_synchrony(
+       time_series_a=time_series_a,
+       time_series_b=time_series_b,
+       lags=an_amount_of_lags,
+   )
+
+   res_unsigned_synchrony = unsigned_synchrony(
+       time_series_a=time_series_a,
+       time_series_b=time_series_b,
+       lags=an_amount_of_lags,
+   )
+

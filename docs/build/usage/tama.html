@@ -44,6 +44,8 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Time-Aligned Moving Average (TAMA)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#using-frames">Using Frames</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#constructing-time-series-of-acoustic-prosodic-features">Constructing time series of acoustic-prosodic features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sample-cross-correlation-as-a-proxy-for-entrainment">Sample cross-correlation as a proxy for entrainment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#measuring-acoustic-prosodic-synchrony">Measuring acoustic-prosodic synchrony</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="continuous_time_series.html">Continuous TimeSeries</a></li>
@@ -131,6 +133,42 @@
     <span class="n">audio_file</span><span class="o">=</span><span class="s2">&quot;path/to/audio.wav&quot;</span><span class="p">,</span>
     <span class="n">extractor</span><span class="o">=</span><span class="s2">&quot;praat&quot;</span><span class="p">,</span>
     <span class="n">pitch_gender</span><span class="o">=</span><span class="s2">&quot;F&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sample-cross-correlation-as-a-proxy-for-entrainment">
+<h2>Sample cross-correlation as a proxy for entrainment<a class="headerlink" href="#sample-cross-correlation-as-a-proxy-for-entrainment" title="Permalink to this heading"></a></h2>
+<p>The sample cross-correlation is a measure which aims at capturing the correlation between two series as one of them is lagged (i.e., its points are shifted a number of positions). Intuitively, it can be interpreted similarly to Pearson’s correlation coefficient between a time-series and a lagged version of another one.</p>
+<p>Having two time series calculated you can calculate the sample cross-correlation as simply as this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">speechalyze.tama</span> <span class="kn">import</span> <span class="n">calculate_sample_correlation</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+<span class="n">sample_cross_correlations</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_sample_correlation</span><span class="p">(</span>
+    <span class="n">time_series_a</span><span class="o">=</span><span class="n">time_series_a</span><span class="p">,</span>
+    <span class="n">time_series_b</span><span class="o">=</span><span class="n">time_series_b</span><span class="p">,</span>
+    <span class="n">lags</span><span class="o">=</span><span class="n">an_amount_of_lags</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="measuring-acoustic-prosodic-synchrony">
+<h2>Measuring acoustic-prosodic synchrony<a class="headerlink" href="#measuring-acoustic-prosodic-synchrony" title="Permalink to this heading"></a></h2>
+<p>We provide two ways of measuring acoustic-prosodic synchrony in the library. Signed and Unsigned Synchrony Measure.</p>
+<p>For Signed Synchrony Measure positive values of S represent positive synchrony (or entrainment) in a straightforward way, and negative values represent negative synchrony (disentrainment).</p>
+<p>In the other hand, for Unsigned Synchrony Measure, by taking the absolute value, this second measure gives equal treatment to positive and negative synchrony values. In other words, high values of the time series are indicative of high levels of either entrainment or disentrainment; and low values correspond to a total lack of coordination in either direction.</p>
+<p>Here’s an example of how to get both metrics:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">speechalyze.tama</span> <span class="kn">import</span> <span class="n">signed_synchrony</span><span class="p">,</span> <span class="n">unsigned_synchrony</span>
+<span class="n">res_signed_synchrony</span> <span class="o">=</span> <span class="n">signed_synchrony</span><span class="p">(</span>
+    <span class="n">time_series_a</span><span class="o">=</span><span class="n">time_series_a</span><span class="p">,</span>
+    <span class="n">time_series_b</span><span class="o">=</span><span class="n">time_series_b</span><span class="p">,</span>
+    <span class="n">lags</span><span class="o">=</span><span class="n">an_amount_of_lags</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">res_unsigned_synchrony</span> <span class="o">=</span> <span class="n">unsigned_synchrony</span><span class="p">(</span>
+    <span class="n">time_series_a</span><span class="o">=</span><span class="n">time_series_a</span><span class="p">,</span>
+    <span class="n">time_series_b</span><span class="o">=</span><span class="n">time_series_b</span><span class="p">,</span>
+    <span class="n">lags</span><span class="o">=</span><span class="n">an_amount_of_lags</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
