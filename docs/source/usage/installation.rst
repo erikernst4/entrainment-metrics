@@ -5,5 +5,31 @@ To use speechalyze, first install it using pip:
 
 .. code-block:: console
 
-   $ pip install speechalyze
+   pip install speechalyze
+
+It's also required the command-line tool ffmpeg to be installed on your system, which is available from most package managers:
+
+.. code-block:: console
+
+   # on Ubuntu or Debian
+   sudo apt update && sudo apt install ffmpeg
+
+   # on Arch Linux
+   sudo pacman -S ffmpeg
+
+   # on MacOS using Homebrew (https://brew.sh/)
+   brew install ffmpeg
+
+   # on Windows using Chocolatey (https://chocolatey.org/)
+   choco install ffmpeg
+
+   # on Windows using Scoop (https://scoop.sh/)
+   scoop install ffmpeg
+
+For speech feature extraction it is also required praat:
+
+.. code-block:: console
+
+   # on Ubuntu or Debian
+   sudo apt update && sudo apt install praat
 
