@@ -159,7 +159,6 @@ class KNNTestCase(TestCase):
                 "synchrony",
                 time_series_a,
                 time_series_b,
-                synchrony_deltas=[0.0, 5.0, 10.0, 15.0],
             ),
             -0.9380466517541128,
         )
@@ -200,14 +199,12 @@ class KNNTestCase(TestCase):
                 "synchrony",
                 time_series_a,
                 time_series_b,
-                synchrony_deltas=[0.0, 5.0, 10.0, 15.0],
                 integration_method="montecarlo",
             ),
             calculate_metric(
                 "synchrony",
                 time_series_a,
                 time_series_b,
-                synchrony_deltas=[0.0, 5.0, 10.0, 15.0],
                 integration_method="trapz",
             ),
             decimal=4,

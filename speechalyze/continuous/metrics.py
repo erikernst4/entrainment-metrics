@@ -186,9 +186,9 @@ def calculate_synchrony_montecarlo(
             time_series_values_b_crop = time_series_values_b_crop[:-values_to_crop]
 
         elif synchrony_delta < 0:
-            values_to_crop = int(synchrony_delta / granularity)
-            time_series_values_a_crop = time_series_values_b_crop[:-values_to_crop]
-            time_series_values_b_crop = time_series_values_a_crop[values_to_crop:]
+            values_to_crop = int(-synchrony_delta / granularity)
+            time_series_values_a_crop = time_series_values_a_crop[:-values_to_crop]
+            time_series_values_b_crop = time_series_values_b_crop[values_to_crop:]
 
         numerator = calculate_numerator_montecarlo(
             time_series_values_a_crop, time_series_values_b_crop, mean_a, mean_b  # type: ignore
@@ -299,15 +299,14 @@ def calculate_synchrony_trapz(
 
         elif synchrony_delta < 0:
             # Crop the other way with abs(synchrony_delta)
-            synchrony_delta = abs(synchrony_delta)
-            values_to_crop = int(synchrony_delta / granularity)
-            time_series_values_a_crop = time_series_values_b_crop[:-values_to_crop]
-            time_series_values_b_crop = time_series_values_a_crop[values_to_crop:]
+            values_to_crop = int(abs(synchrony_delta) / granularity)
+            time_series_values_a_crop = time_series_values_a_crop[:-values_to_crop]
+            time_series_values_b_crop = time_series_values_b_crop[values_to_crop:]
             values_to_predict_a_in_s = np.arange(
-                start, end + granularity - synchrony_delta, granularity
+                start, end + granularity - abs(synchrony_delta), granularity
             )
             values_to_predict_b_in_s = np.arange(
-                start + synchrony_delta, end + granularity, granularity
+                start + abs(synchrony_delta), end + granularity, granularity
             )
 
         numerator = calculate_numerator_trapz(
