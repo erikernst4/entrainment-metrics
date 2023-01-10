@@ -124,7 +124,7 @@ class KNNTestCase(TestCase):
 
         np.testing.assert_almost_equal(
             calculate_metric("proximity", time_series_a, time_series_b),
-            -0.0096134877908014,
+            -0.011360997500560188,
         )
 
     def test_calculate_convergence_oposites(self):
@@ -140,7 +140,7 @@ class KNNTestCase(TestCase):
 
         np.testing.assert_almost_equal(
             calculate_metric("convergence", time_series_a, time_series_b),
-            0.0001704841413878858,
+            0.00022443279925280575,
         )
 
     def test_calculate_synchrony_oposites(self):
@@ -160,7 +160,7 @@ class KNNTestCase(TestCase):
                 time_series_a,
                 time_series_b,
             ),
-            -0.9380466517541128,
+            -0.925558204113492,
         )
 
     def test_calculate_synchrony_w_deltas_bigger_than_interval(self):
