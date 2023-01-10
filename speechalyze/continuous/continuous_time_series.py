@@ -124,7 +124,7 @@ class TimeSeries:
         Returns the starting point in time in which
         the TimeSeries is defined
         """
-        return self.ipus[0].start
+        return (self.ipus[0].end + self.ipus[0].start) / 2
 
     def end(
         self,
@@ -133,7 +133,7 @@ class TimeSeries:
         Returns the ending point in time in which
         the TimeSeries is defined
         """
-        return self.ipus[-1].end
+        return (self.ipus[-1].end + self.ipus[-1].start) / 2
 
     def predict(
         self,
