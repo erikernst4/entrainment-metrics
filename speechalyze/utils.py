@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import List
 
+import matplotlib.pyplot as plt
 import numpy as np
 from scipy.io import wavfile
 
@@ -84,3 +85,12 @@ def print_ipus_information(ipus: List[InterPausalUnit], feature: str):
     print(f"Max {feature} value: {np.max(ipus_feature_values)}")
     print(f"Min start: {start}")
     print(f"Max end: {end}")
+
+
+def plot_ipus(ipus: List[InterPausalUnit], feature: str, **kwargs):
+    ipus_values = [ipu.feature_value(feature) for ipu in ipus]
+    ipus_starts = [ipu.start for ipu in ipus]
+    ipus_ends = [ipu.end for ipu in ipus]
+    plt.hlines(y=ipus_values, xmin=ipus_starts, xmax=ipus_ends, **kwargs)
+    plt.xlabel("Time (seconds)")
+    plt.ylabel(feature)
