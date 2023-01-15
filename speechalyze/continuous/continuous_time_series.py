@@ -2,6 +2,7 @@ import warnings
 from copy import deepcopy
 from typing import List, Optional
 
+import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.neighbors import KNeighborsRegressor
 
@@ -175,9 +176,9 @@ class TimeSeries:
 
     def predict_interval(
         self,
-        start: Optional[float],
-        end: Optional[float],
-        granularity: Optional[float],
+        start: Optional[float] = None,
+        end: Optional[float] = None,
+        granularity: Optional[float] = None,
     ) -> np.ndarray:
         """
         Predict the values of the times series between the given
@@ -217,3 +218,40 @@ class TimeSeries:
         values_to_predict = values_to_predict_in_s.reshape(-1, 1)
 
         return self.predict(values_to_predict)
+
+    def plot(
+        self,
+        plot_ipus: Optional[bool] = None,
+        granularity: Optional[float] = None,
+        show: Optional[bool] = None,
+        **kwargs,
+    ):
+        if plot_ipus is None:
+            plot_ipus = True
+
+        if granularity is None:
+            granularity = 0.01
+
+        if show is None:
+            show = True
+
+        xs = np.arange(self.start(), self.end() + granularity, granularity)
+        values_to_predict_in_s = deepcopy(xs)
+        # Last value to predict could be greater than the end
+        if values_to_predict_in_s[-1] > self.end():
+            values_to_predict_in_s[-1] = self.end()
+
+        values_to_predict = values_to_predict_in_s.reshape(-1, 1)
+        ys = self.predict(values_to_predict)
+        plt.plot(xs, ys, **kwargs)
+
+        if plot_ipus:
+            ipus_values = [ipu.feature_value(self.feature) for ipu in self.ipus]
+            ipus_starts = [ipu.start for ipu in self.ipus]
+            ipus_ends = [ipu.end for ipu in self.ipus]
+            plt.hlines(y=ipus_values, xmin=ipus_starts, xmax=ipus_ends, **kwargs)
+
+        plt.xlabel("Time (seconds)")
+        plt.ylabel(self.feature)
+        if show:
+            plt.show()
