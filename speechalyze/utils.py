@@ -94,3 +94,4 @@ def plot_ipus(ipus: List[InterPausalUnit], feature: str, **kwargs):
     plt.hlines(y=ipus_values, xmin=ipus_starts, xmax=ipus_ends, **kwargs)
     plt.xlabel("Time (seconds)")
     plt.ylabel(feature)
+    plt.show()
