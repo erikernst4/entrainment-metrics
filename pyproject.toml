@@ -11,6 +11,7 @@ scipy = "^1.8.1"
 opensmile = "^2.4.1"
 coverage = "^6.4.4"
 sklearn = "^0.0"
+matplotlib = "^3.6.3"
 
 [tool.poetry.dev-dependencies]
 

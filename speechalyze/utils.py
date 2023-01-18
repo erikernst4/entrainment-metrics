@@ -1,6 +1,8 @@
 from pathlib import Path
 from typing import List
 
+import matplotlib.pyplot as plt
+import numpy as np
 from scipy.io import wavfile
 
 from .interpausal_unit import InterPausalUnit
@@ -61,3 +63,56 @@ def print_audio_description(speaker: str, wav_fname: Path) -> None:
     print(f"min, max: {data.min()}, {data.max()}")
     print(f"Lenght: {data.shape[0]/samplerate} s")
     print("----------------------------------------")
+
+
+def print_ipus_information(ipus: List[InterPausalUnit], feature: str):
+    """
+    Print lenght, std, mean, min, max, min start, and max end
+    from the list of IPUs.
+
+    Parameters
+    ----------
+    ipus: List[InterPausalUnit]
+        The list of IPUs from which to extract information.
+    feature: str
+        The feature from which to extract the feature value of each InterPausalUnit.
+    """
+    start = ipus[0].start
+    end = ipus[0].end
+    for ipu in ipus:
+        if ipu.start < start:
+            start = ipu.start
+        if ipu.end > end:
+            end = ipu.end
+
+    ipus_feature_values = [ipu.feature_value(feature) for ipu in ipus]
+    mean = np.mean(ipus_feature_values)
+    std = np.std(ipus_feature_values)
+
+    print(f"Amount of IPUs: {len(ipus)}")
+    print(f"Std: {std}")
+    print(f"Mean: {mean}")
+    print(f"Min {feature} value: {np.min(ipus_feature_values)}")
+    print(f"Max {feature} value: {np.max(ipus_feature_values)}")
+    print(f"Min start: {start}")
+    print(f"Max end: {end}")
+
+
+def plot_ipus(ipus: List[InterPausalUnit], feature: str, **kwargs):
+    """
+    Plot the IPU's feature values with its corresponding lenght.
+
+    Parameters
+    ----------
+    ipus: List[InterPausalUnit]
+        The list of IPUs from which to extract information.
+    feature: str
+        The feature from which to extract the feature value of each InterPausalUnit.
+    """
+    ipus_values = [ipu.feature_value(feature) for ipu in ipus]
+    ipus_starts = [ipu.start for ipu in ipus]
+    ipus_ends = [ipu.end for ipu in ipus]
+    plt.hlines(y=ipus_values, xmin=ipus_starts, xmax=ipus_ends, **kwargs)
+    plt.xlabel("Time (seconds)")
+    plt.ylabel(feature)
+    plt.show()

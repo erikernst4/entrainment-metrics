@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Usage &mdash; Speechalyze  documentation</title>
+  <title>Visualization &mdash; Speechalyze  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -18,8 +18,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Installation" href="installation.html" />
-    <link rel="prev" title="Welcome to Speechalyze’s documentation!" href="../index.html" />
+    <link rel="next" title="InterPausalUnit" href="../modules/ipu.html" />
+    <link rel="prev" title="Continuous TimeSeries" href="continuous_time_series.html" />
 </head>
 
 <body class="wy-body-for-nav">
@@ -38,12 +38,12 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Usage</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="getting_ipus.html">Getting Interpausal Units</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tama.html">Time-Aligned Moving Average (TAMA)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="continuous_time_series.html">Continuous TimeSeries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="visualization.html">Visualization</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Visualization</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../modules/ipu.html">InterPausalUnit</a></li>
@@ -64,9 +64,10 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Usage</li>
+          <li><a href="index.html">Usage</a> &raquo;</li>
+      <li>Visualization</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/usage/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/usage/visualization.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -74,35 +75,37 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
 
-  <div class="section" id="usage">
-<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="getting_ipus.html">Getting Interpausal Units</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tama.html">Time-Aligned Moving Average (TAMA)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tama.html#using-frames">Using Frames</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tama.html#constructing-time-series-of-acoustic-prosodic-features">Constructing time series of acoustic-prosodic features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tama.html#sample-cross-correlation-as-a-proxy-for-entrainment">Sample cross-correlation as a proxy for entrainment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tama.html#measuring-acoustic-prosodic-synchrony">Measuring acoustic-prosodic synchrony</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="continuous_time_series.html">Continuous TimeSeries</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="continuous_time_series.html#using-continuous-timeseries">Using Continuous TimeSeries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="continuous_time_series.html#calculating-metrics">Calculating Metrics</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="visualization.html">Visualization</a></li>
-</ul>
+  <div class="section" id="visualization">
+<h1>Visualization<a class="headerlink" href="#visualization" title="Permalink to this heading"></a></h1>
+<p>The library includes some basic visualization tools that can be very useful in your development. You can get cool plots like this one:</p>
+<a class="reference internal image-reference" href="../_images/time_series_plot_example.png"><img alt="Estimated noise_to_harmonics_ratio evolution during a conversation." src="../_images/time_series_plot_example.png" style="width: 800px;" /></a>
+<p>The code need to get that plot is just this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">speechalyze.continuous</span> <span class="kn">import</span> <span class="n">plot_time_series</span>
+
+<span class="n">plot_time_series</span><span class="p">(</span>
+            <span class="n">time_series_a</span><span class="o">=</span><span class="n">a_time_series</span><span class="p">,</span>
+            <span class="n">time_series_b</span><span class="o">=</span><span class="n">another_time_series</span><span class="p">,</span>
+            <span class="n">time_series_a_name</span><span class="o">=</span><span class="s2">&quot;Erik&quot;</span><span class="p">,</span>
+            <span class="n">time_series_b_name</span><span class="o">=</span><span class="s2">&quot;Ramiro&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+</pre></div>
 </div>
+<p>Furthermore, TimeSeries have a plot() method that can get a plot like this for a unique TimeSeries instance. You can check that in the <cite>TimeSeries</cite> documentation</p>
+<p>You can also plot only InterPausalUnits:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">speechalyze</span> <span class="kn">import</span> <span class="n">plot_ipus</span>
+
+<span class="n">plot_ipus</span><span class="p">(</span><span class="n">ipus</span><span class="p">,</span> <span class="n">some_feature</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, with print_ipus_information() you can get some insightful information from a list of InterPausalUnit.</p>
 </div>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to Speechalyze’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="continuous_time_series.html" class="btn btn-neutral float-left" title="Continuous TimeSeries" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../modules/ipu.html" class="btn btn-neutral float-right" title="InterPausalUnit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
