@@ -46,10 +46,12 @@ class TimeSeries:
         self.ipus: List[InterPausalUnit] = deepcopy(interpausal_units)
 
         #: The feature to get the value from each InterPausalUnit.
-        self.feature = feature
+        self.feature: str = feature
 
         #: The feature values of each ipu.
-        self.ipus_feature_values = self._get_interpausal_units_feature_values()
+        self.ipus_feature_values: np.ndarray = (
+            self._get_interpausal_units_feature_values()
+        )
 
         self.outliers = None
 
