@@ -10,14 +10,11 @@ from speechalyze import InterPausalUnit
 
 
 class TimeSeries:
-    """
-    The evolution of an acoustic-prosodic feature
+    """The evolution of an acoustic-prosodic feature
     value in time.
 
 
-     ...
-
-    Attributes
+    Parameters
     ----------
     feature: str
         The feature to get the value from each InterPausalUnit
@@ -31,7 +28,7 @@ class TimeSeries:
     k: Optional[int]
         The amount of neighbors to use in KNeighborsRegressor
 
-    MAX_DEVIATIONS: int
+    MAX_DEVIATIONS: Optional[int]
         The amount of deviation to define an outlier
 
     """
@@ -45,11 +42,13 @@ class TimeSeries:
         MAX_DEVIATIONS: Optional[int] = None,
         **kwargs,
     ) -> None:
-
+        #: The InterPausalUnits of the TimeSeries.
         self.ipus: List[InterPausalUnit] = deepcopy(interpausal_units)
 
+        #: The feature to get the value from each InterPausalUnit.
         self.feature = feature
 
+        #: The feature values of each ipu.
         self.ipus_feature_values = self._get_interpausal_units_feature_values()
 
         self.outliers = None
@@ -191,11 +190,11 @@ class TimeSeries:
         Parameters
         ----------
         start: Optional[float]
-            A starting point in time to predict.
+            A starting point in time to predict. Default is self.start()
         end: Optional[float]
-            An ending point in time to predict.
+            An ending point in time to predict. Default is self.end()
         granularity: Optional[float]
-            The step in time in which to predict from the time series.
+            The step in time in which to predict from the time series. Default is 0.01
         Returns
         -------
         np.ndarray
@@ -224,21 +223,46 @@ class TimeSeries:
 
     def plot(
         self,
-        plot_ipus: Optional[bool] = None,
+        start: Optional[float] = None,
+        end: Optional[float] = None,
         granularity: Optional[float] = None,
+        plot_ipus: Optional[bool] = None,
         show: Optional[bool] = None,
         **kwargs,
     ):
-        if plot_ipus is None:
-            plot_ipus = True
+        """
+        Plot the predictions between the given
+        start and end, and with the given granularity.
+
+        Parameters
+        ----------
+        start: Optional[float]
+            A starting point in time to predict. Default is self.start()
+        end: Optional[float]
+            An ending point in time to predict. Default is self.end()
+        granularity: Optional[float]
+            The step in time in which to predict from the time series. Default is 0.01
+        plot_ipus: Optional[bool]
+            Whether to plot also the InterPausalUnits feature values. Default is True.
+        show: Optional[bool]
+            Whether to show the plot. Default is True.
+        """
+        if start is None:
+            start = self.start()
+
+        if end is None:
+            end = self.end()
 
         if granularity is None:
             granularity = 0.01
 
+        if plot_ipus is None:
+            plot_ipus = True
+
         if show is None:
             show = True
 
-        xs = np.arange(self.start(), self.end() + granularity, granularity)
+        xs = np.arange(start, end + granularity, granularity)
         values_to_predict_in_s = deepcopy(xs)
         # Last value to predict could be greater than the end
         if values_to_predict_in_s[-1] > self.end():
@@ -249,9 +273,17 @@ class TimeSeries:
         plt.plot(xs, ys, **kwargs)
 
         if plot_ipus:
-            ipus_values = [ipu.feature_value(self.feature) for ipu in self.ipus]
-            ipus_starts = [ipu.start for ipu in self.ipus]
-            ipus_ends = [ipu.end for ipu in self.ipus]
+            ipus_values = [
+                ipu.feature_value(self.feature)
+                for ipu in self.ipus
+                if ipu.start >= start and ipu.end <= end
+            ]
+            ipus_starts = [
+                ipu.start for ipu in self.ipus if ipu.start >= start and ipu.end <= end
+            ]
+            ipus_ends = [
+                ipu.end for ipu in self.ipus if ipu.start >= start and ipu.end <= end
+            ]
             plt.hlines(
                 y=ipus_values, xmin=ipus_starts, xmax=ipus_ends, linewidth=4.4, **kwargs
             )
@@ -262,4 +294,7 @@ class TimeSeries:
             plt.show()
 
     def outlier_ipus(self):
+        """
+        Returns the amount of InterPausalUnits with an outlier feature value.
+        """
         return self.outliers
