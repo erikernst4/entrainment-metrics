@@ -66,6 +66,17 @@ def print_audio_description(speaker: str, wav_fname: Path) -> None:
 
 
 def print_ipus_information(ipus: List[InterPausalUnit], feature: str):
+    """
+    Print lenght, std, mean, min, max, min start, and max end
+    from the list of IPUs.
+
+    Parameters
+    ----------
+    ipus: List[InterPausalUnit]
+        The list of IPUs from which to extract information.
+    feature: str
+        The feature from which to extract the feature value of each InterPausalUnit.
+    """
     start = ipus[0].start
     end = ipus[0].end
     for ipu in ipus:
@@ -88,6 +99,16 @@ def print_ipus_information(ipus: List[InterPausalUnit], feature: str):
 
 
 def plot_ipus(ipus: List[InterPausalUnit], feature: str, **kwargs):
+    """
+    Plot the IPU's feature values with its corresponding lenght.
+
+    Parameters
+    ----------
+    ipus: List[InterPausalUnit]
+        The list of IPUs from which to extract information.
+    feature: str
+        The feature from which to extract the feature value of each InterPausalUnit.
+    """
     ipus_values = [ipu.feature_value(feature) for ipu in ipus]
     ipus_starts = [ipu.start for ipu in ipus]
     ipus_ends = [ipu.end for ipu in ipus]
