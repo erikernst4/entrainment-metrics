@@ -42,6 +42,8 @@ def plot_time_series(
         The name for the first TimeSeries passed as argument. Default is 'time_series_a'.
     time_series_b_name: Optional[str]
         The name for the second TimeSeries passed as argument. Default is 'time_series_b'.
+    save_fname: Optional[str]
+        The fname to pass to plt.savefig(). If provided the plot will be saved.
     """
     if (
         legend is None
