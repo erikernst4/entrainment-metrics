@@ -43,7 +43,8 @@
 <li class="toctree-l2"><a class="reference internal" href="tama.html">TAMA</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Continuous</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#module-speechalyze.continuous.continuous_time_series">TimeSeries</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-speechalyze.continuous.metrics">Metrics</a><ul class="simple">
+<li class="toctree-l3"><a class="reference internal" href="#module-speechalyze.continuous.metrics">Metrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-speechalyze.continuous.utils">Visualization</a><ul class="simple">
 </ul>
 </li>
 </ul>
@@ -86,69 +87,65 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">speechalyze.continuous.continuous_time_series.</span></span><span class="sig-name descname"><span class="pre">TimeSeries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpausal_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ipu.html#speechalyze.interpausal_unit.InterPausalUnit" title="speechalyze.interpausal_unit.InterPausalUnit"><span class="pre">InterPausalUnit</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MAX_DEVIATIONS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#speechalyze.continuous.continuous_time_series.TimeSeries" title="Permalink to this definition"></a></dt>
 <dd><p>The evolution of an acoustic-prosodic feature
 value in time.</p>
-<blockquote>
-<div><p>…</p>
-</div></blockquote>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="speechalyze.continuous.continuous_time_series.TimeSeries.feature">
-<span class="sig-name descname"><span class="pre">feature</span></span><a class="headerlink" href="#speechalyze.continuous.continuous_time_series.TimeSeries.feature" title="Permalink to this definition"></a></dt>
-<dd><p>The feature to get the value from each InterPausalUnit</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>feature</strong> (<em>str</em>) – The feature to get the value from each InterPausalUnit</p></li>
+<li><p><strong>interpausal_units</strong> (<em>List</em><em>[</em><a class="reference internal" href="ipu.html#speechalyze.interpausal_unit.InterPausalUnit" title="speechalyze.interpausal_unit.InterPausalUnit"><em>InterPausalUnit</em></a><em>]</em>) – An ordered list of InterPausalUnit’s</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – The method to be used to predict</p></li>
+<li><p><strong>k</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – The amount of neighbors to use in KNeighborsRegressor</p></li>
+<li><p><strong>MAX_DEVIATIONS</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – The amount of deviation to define an outlier</p></li>
+</ul>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="speechalyze.continuous.continuous_time_series.TimeSeries.interpausal_units">
-<span class="sig-name descname"><span class="pre">interpausal_units</span></span><a class="headerlink" href="#speechalyze.continuous.continuous_time_series.TimeSeries.interpausal_units" title="Permalink to this definition"></a></dt>
-<dd><p>An ordered list of InterPausalUnit’s</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="ipu.html#speechalyze.interpausal_unit.InterPausalUnit" title="speechalyze.interpausal_unit.InterPausalUnit">InterPausalUnit</a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="speechalyze.continuous.continuous_time_series.TimeSeries.method">
-<span class="sig-name descname"><span class="pre">method</span></span><a class="headerlink" href="#speechalyze.continuous.continuous_time_series.TimeSeries.method" title="Permalink to this definition"></a></dt>
-<dd><p>The method to be used to predict</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="speechalyze.continuous.continuous_time_series.TimeSeries.k">
-<span class="sig-name descname"><span class="pre">k</span></span><a class="headerlink" href="#speechalyze.continuous.continuous_time_series.TimeSeries.k" title="Permalink to this definition"></a></dt>
-<dd><p>The amount of neighbors to use in KNeighborsRegressor</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>Optional[int]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="speechalyze.continuous.continuous_time_series.TimeSeries.MAX_DEVIATIONS">
-<span class="sig-name descname"><span class="pre">MAX_DEVIATIONS</span></span><a class="headerlink" href="#speechalyze.continuous.continuous_time_series.TimeSeries.MAX_DEVIATIONS" title="Permalink to this definition"></a></dt>
-<dd><p>The amount of deviation to define an outlier</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>int</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="speechalyze.continuous.continuous_time_series.TimeSeries.end">
 <span class="sig-name descname"><span class="pre">end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#speechalyze.continuous.continuous_time_series.TimeSeries.end" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the ending point in time in which
 the TimeSeries is defined</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="speechalyze.continuous.continuous_time_series.TimeSeries.feature">
+<span class="sig-name descname"><span class="pre">feature</span></span><a class="headerlink" href="#speechalyze.continuous.continuous_time_series.TimeSeries.feature" title="Permalink to this definition"></a></dt>
+<dd><p>The feature to get the value from each InterPausalUnit.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="speechalyze.continuous.continuous_time_series.TimeSeries.ipus">
+<span class="sig-name descname"><span class="pre">ipus</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ipu.html#speechalyze.interpausal_unit.InterPausalUnit" title="speechalyze.interpausal_unit.InterPausalUnit"><span class="pre">InterPausalUnit</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#speechalyze.continuous.continuous_time_series.TimeSeries.ipus" title="Permalink to this definition"></a></dt>
+<dd><p>The InterPausalUnits of the TimeSeries.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="speechalyze.continuous.continuous_time_series.TimeSeries.ipus_feature_values">
+<span class="sig-name descname"><span class="pre">ipus_feature_values</span></span><a class="headerlink" href="#speechalyze.continuous.continuous_time_series.TimeSeries.ipus_feature_values" title="Permalink to this definition"></a></dt>
+<dd><p>The feature values of each ipu.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="speechalyze.continuous.continuous_time_series.TimeSeries.outlier_ipus">
+<span class="sig-name descname"><span class="pre">outlier_ipus</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#speechalyze.continuous.continuous_time_series.TimeSeries.outlier_ipus" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the amount of InterPausalUnits with an outlier feature value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="speechalyze.continuous.continuous_time_series.TimeSeries.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_ipus</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#speechalyze.continuous.continuous_time_series.TimeSeries.plot" title="Permalink to this definition"></a></dt>
+<dd><p>Plot the predictions between the given
+start and end, and with the given granularity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – A starting point in time to predict. Default is self.start()</p></li>
+<li><p><strong>end</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – An ending point in time to predict. Default is self.end()</p></li>
+<li><p><strong>granularity</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – The step in time in which to predict from the time series. Default is 0.01</p></li>
+<li><p><strong>plot_ipus</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – Whether to plot also the InterPausalUnits feature values. Default is True.</p></li>
+<li><p><strong>show</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – Whether to show the plot. Default is True.</p></li>
+<li><p><strong>save_fname</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The fname to pass to plt.savefig(). If provided the plot will be saved.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -172,15 +169,15 @@ of the TimeSeries.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="speechalyze.continuous.continuous_time_series.TimeSeries.predict_interval">
-<span class="sig-name descname"><span class="pre">predict_interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#speechalyze.continuous.continuous_time_series.TimeSeries.predict_interval" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">predict_interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#speechalyze.continuous.continuous_time_series.TimeSeries.predict_interval" title="Permalink to this definition"></a></dt>
 <dd><p>Predict the values of the times series between the given
 start and end, and with the given granularity.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>start</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – A starting point in time to predict.</p></li>
-<li><p><strong>end</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – An ending point in time to predict.</p></li>
-<li><p><strong>granularity</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – The step in time in which to predict from the time series.</p></li>
+<li><p><strong>start</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – A starting point in time to predict. Default is self.start()</p></li>
+<li><p><strong>end</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – An ending point in time to predict. Default is self.end()</p></li>
+<li><p><strong>granularity</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – The step in time in which to predict from the time series. Default is 0.01</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -246,6 +243,32 @@ both TimeSeries are simultaneously defined.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-speechalyze.continuous.utils">
+<span id="visualization"></span><h2>Visualization<a class="headerlink" href="#module-speechalyze.continuous.utils" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="speechalyze.continuous.utils.plot_time_series">
+<span class="sig-prename descclassname"><span class="pre">speechalyze.continuous.utils.</span></span><span class="sig-name descname"><span class="pre">plot_time_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_series_a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#speechalyze.continuous.continuous_time_series.TimeSeries" title="speechalyze.continuous.continuous_time_series.TimeSeries"><span class="pre">TimeSeries</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_series_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#speechalyze.continuous.continuous_time_series.TimeSeries" title="speechalyze.continuous.continuous_time_series.TimeSeries"><span class="pre">TimeSeries</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_ipus</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_series_a_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_series_b_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#speechalyze.continuous.utils.plot_time_series" title="Permalink to this definition"></a></dt>
+<dd><p>Plot the predictions of both TimeSeries between
+the given start and end, and with the given granularity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time_series_a</strong> (<a class="reference internal" href="#speechalyze.continuous.continuous_time_series.TimeSeries" title="speechalyze.continuous.continuous_time_series.TimeSeries"><em>TimeSeries</em></a>) – One of the two TimeSeries to plot.</p></li>
+<li><p><strong>time_series_b</strong> (<a class="reference internal" href="#speechalyze.continuous.continuous_time_series.TimeSeries" title="speechalyze.continuous.continuous_time_series.TimeSeries"><em>TimeSeries</em></a>) – The other TimeSeries to plot.</p></li>
+<li><p><strong>start</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – A starting point in time to predict. Default is self.start()</p></li>
+<li><p><strong>end</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – An ending point in time to predict. Default is self.end()</p></li>
+<li><p><strong>granularity</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – The step in time in which to predict from the time series. Default is 0.01</p></li>
+<li><p><strong>plot_ipus</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – Whether to plot also the InterPausalUnits feature values. Default is True.</p></li>
+<li><p><strong>legend</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – Whether to display a legend. Default is True.</p></li>
+<li><p><strong>time_series_a_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The name for the first TimeSeries passed as argument. Default is ‘time_series_a’.</p></li>
+<li><p><strong>time_series_b_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The name for the second TimeSeries passed as argument. Default is ‘time_series_b’.</p></li>
+<li><p><strong>save_fname</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The fname to pass to plt.savefig(). If provided the plot will be saved.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>

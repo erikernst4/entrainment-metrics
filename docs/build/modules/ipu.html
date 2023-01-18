@@ -19,7 +19,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Modules" href="index.html" />
-    <link rel="prev" title="Continuous TimeSeries" href="../usage/continuous_time_series.html" />
+    <link rel="prev" title="Visualization" href="../usage/visualization.html" />
 </head>
 
 <body class="wy-body-for-nav">
@@ -39,7 +39,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Usage</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">InterPausalUnit</a><ul class="simple">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">InterPausalUnit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-speechalyze.utils">Visualization</a><ul class="simple">
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="index.html">Modules</a></li>
@@ -114,7 +117,39 @@
 
 </dd></dl>
 
+<div class="section" id="module-speechalyze.utils">
+<span id="visualization"></span><h2>Visualization<a class="headerlink" href="#module-speechalyze.utils" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="speechalyze.utils.plot_ipus">
+<span class="sig-prename descclassname"><span class="pre">speechalyze.utils.</span></span><span class="sig-name descname"><span class="pre">plot_ipus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipus</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#speechalyze.interpausal_unit.InterPausalUnit" title="speechalyze.interpausal_unit.InterPausalUnit"><span class="pre">InterPausalUnit</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#speechalyze.utils.plot_ipus" title="Permalink to this definition"></a></dt>
+<dd><p>Plot the IPU’s feature values with its corresponding lenght.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ipus</strong> (<em>List</em><em>[</em><a class="reference internal" href="#speechalyze.interpausal_unit.InterPausalUnit" title="speechalyze.interpausal_unit.InterPausalUnit"><em>InterPausalUnit</em></a><em>]</em>) – The list of IPUs from which to extract information.</p></li>
+<li><p><strong>feature</strong> (<em>str</em>) – The feature from which to extract the feature value of each InterPausalUnit.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="speechalyze.utils.print_ipus_information">
+<span class="sig-prename descclassname"><span class="pre">speechalyze.utils.</span></span><span class="sig-name descname"><span class="pre">print_ipus_information</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipus</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#speechalyze.interpausal_unit.InterPausalUnit" title="speechalyze.interpausal_unit.InterPausalUnit"><span class="pre">InterPausalUnit</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#speechalyze.utils.print_ipus_information" title="Permalink to this definition"></a></dt>
+<dd><p>Print lenght, std, mean, min, max, min start, and max end
+from the list of IPUs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ipus</strong> (<em>List</em><em>[</em><a class="reference internal" href="#speechalyze.interpausal_unit.InterPausalUnit" title="speechalyze.interpausal_unit.InterPausalUnit"><em>InterPausalUnit</em></a><em>]</em>) – The list of IPUs from which to extract information.</p></li>
+<li><p><strong>feature</strong> (<em>str</em>) – The feature from which to extract the feature value of each InterPausalUnit.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <div class="toctree-wrapper compound">
+</div>
 </div>
 </div>
 
@@ -122,7 +157,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../usage/continuous_time_series.html" class="btn btn-neutral float-left" title="Continuous TimeSeries" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../usage/visualization.html" class="btn btn-neutral float-left" title="Visualization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="index.html" class="btn btn-neutral float-right" title="Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
