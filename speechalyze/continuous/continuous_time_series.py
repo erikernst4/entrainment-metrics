@@ -52,6 +52,8 @@ class TimeSeries:
 
         self.ipus_feature_values = self._get_interpausal_units_feature_values()
 
+        self.outliers = None
+
         # Removes IPUs with an outlier feature value and their values in ipus_feature_values
         self._prepare_data(MAX_DEVIATIONS)
 
@@ -106,6 +108,7 @@ class TimeSeries:
             distance_from_mean < MAX_DEVIATIONS * standard_deviation
         )
         # Update IPUs to not outlier ipus and its respective feature values
+        self.outliers = np.array(self.ipus)[~not_outlier].size
         self.ipus = np.array(self.ipus)[not_outlier].tolist()
 
         self.ipus_feature_values = self.ipus_feature_values[not_outlier]
@@ -249,9 +252,14 @@ class TimeSeries:
             ipus_values = [ipu.feature_value(self.feature) for ipu in self.ipus]
             ipus_starts = [ipu.start for ipu in self.ipus]
             ipus_ends = [ipu.end for ipu in self.ipus]
-            plt.hlines(y=ipus_values, xmin=ipus_starts, xmax=ipus_ends, **kwargs)
+            plt.hlines(
+                y=ipus_values, xmin=ipus_starts, xmax=ipus_ends, linewidth=4.4, **kwargs
+            )
 
         plt.xlabel("Time (seconds)")
         plt.ylabel(self.feature)
         if show:
             plt.show()
+
+    def outlier_ipus(self):
+        return self.outliers
