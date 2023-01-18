@@ -228,6 +228,7 @@ class TimeSeries:
         granularity: Optional[float] = None,
         plot_ipus: Optional[bool] = None,
         show: Optional[bool] = None,
+        save_fname: Optional[str] = None,
         **kwargs,
     ):
         """
@@ -246,6 +247,8 @@ class TimeSeries:
             Whether to plot also the InterPausalUnits feature values. Default is True.
         show: Optional[bool]
             Whether to show the plot. Default is True.
+        save_fname: Optional[str]
+            The fname to pass to plt.savefig(). If provided the plot will be saved.
         """
         if start is None:
             start = self.start()
@@ -290,6 +293,10 @@ class TimeSeries:
 
         plt.xlabel("Time (seconds)")
         plt.ylabel(self.feature)
+
+        if save_fname is not None:
+            plt.savefig(save_fname)
+
         if show:
             plt.show()
 
