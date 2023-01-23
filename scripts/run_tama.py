@@ -2,8 +2,8 @@ import argparse
 from pathlib import Path
 from typing import List, Union
 
-from speechalyze import print_audio_description, tama
-from speechalyze.tama import get_frames
+from entrainment_metrics import print_audio_description, tama
+from entrainment_metrics.tama import get_frames
 
 arg_parser = argparse.ArgumentParser(
     description="Generate a times series for a speaker for a task"
