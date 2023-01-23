@@ -8,7 +8,7 @@ If you have already have the list of InterPausalUnit's inside a frame, you can c
 
 .. code-block:: python
 
-   from speechalyze.tama import Frame, MissingFrame
+   from entrainment_metrics.tama import Frame, MissingFrame
    frame = Frame(
        start=8.0,
        end=24.0,
@@ -25,7 +25,7 @@ In case you don't have the specific list of InterPausalUnit's for each frame ins
 
 .. code-block:: python
 
-   from speechalyze.tama import get_frames
+   from entrainment_metrics.tama import get_frames
    from typing import List, Union
 
    some_frames: List[Union[tama.Frame, tama.MissingFrame]] = get_frames(
@@ -39,7 +39,7 @@ Once you have a list of frames corresponding to the frames in a audio you can ge
 
 .. code-block:: python
 
-   from speechalyze.tama import calculate_time_series
+   from entrainment_metrics.tama import calculate_time_series
    from typing import List
 
    time_series_a: List[float] = calculate_time_series(
@@ -48,11 +48,11 @@ Once you have a list of frames corresponding to the frames in a audio you can ge
        frames=some_frames,
    )
 
-But, if your IPUs don't have their feature values calculated then you can the known speechalyze extractors:
+But, if your IPUs don't have their feature values calculated then you can the known entrainment_metrics extractors:
 
 .. code-block:: python
 
-   from speechalyze.tama import calculate_time_series
+   from entrainment_metrics.tama import calculate_time_series
    from typing import List
 
    time_series_a: List[float] = calculate_time_series(
@@ -73,7 +73,7 @@ Having two time series calculated you can calculate the sample cross-correlation
 
 .. code-block:: python
 
-   from speechalyze.tama import calculate_sample_correlation
+   from entrainment_metrics.tama import calculate_sample_correlation
    from typing import List
 
    sample_cross_correlations: List[float] = calculate_sample_correlation(
@@ -95,7 +95,7 @@ Here's an example of how to get both metrics:
 
 .. code-block:: python
 
-   from speechalyze.tama import signed_synchrony, unsigned_synchrony
+   from entrainment_metrics.tama import signed_synchrony, unsigned_synchrony
    res_signed_synchrony = signed_synchrony(
        time_series_a=time_series_a,
        time_series_b=time_series_b,

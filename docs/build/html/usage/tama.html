@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Time-Aligned Moving Average (TAMA) &mdash; Speechalyze  documentation</title>
+  <title>Time-Aligned Moving Average (TAMA) &mdash; entrainment-metrics  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-
+  
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
@@ -19,15 +19,15 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Continuous TimeSeries" href="continuous_time_series.html" />
-    <link rel="prev" title="Getting Interpausal Units" href="getting_ipus.html" />
+    <link rel="prev" title="Getting Interpausal Units" href="getting_ipus.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> Speechalyze
+            <a href="../index.html" class="icon icon-home"> entrainment-metrics
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -49,6 +49,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="continuous_time_series.html">Continuous TimeSeries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualization.html">Visualization</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../modules/ipu.html">InterPausalUnit</a></li>
@@ -61,7 +62,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">Speechalyze</a>
+          <a href="../index.html">entrainment-metrics</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -79,13 +80,13 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-
+             
   <div class="section" id="time-aligned-moving-average-tama">
 <h1>Time-Aligned Moving Average (TAMA)<a class="headerlink" href="#time-aligned-moving-average-tama" title="Permalink to this heading"></a></h1>
 <div class="section" id="using-frames">
 <h2>Using Frames<a class="headerlink" href="#using-frames" title="Permalink to this heading"></a></h2>
 <p>If you have already have the list of InterPausalUnit’s inside a frame, you can create your Frame object with its constructor:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">speechalyze.tama</span> <span class="kn">import</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">MissingFrame</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entrainment_metrics.tama</span> <span class="kn">import</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">MissingFrame</span>
 <span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span>
     <span class="n">start</span><span class="o">=</span><span class="mf">8.0</span><span class="p">,</span>
     <span class="n">end</span><span class="o">=</span><span class="mf">24.0</span><span class="p">,</span>
@@ -100,7 +101,7 @@
 </pre></div>
 </div>
 <p>In case you don’t have the specific list of InterPausalUnit’s for each frame inside a wav file but you do have a .word file (as described in the InterPausalUnit section), then you can get your frames like this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">speechalyze.tama</span> <span class="kn">import</span> <span class="n">get_frames</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entrainment_metrics.tama</span> <span class="kn">import</span> <span class="n">get_frames</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="n">some_frames</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">tama</span><span class="o">.</span><span class="n">Frame</span><span class="p">,</span> <span class="n">tama</span><span class="o">.</span><span class="n">MissingFrame</span><span class="p">]]</span> <span class="o">=</span> <span class="n">get_frames</span><span class="p">(</span>
@@ -112,7 +113,7 @@
 <div class="section" id="constructing-time-series-of-acoustic-prosodic-features">
 <h2>Constructing time series of acoustic-prosodic features<a class="headerlink" href="#constructing-time-series-of-acoustic-prosodic-features" title="Permalink to this heading"></a></h2>
 <p>Once you have a list of frames corresponding to the frames in a audio you can generate time-series data of several a/p features. If the InterPausalUnit’s inside of your frames already have the features of interest calculated then you can directly calculate the time series like this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">speechalyze.tama</span> <span class="kn">import</span> <span class="n">calculate_time_series</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entrainment_metrics.tama</span> <span class="kn">import</span> <span class="n">calculate_time_series</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
 <span class="n">time_series_a</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_time_series</span><span class="p">(</span>
@@ -122,8 +123,8 @@
 <span class="p">)</span>
 </pre></div>
 </div>
-<p>But, if your IPUs don’t have their feature values calculated then you can the known speechalyze extractors:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">speechalyze.tama</span> <span class="kn">import</span> <span class="n">calculate_time_series</span>
+<p>But, if your IPUs don’t have their feature values calculated then you can the known entrainment_metrics extractors:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entrainment_metrics.tama</span> <span class="kn">import</span> <span class="n">calculate_time_series</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
 <span class="n">time_series_a</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_time_series</span><span class="p">(</span>
@@ -141,7 +142,7 @@
 <h2>Sample cross-correlation as a proxy for entrainment<a class="headerlink" href="#sample-cross-correlation-as-a-proxy-for-entrainment" title="Permalink to this heading"></a></h2>
 <p>The sample cross-correlation is a measure which aims at capturing the correlation between two series as one of them is lagged (i.e., its points are shifted a number of positions). Intuitively, it can be interpreted similarly to Pearson’s correlation coefficient between a time-series and a lagged version of another one.</p>
 <p>Having two time series calculated you can calculate the sample cross-correlation as simply as this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">speechalyze.tama</span> <span class="kn">import</span> <span class="n">calculate_sample_correlation</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entrainment_metrics.tama</span> <span class="kn">import</span> <span class="n">calculate_sample_correlation</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
 <span class="n">sample_cross_correlations</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_sample_correlation</span><span class="p">(</span>
@@ -158,7 +159,7 @@
 <p>For Signed Synchrony Measure positive values of S represent positive synchrony (or entrainment) in a straightforward way, and negative values represent negative synchrony (disentrainment).</p>
 <p>In the other hand, for Unsigned Synchrony Measure, by taking the absolute value, this second measure gives equal treatment to positive and negative synchrony values. In other words, high values of the time series are indicative of high levels of either entrainment or disentrainment; and low values correspond to a total lack of coordination in either direction.</p>
 <p>Here’s an example of how to get both metrics:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">speechalyze.tama</span> <span class="kn">import</span> <span class="n">signed_synchrony</span><span class="p">,</span> <span class="n">unsigned_synchrony</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entrainment_metrics.tama</span> <span class="kn">import</span> <span class="n">signed_synchrony</span><span class="p">,</span> <span class="n">unsigned_synchrony</span>
 <span class="n">res_signed_synchrony</span> <span class="o">=</span> <span class="n">signed_synchrony</span><span class="p">(</span>
     <span class="n">time_series_a</span><span class="o">=</span><span class="n">time_series_a</span><span class="p">,</span>
     <span class="n">time_series_b</span><span class="o">=</span><span class="n">time_series_b</span><span class="p">,</span>
@@ -192,7 +193,7 @@
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-
+   
 
 </footer>
         </div>
@@ -203,7 +204,7 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
+  </script> 
 
 </body>
 </html>

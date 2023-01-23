@@ -8,7 +8,7 @@ When you already have a list of InterpausalUnit with some feature of interest ca
 
 .. code-block:: python
 
-   from speechalyze.continuous import TimeSeries
+   from entrainment_metrics.continuous import TimeSeries
 
    time_series: TimeSeries = TimeSeries(
        interpausal_units=ipus,
@@ -41,7 +41,7 @@ When you already have some TimeSeries is when fun starts. Now you are able to ca
 
 .. code-block:: python
 
-   from speechalyze.continuous import calculate_metric
+   from entrainment_metrics.continuous import calculate_metric
    metric_result: float = calculate_metric(
        "synchrony",
        time_series_a,

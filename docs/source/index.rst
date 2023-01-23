@@ -1,10 +1,10 @@
-.. Speechalyze documentation master file, created by
+.. entrainment-metrics documentation master file, created by
    sphinx-quickstart on Fri Dec  2 11:55:56 2022.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Speechalyze's documentation!
-=======================================
+Welcome to entrainment-metrics's documentation!
+===============================================
 
 .. toctree::
    :maxdepth: 2

@@ -2,13 +2,13 @@ InterPausalUnit
 ===============
 
 
-.. automodule:: speechalyze.interpausal_unit
+.. automodule:: entrainment_metrics.interpausal_unit
     :members:
 
 
 Visualization
 -------------
-.. automodule:: speechalyze.utils
+.. automodule:: entrainment_metrics.utils
     :members: print_ipus_information, plot_ipus
 
 .. toctree::

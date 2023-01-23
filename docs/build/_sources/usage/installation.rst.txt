@@ -1,11 +1,11 @@
 Installation
 ------------
 
-To use speechalyze, first install it using pip:
+To use entrainment_metrics, first install it using pip:
 
 .. code-block:: console
 
-   pip install speechalyze
+   pip install entrainment_metrics
 
 It's also required the command-line tool ffmpeg to be installed on your system, which is available from most package managers:
 

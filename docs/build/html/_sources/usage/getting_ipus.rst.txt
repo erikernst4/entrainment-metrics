@@ -5,7 +5,7 @@ If you already have the Interpausal Units from a wav file, you can create your I
 
 .. code-block:: python
 
-   from speechalyze import InterpausalUnit
+   from entrainment_metrics import InterpausalUnit
 
    InterPausalUnit(
       start=0.0,
@@ -31,7 +31,7 @@ In case you have a .word file that follows the format '{starting_time} {ending_t
 
 .. code-block:: python
 
-    from speechalyze import get_interpausal_units
+    from entrainment_metrics import get_interpausal_units
 
     ipus: List[InterPausalUnit] = get_interpausal_units(words_fname)
 

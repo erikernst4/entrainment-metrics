@@ -11,7 +11,7 @@ The code need to get that plot is just this:
 
 .. code-block:: python
 
-   from speechalyze.continuous import plot_time_series
+   from entrainment_metrics.continuous import plot_time_series
 
    plot_time_series(
                time_series_a=a_time_series,
@@ -26,7 +26,7 @@ You can also plot only InterPausalUnits:
 
 .. code-block:: python
 
-   from speechalyze import plot_ipus
+   from entrainment_metrics import plot_ipus
 
    plot_ipus(ipus, some_feature)
 

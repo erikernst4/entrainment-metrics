@@ -10,7 +10,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Speechalyze'
+project = 'entrainment-metrics'
 copyright = '2022, Agustín Gravano / Ramiro Gálvez / Erik Ernst'
 author = 'Agustín Gravano / Ramiro Gálvez / Erik Ernst'
 

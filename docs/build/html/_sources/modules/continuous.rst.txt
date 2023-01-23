@@ -4,17 +4,17 @@ Continuous
 
 TimeSeries
 ----------
-.. automodule:: speechalyze.continuous.continuous_time_series
+.. automodule:: entrainment_metrics.continuous.continuous_time_series
     :members:
 
 Metrics
 -------
-.. automodule:: speechalyze.continuous.metrics
+.. automodule:: entrainment_metrics.continuous.metrics
     :members: calculate_common_support, calculate_metric
 
 Visualization
 -------------
-.. automodule:: speechalyze.continuous.utils
+.. automodule:: entrainment_metrics.continuous.utils
     :members:
 
 .. toctree::
