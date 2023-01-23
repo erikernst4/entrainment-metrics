@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "speechalyze"
+name = "entrainment-metrics"
 version = "0.1.0"
-description = "measure acoustic-prosodic entrainment in speech"
+description = "Measure acoustic-prosodic entrainment in speech"
 authors = ["Erik Ernst"]
 
 [tool.poetry.dependencies]

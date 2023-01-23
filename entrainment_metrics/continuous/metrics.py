@@ -3,7 +3,7 @@ from typing import List, Optional, Tuple
 
 import numpy as np
 
-from speechalyze.continuous import TimeSeries
+from entrainment_metrics.continuous import TimeSeries
 
 
 def calculate_common_support(

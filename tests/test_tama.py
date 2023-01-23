@@ -4,8 +4,8 @@ from unittest import TestCase
 import numpy as np
 from scipy.io import wavfile
 
-from speechalyze import InterPausalUnit, tama
-from speechalyze.utils import get_interpausal_units
+from entrainment_metrics import InterPausalUnit, tama
+from entrainment_metrics.utils import get_interpausal_units
 
 
 class TAMATestCase(TestCase):

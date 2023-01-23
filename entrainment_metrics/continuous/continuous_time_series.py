@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.neighbors import KNeighborsRegressor
 
-from speechalyze import InterPausalUnit
+from entrainment_metrics import InterPausalUnit
 
 
 class TimeSeries:

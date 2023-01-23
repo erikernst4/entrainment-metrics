@@ -4,9 +4,9 @@ from typing import List, Union
 import numpy as np
 from scipy.io import wavfile
 
-from speechalyze import InterPausalUnit
-from speechalyze.tama import Frame, MissingFrame
-from speechalyze.utils import get_interpausal_units
+from entrainment_metrics import InterPausalUnit
+from entrainment_metrics.tama import Frame, MissingFrame
+from entrainment_metrics.utils import get_interpausal_units
 
 
 def has_interval_intersection_with_interpausal_unit(

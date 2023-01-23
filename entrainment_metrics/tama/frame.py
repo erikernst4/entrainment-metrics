@@ -3,7 +3,7 @@ from typing import Dict, List, Optional
 
 import numpy as np
 
-from speechalyze import InterPausalUnit
+from entrainment_metrics import InterPausalUnit
 
 
 class Frame:
