@@ -77,10 +77,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="entrainment_metrics.interpausal_unit.InterPausalUnit">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">entrainment_metrics.interpausal_unit.</span></span><span class="sig-name descname"><span class="pre">InterPausalUnit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#entrainment_metrics.interpausal_unit.InterPausalUnit" title="Permalink to this definition"></a></dt>
-<dd><p>It’s an interval of time between silences in a conversation</p>
-<blockquote>
-<div><p>…</p>
-</div></blockquote>
+<dd><p>It’s an interval of time between silences of a speaker in a conversation.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="entrainment_metrics.interpausal_unit.InterPausalUnit.start">
 <span class="sig-name descname"><span class="pre">start</span></span><a class="headerlink" href="#entrainment_metrics.interpausal_unit.InterPausalUnit.start" title="Permalink to this definition"></a></dt>
@@ -106,7 +103,22 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="entrainment_metrics.interpausal_unit.InterPausalUnit.calculate_features">
 <span class="sig-name descname"><span class="pre">calculate_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">audio_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch_gender</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extractor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#entrainment_metrics.interpausal_unit.InterPausalUnit.calculate_features" title="Permalink to this definition"></a></dt>
-<dd><p>Given an audio_file calculate the features for the IPU inside</p>
+<dd><p>Lazy feature extraction for an InterPausalUnit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>audio_file</strong> (<em>Optional</em><em>[</em><em>Path</em><em>]</em>) – A path to a wav file.</p></li>
+<li><p><strong>pitch_gender</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Useful for a more accurate praat extraction. “M” or “F”, or None.</p></li>
+<li><p><strong>extractor</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The extractor to calculate features. It can be either “praat” or “opensmile”. Default is “opensmile”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary with the value for each feature calculated.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Dict[str, float]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">

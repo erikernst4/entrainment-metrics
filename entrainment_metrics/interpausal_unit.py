@@ -10,14 +10,14 @@ import pandas as pd
 
 class InterPausalUnit:
     """
-    It's an interval of time between silences in a conversation
+    It's an interval of time between silences of a speaker in a conversation.
 
-     ...
 
     Attributes
     ----------
     start: float
         Start time of the IPU
+
     end: float
         End time of the IPU
 
@@ -64,7 +64,20 @@ class InterPausalUnit:
         extractor: Optional[str] = None,
     ) -> Optional[Dict[str, float]]:
         """
-        Given an audio_file calculate the features for the IPU inside
+        Lazy feature extraction for an InterPausalUnit.
+
+        Parameters
+        ----------
+        audio_file: Optional[Path]
+            A path to a wav file.
+        pitch_gender: Optional[str]
+            Useful for a more accurate praat extraction. "M" or "F", or None.
+        extractor: Optional[str]
+            The extractor to calculate features. It can be either "praat" or "opensmile". Default is "opensmile".
+        Returns
+        -------
+        Dict[str, float]
+            A dictionary with the value for each feature calculated.
         """
         available_extractors = ["praat", "opensmile"]
         # Set opensmile as default

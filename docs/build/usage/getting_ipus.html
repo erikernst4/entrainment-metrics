@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Getting Interpausal Units &mdash; entrainment-metrics  documentation</title>
+  <title>Getting started &mdash; entrainment-metrics  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -40,7 +40,10 @@
               <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Usage</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Getting Interpausal Units</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Getting started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#creating-interpausal-units">Creating Interpausal Units</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="tama.html">Time-Aligned Moving Average (TAMA)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="continuous_time_series.html">Continuous TimeSeries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="visualization.html">Visualization</a></li>
@@ -65,7 +68,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="index.html">Usage</a> &raquo;</li>
-      <li>Getting Interpausal Units</li>
+      <li>Getting started</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/usage/getting_ipus.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -75,8 +78,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="getting-interpausal-units">
-<h1>Getting Interpausal Units<a class="headerlink" href="#getting-interpausal-units" title="Permalink to this heading"></a></h1>
+  <div class="section" id="getting-started">
+<h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this heading"></a></h1>
+<p>entrainment-metrics is all about being able to measure entrainment. Entrainment in spoken dialogue is commonly defined as a tendency of a speaker to adapt some properties of her speech to match her interlocutor’s. With this library you’ll be able to measure entrainment along one dimension: acoustic-prosodic (a/p) features.</p>
+<p>In order to use this library you’ll need at least two things: a wav file for each speaker and the start and end of each InterPausalUnit. What is an Interpausal Unit? It’s an interval of time between silences of a single speaker in a conversation. You only need the start and end of each Interpausal Unit. What if you don’t have that piece of information? Well, the task you need to solve is Voice Activity Detection (VAD), there’re a lot of good tools you can use to solve this!</p>
+<div class="section" id="creating-interpausal-units">
+<h2>Creating Interpausal Units<a class="headerlink" href="#creating-interpausal-units" title="Permalink to this heading"></a></h2>
 <p>If you already have the Interpausal Units from a wav file, you can create your InterpausalUnit objects like this (note that feature_values are an optional parameter):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entrainment_metrics</span> <span class="kn">import</span> <span class="n">InterpausalUnit</span>
 
@@ -104,6 +111,7 @@ For example, if you have a list of InterpausalUnit’s called “ipus”:</p>
 </pre></div>
 </div>
 <p>For further information check the InterPausalUnit documentation.</p>
+</div>
 </div>
 
 

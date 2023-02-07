@@ -1,5 +1,12 @@
-Getting Interpausal Units
-=========================
+Getting started
+===============
+
+entrainment-metrics is all about being able to measure entrainment. Entrainment in spoken dialogue is commonly defined as a tendency of a speaker to adapt some properties of her speech to match her interlocutor’s. With this library you'll be able to measure entrainment along one dimension: acoustic-prosodic (a/p) features.
+
+In order to use this library you'll need at least two things: a wav file for each speaker and the start and end of each InterPausalUnit. What is an Interpausal Unit? It's an interval of time between silences of a single speaker in a conversation. You only need the start and end of each Interpausal Unit. What if you don't have that piece of information? Well, the task you need to solve is Voice Activity Detection (VAD), there're a lot of good tools you can use to solve this!
+
+Creating Interpausal Units
+--------------------------
 
 If you already have the Interpausal Units from a wav file, you can create your InterpausalUnit objects like this (note that feature_values are an optional parameter):
 
