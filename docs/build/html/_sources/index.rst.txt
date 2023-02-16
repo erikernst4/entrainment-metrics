@@ -8,7 +8,7 @@ Welcome to entrainment-metrics's documentation!
 
 entrainment-metrics is all about being able to measure entrainment. Entrainment in spoken dialogue is commonly defined as a tendency of a speaker to adapt some properties of her speech to match her interlocutor’s. With this library you'll be able to measure entrainment along one dimension: acoustic-prosodic (a/p) features.
 
-Checkout the Getting started page for a deeper into the library!
+Checkout the Getting started page for a deeper dive into the library!
 
 Bibliography
 ------------
