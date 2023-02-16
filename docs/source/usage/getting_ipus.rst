@@ -1,8 +1,6 @@
 Getting started
 ===============
 
-entrainment-metrics is all about being able to measure entrainment. Entrainment in spoken dialogue is commonly defined as a tendency of a speaker to adapt some properties of her speech to match her interlocutor’s. With this library you'll be able to measure entrainment along one dimension: acoustic-prosodic (a/p) features.
-
 In order to use this library you'll need at least two things: a wav file for each speaker and the start and end of each InterPausalUnit. What is an Interpausal Unit? It's an interval of time between silences of a single speaker in a conversation. You only need the start and end of each Interpausal Unit. What if you don't have that piece of information? Well, the task you need to solve is Voice Activity Detection (VAD), there're a lot of good tools you can use to solve this!
 
 Creating Interpausal Units
@@ -44,3 +42,14 @@ In case you have a .word file that follows the format '{starting_time} {ending_t
 
 For further information check the InterPausalUnit documentation.
 
+Approximating the evolution of each speaker’s a/p features
+----------------------------------------------------------
+
+Once you have your InterpausalUnits the next step towards measuring entrainment is to approximate the evolution of each speaker’s a/p features. With this library you can follow two paths:
+
+- Discrete approximation -> Time-Aligned Moving Average (TAMA).
+- Continuous approximation -> Continuous TimeSeries.
+
+For in-depth information for taking this decision you can go to the papers in the bibliography. For starters, we recommend you to go straight to the Continuous TimeSeries.
+
+In the next sections you'll learn how to follow each path and get your entrainment metrics.

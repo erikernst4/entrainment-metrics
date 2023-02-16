@@ -9,7 +9,7 @@
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  
+
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
@@ -19,10 +19,10 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Time-Aligned Moving Average (TAMA)" href="tama.html" />
-    <link rel="prev" title="Installation" href="installation.html" /> 
+    <link rel="prev" title="Installation" href="installation.html" />
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
@@ -42,6 +42,7 @@
 <li class="toctree-l2"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Getting started</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#creating-interpausal-units">Creating Interpausal Units</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#approximating-the-evolution-of-each-speakers-a-p-features">Approximating the evolution of each speaker’s a/p features</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="tama.html">Time-Aligned Moving Average (TAMA)</a></li>
@@ -77,10 +78,9 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
+
   <div class="section" id="getting-started">
 <h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this heading"></a></h1>
-<p>entrainment-metrics is all about being able to measure entrainment. Entrainment in spoken dialogue is commonly defined as a tendency of a speaker to adapt some properties of her speech to match her interlocutor’s. With this library you’ll be able to measure entrainment along one dimension: acoustic-prosodic (a/p) features.</p>
 <p>In order to use this library you’ll need at least two things: a wav file for each speaker and the start and end of each InterPausalUnit. What is an Interpausal Unit? It’s an interval of time between silences of a single speaker in a conversation. You only need the start and end of each Interpausal Unit. What if you don’t have that piece of information? Well, the task you need to solve is Voice Activity Detection (VAD), there’re a lot of good tools you can use to solve this!</p>
 <div class="section" id="creating-interpausal-units">
 <h2>Creating Interpausal Units<a class="headerlink" href="#creating-interpausal-units" title="Permalink to this heading"></a></h2>
@@ -112,6 +112,16 @@ For example, if you have a list of InterpausalUnit’s called “ipus”:</p>
 </div>
 <p>For further information check the InterPausalUnit documentation.</p>
 </div>
+<div class="section" id="approximating-the-evolution-of-each-speakers-a-p-features">
+<h2>Approximating the evolution of each speaker’s a/p features<a class="headerlink" href="#approximating-the-evolution-of-each-speakers-a-p-features" title="Permalink to this heading"></a></h2>
+<p>Once you have your InterpausalUnits the next step towards measuring entrainment is to approximate the evolution of each speaker’s a/p features. With this library you can follow two paths:</p>
+<ul class="simple">
+<li><p>Discrete approximation -&gt; Time-Aligned Moving Average (TAMA).</p></li>
+<li><p>Continuous approximation -&gt; Continuous TimeSeries.</p></li>
+</ul>
+<p>For in-depth information for taking this decision you can go to the papers in the bibliography. For starters, we recommend you to go straight to the Continuous TimeSeries.</p>
+<p>In the next sections you’ll learn how to follow each path and get your entrainment metrics.</p>
+</div>
 </div>
 
 
@@ -131,7 +141,7 @@ For example, if you have a list of InterpausalUnit’s called “ipus”:</p>
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+
 
 </footer>
         </div>
@@ -142,7 +152,7 @@ For example, if you have a list of InterpausalUnit’s called “ipus”:</p>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
 
 </body>
 </html>
