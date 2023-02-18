@@ -20,7 +20,7 @@ The code need to get that plot is just this:
                time_series_b_name="Ramiro",
            )
 
-Furthermore, TimeSeries have a plot() method that can get a plot like this for a unique TimeSeries instance. You can check that in the `TimeSeries` documentation
+Furthermore, TimeSeries have a plot() method that can get a plot like this for a unique TimeSeries instance. You can check that in the :ref:`continuous` documentation.
 
 You can also plot only InterPausalUnits:
 

@@ -1,3 +1,5 @@
+.. _getting_started:
+
 Getting started
 ===============
 
@@ -40,15 +42,15 @@ In case you have a .word file that follows the format '{starting_time} {ending_t
 
     ipus: List[InterPausalUnit] = get_interpausal_units(words_fname)
 
-For further information check the InterPausalUnit documentation.
+For further information check the :ref:`ipu` documentation.
 
 Approximating the evolution of each speaker’s a/p features
 ----------------------------------------------------------
 
 Once you have your InterpausalUnits the next step towards measuring entrainment is to approximate the evolution of each speaker’s a/p features. With this library you can follow two paths:
 
-- Discrete approximation -> Time-Aligned Moving Average (TAMA).
-- Continuous approximation -> Continuous TimeSeries.
+- Discrete approximation -> :ref:`tama`.
+- Continuous approximation -> :ref:`continuous_time_series`
 
 For in-depth information for taking this decision you can go to the papers in the bibliography. For starters, we recommend you to go straight to the Continuous TimeSeries.
 

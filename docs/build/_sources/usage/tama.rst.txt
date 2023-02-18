@@ -1,3 +1,5 @@
+.. _tama:
+
 Time-Aligned Moving Average (TAMA)
 ==================================
 

@@ -1,3 +1,5 @@
+.. _continuous_time_series:
+
 Continuous TimeSeries
 =====================
 
