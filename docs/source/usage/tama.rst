@@ -6,7 +6,9 @@ Time-Aligned Moving Average (TAMA)
 Using Frames
 ------------
 
-If you already have the list of InterPausalUnit's inside a frame, you can create your Frame object with its constructor:
+The TAMA method first divides each speaker’s speech into overlapping frames of fixed length. We empirically adjust two method parameters, frame length at 16s and time step at 8s. A particular frame could contain no InterPausalUnits, in which case its a/p feature values are considered ‘missing’, for those we use the MissingFrame object.
+
+If you already have the list of InterPausalUnit's that fall entirely or partially within a frame, you can create your Frame object with its constructor:
 
 .. code-block:: python
 
@@ -88,7 +90,7 @@ Measuring acoustic-prosodic synchrony
 
 We provide two ways of measuring acoustic-prosodic synchrony in the library. Signed and Unsigned Synchrony Measure.
 
-For Signed Synchrony Measure positive values of S represent positive synchrony (or entrainment) in a straightforward way, and negative values represent negative synchrony (disentrainment).
+For Signed Synchrony Measure positive values represent positive synchrony (or entrainment) in a straightforward way, and negative values represent negative synchrony (disentrainment).
 
 In the other hand, for Unsigned Synchrony Measure, by taking the absolute value, this second measure gives equal treatment to positive and negative synchrony values. In other words, high values of the time series are indicative of high levels of either entrainment or disentrainment; and low values correspond to a total lack of coordination in either direction.
 
