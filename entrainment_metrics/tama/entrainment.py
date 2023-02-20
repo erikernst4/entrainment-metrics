@@ -103,21 +103,17 @@ def calculate_sample_correlation(
     a_values_distances_to_mean: List[float] = (
         np.array(time_series_a) - time_series_a_mean
     )
-    print(f"A's distances to its mean: {a_values_distances_to_mean}")
     b_values_distances_to_mean: List[float] = (
         np.array(time_series_b) - time_series_b_mean
     )
-    print(f"B's distances to its mean: {b_values_distances_to_mean}")
 
     denominator: float = sqrt_product_of_the_values_sum_square_distances(
         a_values_distances_to_mean, b_values_distances_to_mean
     )
-    print(f"Denominator {denominator}")
     numerators: List[float] = lags_sum_lagged_distances_products(
         a_values_distances_to_mean, b_values_distances_to_mean, lags
     )
 
-    print(f"Numerators: {numerators}")
     return np.array(numerators) / denominator
 
 
