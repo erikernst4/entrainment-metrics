@@ -46,7 +46,6 @@ Once you have a list of frames from an audio, you can generate time-series data 
    from typing import List
 
    time_series_a: List[float] = calculate_time_series(
-       args.feature, frames_a,  #  <--- SOBRA ESTA LINEA?
        feature="FEATURE_CALCULATED",
        frames=some_frames,
    )
@@ -59,7 +58,6 @@ But, if your IPUs don't have their feature values calculated, then you can use a
    from typing import List
 
    time_series_a: List[float] = calculate_time_series(
-       args.feature, frames_a,  #  <--- SOBRA ESTA LINEA?
        feature="F0_MAX",
        frames=some_frames,
        audio_file="path/to/audio.wav",

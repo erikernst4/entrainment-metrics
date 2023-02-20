@@ -1,38 +1,36 @@
 <!DOCTYPE html>
-<html class="writer-html4" lang="en" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Continuous &mdash; entrainment-metrics  documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <title>Continuous &mdash; entrainment-metrics  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="TAMA" href="tama.html" /> 
+    <link rel="prev" title="TAMA" href="tama.html" />
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="../index.html" class="icon icon-home">
-            entrainment-metrics
+            <a href="../index.html" class="icon icon-home"> entrainment-metrics
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -68,9 +66,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html">Modules</a></li>
-      <li class="breadcrumb-item active">Continuous</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Modules</a> &raquo;</li>
+      <li>Continuous</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/modules/continuous.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -79,134 +77,121 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
+
   <div class="section" id="continuous">
-<span id="id1"></span><h1>Continuous<a class="headerlink" href="#continuous" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Continuous<a class="headerlink" href="#continuous" title="Permalink to this heading"></a></h1>
 <div class="section" id="module-entrainment_metrics.continuous.continuous_time_series">
-<span id="timeseries"></span><h2>TimeSeries<a class="headerlink" href="#module-entrainment_metrics.continuous.continuous_time_series" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="entrainment_metrics.continuous.continuous_time_series.TimeSeries">
-<em class="property">class </em><code class="descclassname">entrainment_metrics.continuous.continuous_time_series.</code><code class="descname">TimeSeries</code><span class="sig-paren">(</span><em>feature: str, interpausal_units: List[entrainment_metrics.interpausal_unit.InterPausalUnit], method: str, k: Optional[int] = None, MAX_DEVIATIONS: Optional[int] = None, **kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries" title="Permalink to this definition">¶</a></dt>
+<span id="timeseries"></span><h2>TimeSeries<a class="headerlink" href="#module-entrainment_metrics.continuous.continuous_time_series" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="entrainment_metrics.continuous.continuous_time_series.TimeSeries">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">entrainment_metrics.continuous.continuous_time_series.</span></span><span class="sig-name descname"><span class="pre">TimeSeries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpausal_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ipu.html#entrainment_metrics.interpausal_unit.InterPausalUnit" title="entrainment_metrics.interpausal_unit.InterPausalUnit"><span class="pre">InterPausalUnit</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MAX_DEVIATIONS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries" title="Permalink to this definition"></a></dt>
 <dd><p>The evolution of an acoustic-prosodic feature
 value in time.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>feature</strong> (<em>str</em>) – The feature to get the value from each InterPausalUnit</li>
-<li><strong>interpausal_units</strong> (<em>List</em><em>[</em><a class="reference internal" href="ipu.html#entrainment_metrics.interpausal_unit.InterPausalUnit" title="entrainment_metrics.interpausal_unit.InterPausalUnit"><em>InterPausalUnit</em></a><em>]</em>) – An ordered list of InterPausalUnit’s</li>
-<li><strong>method</strong> (<em>str</em>) – The method to be used to predict</li>
-<li><strong>k</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – The amount of neighbors to use in KNeighborsRegressor</li>
-<li><strong>MAX_DEVIATIONS</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – The amount of deviation to define an outlier</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>feature</strong> (<em>str</em>) – The feature to get the value from each InterPausalUnit</p></li>
+<li><p><strong>interpausal_units</strong> (<em>List</em><em>[</em><a class="reference internal" href="ipu.html#entrainment_metrics.interpausal_unit.InterPausalUnit" title="entrainment_metrics.interpausal_unit.InterPausalUnit"><em>InterPausalUnit</em></a><em>]</em>) – An ordered list of InterPausalUnit’s</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – The method to be used to predict</p></li>
+<li><p><strong>k</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – The amount of neighbors to use in KNeighborsRegressor</p></li>
+<li><p><strong>MAX_DEVIATIONS</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – The amount of deviation to define an outlier</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="entrainment_metrics.continuous.continuous_time_series.TimeSeries.end">
-<code class="descname">end</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries.end" title="Permalink to this definition">¶</a></dt>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="entrainment_metrics.continuous.continuous_time_series.TimeSeries.end">
+<span class="sig-name descname"><span class="pre">end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries.end" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the ending point in time in which
 the TimeSeries is defined</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="entrainment_metrics.continuous.continuous_time_series.TimeSeries.feature">
-<code class="descname">feature</code><em class="property"> = None</em><a class="headerlink" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries.feature" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="entrainment_metrics.continuous.continuous_time_series.TimeSeries.feature">
+<span class="sig-name descname"><span class="pre">feature</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries.feature" title="Permalink to this definition"></a></dt>
 <dd><p>The feature to get the value from each InterPausalUnit.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="entrainment_metrics.continuous.continuous_time_series.TimeSeries.ipus">
-<code class="descname">ipus</code><em class="property"> = None</em><a class="headerlink" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries.ipus" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="entrainment_metrics.continuous.continuous_time_series.TimeSeries.ipus">
+<span class="sig-name descname"><span class="pre">ipus</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ipu.html#entrainment_metrics.interpausal_unit.InterPausalUnit" title="entrainment_metrics.interpausal_unit.InterPausalUnit"><span class="pre">InterPausalUnit</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries.ipus" title="Permalink to this definition"></a></dt>
 <dd><p>The InterPausalUnits of the TimeSeries.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="entrainment_metrics.continuous.continuous_time_series.TimeSeries.ipus_feature_values">
-<code class="descname">ipus_feature_values</code><em class="property"> = None</em><a class="headerlink" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries.ipus_feature_values" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="entrainment_metrics.continuous.continuous_time_series.TimeSeries.ipus_feature_values">
+<span class="sig-name descname"><span class="pre">ipus_feature_values</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries.ipus_feature_values" title="Permalink to this definition"></a></dt>
 <dd><p>The feature values of each ipu.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="entrainment_metrics.continuous.continuous_time_series.TimeSeries.outlier_ipus">
-<code class="descname">outlier_ipus</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries.outlier_ipus" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="entrainment_metrics.continuous.continuous_time_series.TimeSeries.outlier_ipus">
+<span class="sig-name descname"><span class="pre">outlier_ipus</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries.outlier_ipus" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the amount of InterPausalUnits with an outlier feature value.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="entrainment_metrics.continuous.continuous_time_series.TimeSeries.plot">
-<code class="descname">plot</code><span class="sig-paren">(</span><em>start: Optional[float] = None</em>, <em>end: Optional[float] = None</em>, <em>granularity: Optional[float] = None</em>, <em>plot_ipus: Optional[bool] = None</em>, <em>show: Optional[bool] = None</em>, <em>save_fname: Optional[str] = None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries.plot" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="entrainment_metrics.continuous.continuous_time_series.TimeSeries.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_ipus</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries.plot" title="Permalink to this definition"></a></dt>
 <dd><p>Plot the predictions between the given
 start and end, and with the given granularity.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>start</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – A starting point in time to predict. Default is self.start()</li>
-<li><strong>end</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – An ending point in time to predict. Default is self.end()</li>
-<li><strong>granularity</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – The step in time in which to predict from the time series. Default is 0.01</li>
-<li><strong>plot_ipus</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – Whether to plot also the InterPausalUnits feature values. Default is True.</li>
-<li><strong>show</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – Whether to show the plot. Default is True.</li>
-<li><strong>save_fname</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The fname to pass to plt.savefig(). If provided the plot will be saved.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – A starting point in time to predict. Default is self.start()</p></li>
+<li><p><strong>end</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – An ending point in time to predict. Default is self.end()</p></li>
+<li><p><strong>granularity</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – The step in time in which to predict from the time series. Default is 0.01</p></li>
+<li><p><strong>plot_ipus</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – Whether to plot also the InterPausalUnits feature values. Default is True.</p></li>
+<li><p><strong>show</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – Whether to show the plot. Default is True.</p></li>
+<li><p><strong>save_fname</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The fname to pass to plt.savefig(). If provided the plot will be saved.</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="entrainment_metrics.continuous.continuous_time_series.TimeSeries.predict">
-<code class="descname">predict</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries.predict" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="entrainment_metrics.continuous.continuous_time_series.TimeSeries.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries.predict" title="Permalink to this definition"></a></dt>
 <dd><p>Given a point or an array of points in time,
 predict the TimeSeries value for the feature
 of the TimeSeries.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> (<em>float</em><em> or </em><em>np.ndarray</em>) – A point or an array of points in time.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The predicted value/s.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>float</em><em> or </em><em>np.ndarray</em>) – A point or an array of points in time.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The predicted value/s.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="entrainment_metrics.continuous.continuous_time_series.TimeSeries.predict_interval">
-<code class="descname">predict_interval</code><span class="sig-paren">(</span><em>start: Optional[float] = None</em>, <em>end: Optional[float] = None</em>, <em>granularity: Optional[float] = None</em><span class="sig-paren">)</span> &#x2192; numpy.ndarray<a class="headerlink" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries.predict_interval" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="entrainment_metrics.continuous.continuous_time_series.TimeSeries.predict_interval">
+<span class="sig-name descname"><span class="pre">predict_interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries.predict_interval" title="Permalink to this definition"></a></dt>
 <dd><p>Predict the values of the times series between the given
 start and end, and with the given granularity.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>start</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – A starting point in time to predict. Default is self.start()</li>
-<li><strong>end</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – An ending point in time to predict. Default is self.end()</li>
-<li><strong>granularity</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – The step in time in which to predict from the time series. Default is 0.01</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – A starting point in time to predict. Default is self.start()</p></li>
+<li><p><strong>end</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – An ending point in time to predict. Default is self.end()</p></li>
+<li><p><strong>granularity</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – The step in time in which to predict from the time series. Default is 0.01</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The array with the values predicted.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">np.ndarray</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The array with the values predicted.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="entrainment_metrics.continuous.continuous_time_series.TimeSeries.start">
-<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries.start" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="entrainment_metrics.continuous.continuous_time_series.TimeSeries.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries.start" title="Permalink to this definition"></a></dt>
 <dd><p>Returns the starting point in time in which
 the TimeSeries is defined</p>
 </dd></dl>
@@ -215,89 +200,77 @@ the TimeSeries is defined</p>
 
 </div>
 <div class="section" id="module-entrainment_metrics.continuous.metrics">
-<span id="metrics"></span><h2>Metrics<a class="headerlink" href="#module-entrainment_metrics.continuous.metrics" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="entrainment_metrics.continuous.metrics.calculate_common_support">
-<code class="descclassname">entrainment_metrics.continuous.metrics.</code><code class="descname">calculate_common_support</code><span class="sig-paren">(</span><em>time_series_a: entrainment_metrics.continuous.continuous_time_series.TimeSeries</em>, <em>time_series_b: entrainment_metrics.continuous.continuous_time_series.TimeSeries</em><span class="sig-paren">)</span> &#x2192; Tuple[float, float]<a class="headerlink" href="#entrainment_metrics.continuous.metrics.calculate_common_support" title="Permalink to this definition">¶</a></dt>
+<span id="metrics"></span><h2>Metrics<a class="headerlink" href="#module-entrainment_metrics.continuous.metrics" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="entrainment_metrics.continuous.metrics.calculate_common_support">
+<span class="sig-prename descclassname"><span class="pre">entrainment_metrics.continuous.metrics.</span></span><span class="sig-name descname"><span class="pre">calculate_common_support</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_series_a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries" title="entrainment_metrics.continuous.continuous_time_series.TimeSeries"><span class="pre">TimeSeries</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_series_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries" title="entrainment_metrics.continuous.continuous_time_series.TimeSeries"><span class="pre">TimeSeries</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#entrainment_metrics.continuous.metrics.calculate_common_support" title="Permalink to this definition"></a></dt>
 <dd><p>Given two times series return the start and end in which
 both TimeSeries are simultaneously defined.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>time_series_a</strong> (<a class="reference internal" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries" title="entrainment_metrics.continuous.continuous_time_series.TimeSeries"><em>TimeSeries</em></a>) – One of the two TimeSeries to calculate the common support from.</li>
-<li><strong>time_series_b</strong> (<a class="reference internal" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries" title="entrainment_metrics.continuous.continuous_time_series.TimeSeries"><em>TimeSeries</em></a>) – The other TimeSeries to calculate the common support from.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time_series_a</strong> (<a class="reference internal" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries" title="entrainment_metrics.continuous.continuous_time_series.TimeSeries"><em>TimeSeries</em></a>) – One of the two TimeSeries to calculate the common support from.</p></li>
+<li><p><strong>time_series_b</strong> (<a class="reference internal" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries" title="entrainment_metrics.continuous.continuous_time_series.TimeSeries"><em>TimeSeries</em></a>) – The other TimeSeries to calculate the common support from.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The start and end of the common support respectively.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Tuple[float, float]</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The start and end of the common support respectively.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Tuple[float, float]</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="entrainment_metrics.continuous.metrics.calculate_metric">
-<code class="descclassname">entrainment_metrics.continuous.metrics.</code><code class="descname">calculate_metric</code><span class="sig-paren">(</span><em>metric: str</em>, <em>time_series_a: entrainment_metrics.continuous.continuous_time_series.TimeSeries</em>, <em>time_series_b: entrainment_metrics.continuous.continuous_time_series.TimeSeries</em>, <em>start: Optional[float] = None</em>, <em>end: Optional[float] = None</em>, <em>granularity: Optional[float] = None</em>, <em>synchrony_deltas: Optional[List[float]] = None</em>, <em>integration_method: Optional[str] = None</em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#entrainment_metrics.continuous.metrics.calculate_metric" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="entrainment_metrics.continuous.metrics.calculate_metric">
+<span class="sig-prename descclassname"><span class="pre">entrainment_metrics.continuous.metrics.</span></span><span class="sig-name descname"><span class="pre">calculate_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_series_a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries" title="entrainment_metrics.continuous.continuous_time_series.TimeSeries"><span class="pre">TimeSeries</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_series_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries" title="entrainment_metrics.continuous.continuous_time_series.TimeSeries"><span class="pre">TimeSeries</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">synchrony_deltas</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">integration_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#entrainment_metrics.continuous.metrics.calculate_metric" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate entrainment metrics given a times series from each speaker</p>
 <p>Metrics avaible: ‘proximity’, ‘convergence’ (AKA ‘pearson’) and ‘synchrony’</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>metric</strong> (<em>str</em>) – The metric to be calculated (“synchrony”, “proximity”, or “convergence”)</li>
-<li><strong>time_series_a</strong> (<a class="reference internal" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries" title="entrainment_metrics.continuous.continuous_time_series.TimeSeries"><em>TimeSeries</em></a>) – One of the two TimeSeries to calculate the metric from.</li>
-<li><strong>time_series_b</strong> (<a class="reference internal" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries" title="entrainment_metrics.continuous.continuous_time_series.TimeSeries"><em>TimeSeries</em></a>) – The other TimeSeries to calculate the metric from.</li>
-<li><strong>start</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – A starting point in time to calculate the metric.</li>
-<li><strong>end</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – An ending point in time to calculate the metric.</li>
-<li><strong>granularity</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – The step in time in which to predict from the time series.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metric</strong> (<em>str</em>) – The metric to be calculated (“synchrony”, “proximity”, or “convergence”)</p></li>
+<li><p><strong>time_series_a</strong> (<a class="reference internal" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries" title="entrainment_metrics.continuous.continuous_time_series.TimeSeries"><em>TimeSeries</em></a>) – One of the two TimeSeries to calculate the metric from.</p></li>
+<li><p><strong>time_series_b</strong> (<a class="reference internal" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries" title="entrainment_metrics.continuous.continuous_time_series.TimeSeries"><em>TimeSeries</em></a>) – The other TimeSeries to calculate the metric from.</p></li>
+<li><p><strong>start</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – A starting point in time to calculate the metric.</p></li>
+<li><p><strong>end</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – An ending point in time to calculate the metric.</p></li>
+<li><p><strong>granularity</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – The step in time in which to predict from the time series.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The metric value.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The metric value.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
 <div class="section" id="module-entrainment_metrics.continuous.utils">
-<span id="visualization"></span><h2>Visualization<a class="headerlink" href="#module-entrainment_metrics.continuous.utils" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="entrainment_metrics.continuous.utils.plot_time_series">
-<code class="descclassname">entrainment_metrics.continuous.utils.</code><code class="descname">plot_time_series</code><span class="sig-paren">(</span><em>time_series_a: entrainment_metrics.continuous.continuous_time_series.TimeSeries</em>, <em>time_series_b: entrainment_metrics.continuous.continuous_time_series.TimeSeries</em>, <em>start: Optional[float] = None</em>, <em>end: Optional[float] = None</em>, <em>granularity: Optional[float] = None</em>, <em>plot_ipus: Optional[bool] = None</em>, <em>legend: Optional[bool] = None</em>, <em>time_series_a_name: Optional[str] = None</em>, <em>time_series_b_name: Optional[str] = None</em>, <em>save_fname: Optional[str] = None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#entrainment_metrics.continuous.utils.plot_time_series" title="Permalink to this definition">¶</a></dt>
+<span id="visualization"></span><h2>Visualization<a class="headerlink" href="#module-entrainment_metrics.continuous.utils" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="entrainment_metrics.continuous.utils.plot_time_series">
+<span class="sig-prename descclassname"><span class="pre">entrainment_metrics.continuous.utils.</span></span><span class="sig-name descname"><span class="pre">plot_time_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_series_a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries" title="entrainment_metrics.continuous.continuous_time_series.TimeSeries"><span class="pre">TimeSeries</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_series_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries" title="entrainment_metrics.continuous.continuous_time_series.TimeSeries"><span class="pre">TimeSeries</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_ipus</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_series_a_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_series_b_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_fname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#entrainment_metrics.continuous.utils.plot_time_series" title="Permalink to this definition"></a></dt>
 <dd><p>Plot the predictions of both TimeSeries between
 the given start and end, and with the given granularity.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>time_series_a</strong> (<a class="reference internal" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries" title="entrainment_metrics.continuous.continuous_time_series.TimeSeries"><em>TimeSeries</em></a>) – One of the two TimeSeries to plot.</li>
-<li><strong>time_series_b</strong> (<a class="reference internal" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries" title="entrainment_metrics.continuous.continuous_time_series.TimeSeries"><em>TimeSeries</em></a>) – The other TimeSeries to plot.</li>
-<li><strong>start</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – A starting point in time to predict. Default is self.start()</li>
-<li><strong>end</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – An ending point in time to predict. Default is self.end()</li>
-<li><strong>granularity</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – The step in time in which to predict from the time series. Default is 0.01</li>
-<li><strong>plot_ipus</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – Whether to plot also the InterPausalUnits feature values. Default is True.</li>
-<li><strong>legend</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – Whether to display a legend. Default is True.</li>
-<li><strong>time_series_a_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The name for the first TimeSeries passed as argument. Default is ‘time_series_a’.</li>
-<li><strong>time_series_b_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The name for the second TimeSeries passed as argument. Default is ‘time_series_b’.</li>
-<li><strong>save_fname</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The fname to pass to plt.savefig(). If provided the plot will be saved.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time_series_a</strong> (<a class="reference internal" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries" title="entrainment_metrics.continuous.continuous_time_series.TimeSeries"><em>TimeSeries</em></a>) – One of the two TimeSeries to plot.</p></li>
+<li><p><strong>time_series_b</strong> (<a class="reference internal" href="#entrainment_metrics.continuous.continuous_time_series.TimeSeries" title="entrainment_metrics.continuous.continuous_time_series.TimeSeries"><em>TimeSeries</em></a>) – The other TimeSeries to plot.</p></li>
+<li><p><strong>start</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – A starting point in time to predict. Default is self.start()</p></li>
+<li><p><strong>end</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – An ending point in time to predict. Default is self.end()</p></li>
+<li><p><strong>granularity</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em>) – The step in time in which to predict from the time series. Default is 0.01</p></li>
+<li><p><strong>plot_ipus</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – Whether to plot also the InterPausalUnits feature values. Default is True.</p></li>
+<li><p><strong>legend</strong> (<em>Optional</em><em>[</em><em>bool</em><em>]</em>) – Whether to display a legend. Default is True.</p></li>
+<li><p><strong>time_series_a_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The name for the first TimeSeries passed as argument. Default is ‘time_series_a’.</p></li>
+<li><p><strong>time_series_b_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The name for the second TimeSeries passed as argument. Default is ‘time_series_b’.</p></li>
+<li><p><strong>save_fname</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The fname to pass to plt.savefig(). If provided the plot will be saved.</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <div class="toctree-wrapper compound">
@@ -321,7 +294,7 @@ the given start and end, and with the given granularity.</p>
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+
 
 </footer>
         </div>
@@ -332,7 +305,7 @@ the given start and end, and with the given granularity.</p>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
 
 </body>
 </html>
