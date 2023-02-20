@@ -121,7 +121,7 @@ def calculate_sample_correlation(
     return np.array(numerators) / denominator
 
 
-def unsigned_synchony(
+def unsigned_synchrony(
     time_series_a: List[float],
     time_series_b: List[float],
     lags: int,
