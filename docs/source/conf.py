@@ -31,3 +31,6 @@ autodoc_mock_imports = ["audiofile", "opensmile", "sklearn", "scipy"]
 
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
+
+# AG: agrego esto porque me busca contents.rst en lugar de index.rst.
+master_doc = 'index'
