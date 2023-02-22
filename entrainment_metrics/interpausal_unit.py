@@ -7,7 +7,7 @@ from typing import Dict, List, Optional
 import audiofile
 import opensmile
 import pandas as pd
-import parselmouth
+from parselmouth.praat import run_file
 
 
 class InterPausalUnit:
@@ -131,13 +131,12 @@ class InterPausalUnit:
             praat_script_absolute = os.path.abspath(
                 os.path.join(
                     os.path.dirname(__file__),
-                    '..',
-                    'scripts/extractStandardAcoustics.praat',
+                    'extractStandardAcoustics.praat',
                 )
             )
             f = io.StringIO()
             with redirect_stdout(f):
-                parselmouth.praat.run_file(
+                run_file(
                     praat_script_absolute,
                     audio_file_absolute,
                     str(self.start),
