@@ -1,11 +1,13 @@
+import io
 import os
-import subprocess
+from contextlib import redirect_stdout
 from pathlib import Path
 from typing import Dict, List, Optional
 
 import audiofile
 import opensmile
 import pandas as pd
+import parselmouth
 
 
 class InterPausalUnit:
@@ -98,7 +100,9 @@ class InterPausalUnit:
         return self._features_values
 
     def _calculate_praat_features(
-        self, audio_file: Path, pitch_gender: Optional[str]
+        self,
+        audio_file: Path,
+        pitch_gender: Optional[str],
     ) -> None:
         """
         Return the IPU values of the standard acoustics features
@@ -124,23 +128,28 @@ class InterPausalUnit:
 
             audio_file = Path(audio_file)
             audio_file_absolute = os.fspath(audio_file.resolve())
-            result = subprocess.run(
-                [
-                    'praat',
-                    './scripts/extractStandardAcoustics.praat',
+            praat_script_absolute = os.path.abspath(
+                os.path.join(
+                    os.path.dirname(__file__),
+                    '..',
+                    'scripts/extractStandardAcoustics.praat',
+                )
+            )
+            f = io.StringIO()
+            with redirect_stdout(f):
+                parselmouth.praat.run_file(
+                    praat_script_absolute,
                     audio_file_absolute,
                     str(self.start),
                     str(self.end),
                     str(min_pitch),
                     str(max_pitch),
-                ],
-                stdout=subprocess.PIPE,
-                check=True,
-            )
+                )
+
             # Parse results
-            output_lines: List[str] = result.stdout.decode().rstrip().splitlines()
+            result: List[str] = f.getvalue().rstrip().splitlines()
             features_results: Dict[str, float] = {}
-            for line in output_lines:
+            for line in result:
                 feature, value = line.split(":")
                 if value != "--undefined--":
                     features_results[feature] = float(value)
