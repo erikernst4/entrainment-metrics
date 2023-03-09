@@ -8,11 +8,11 @@ In order to use this library you'll need at least two things: a wav file for eac
 Creating Interpausal Units
 --------------------------
 
-If you already have the Interpausal Units from a wav file, you can create your InterpausalUnit objects like this (note that feature_values are an optional parameter):
+If you already have the Interpausal Units from a wav file, you can create your InterPausalUnit objects like this (note that feature_values are an optional parameter):
 
 .. code-block:: python
 
-   from entrainment_metrics import InterpausalUnit
+   from entrainment_metrics import InterPausalUnit
 
    InterPausalUnit(
       start=0.0,
@@ -21,7 +21,7 @@ If you already have the Interpausal Units from a wav file, you can create your I
    )
 
 If you only have the start and end from each InterPausalUnit you can use opensmile or the praat script from this library to calculate the features available with each extractor.
-For example, if you have a list of InterpausalUnit's called "ipus":
+For example, if you have a list of InterPausalUnit's called "ipus":
 
 
 .. code-block:: python
@@ -48,7 +48,7 @@ For further information check the :ref:`ipu` documentation.
 Approximating the evolution of each speaker’s a/p features
 ----------------------------------------------------------
 
-Once you have your InterpausalUnits, the next step towards measuring entrainment is to approximate the evolution of each speaker’s a/p features. With this library you can follow two paths:
+Once you have your InterPausalUnits, the next step towards measuring entrainment is to approximate the evolution of each speaker’s a/p features. With this library you can follow two paths:
 
 - Discrete approximation -> :ref:`tama`.
 - Continuous approximation -> :ref:`continuous_time_series`

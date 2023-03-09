@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html4" lang="en" >
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Continuous TimeSeries &mdash; entrainment-metrics  documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <title>Continuous TimeSeries &mdash; entrainment-metrics  documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
+  <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -27,11 +25,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> entrainment-metrics
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            entrainment-metrics
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -67,9 +69,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="index.html">Usage</a> &raquo;</li>
-      <li>Continuous TimeSeries</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Usage</a></li>
+      <li class="breadcrumb-item active">Continuous TimeSeries</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/usage/continuous_time_series.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -80,10 +82,10 @@
            <div itemprop="articleBody">
              
   <div class="section" id="continuous-timeseries">
-<span id="continuous-time-series"></span><h1>Continuous TimeSeries<a class="headerlink" href="#continuous-timeseries" title="Permalink to this heading"></a></h1>
+<span id="continuous-time-series"></span><h1>Continuous TimeSeries<a class="headerlink" href="#continuous-timeseries" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="using-continuous-timeseries">
-<h2>Using Continuous TimeSeries<a class="headerlink" href="#using-continuous-timeseries" title="Permalink to this heading"></a></h2>
-<p>When you already have a list of InterpausalUnit with some feature of interest calculated you can already create a TimeSeries object for some feature that the IPUs have precalculated. Here’s an example using knn.</p>
+<h2>Using Continuous TimeSeries<a class="headerlink" href="#using-continuous-timeseries" title="Permalink to this headline">¶</a></h2>
+<p>When you already have a list of InterPausalUnit with some feature of interest calculated you can already create a TimeSeries object for some feature that the IPUs have precalculated. Here’s an example using knn.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entrainment_metrics.continuous</span> <span class="kn">import</span> <span class="n">TimeSeries</span>
 
 <span class="n">time_series</span><span class="p">:</span> <span class="n">TimeSeries</span> <span class="o">=</span> <span class="n">TimeSeries</span><span class="p">(</span>
@@ -95,7 +97,7 @@
 </pre></div>
 </div>
 <p>Moreover, you can predict over some points in time (a float or an np.ndarray) or an interval between some start and end with some granularity.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="n">time_series_values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">time_series</span><span class="o">.</span><span class="n">predict_interval</span><span class="p">(</span>
     <span class="n">start</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
@@ -110,7 +112,7 @@
 </div>
 </div>
 <div class="section" id="calculating-metrics">
-<h2>Calculating Metrics<a class="headerlink" href="#calculating-metrics" title="Permalink to this heading"></a></h2>
+<h2>Calculating Metrics<a class="headerlink" href="#calculating-metrics" title="Permalink to this headline">¶</a></h2>
 <p>When you already have some TimeSeries is when fun starts. Now you are able to calculate some metrics over them. The metrics available are ‘proximity’, ‘convergence’, and ‘synchrony’. Calculating any of these metrics is as easy as running the following code:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entrainment_metrics.continuous</span> <span class="kn">import</span> <span class="n">calculate_metric</span>
 <span class="n">metric_result</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">calculate_metric</span><span class="p">(</span>
