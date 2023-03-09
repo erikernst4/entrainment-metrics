@@ -6,7 +6,7 @@ Continuous TimeSeries
 Using Continuous TimeSeries
 ---------------------------
 
-When you already have a list of InterpausalUnit with some feature of interest calculated you can already create a TimeSeries object for some feature that the IPUs have precalculated. Here's an example using knn.
+When you already have a list of InterPausalUnit with some feature of interest calculated you can already create a TimeSeries object for some feature that the IPUs have precalculated. Here's an example using knn.
 
 .. code-block:: python
 
