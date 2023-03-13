@@ -96,7 +96,7 @@
 <span class="p">)</span>
 </pre></div>
 </div>
-<p>Moreover, you can predict over some points in time (a float or an np.ndarray) or an interval between some start and end with some granularity.</p>
+<p>Once the TimeSeries object has been constructed, you can use it predict the feature value for specific time points (a float, or an np.ndarray), or for the points in a given interval (with a specified granularity degree).</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="n">time_series_values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">time_series</span><span class="o">.</span><span class="n">predict_interval</span><span class="p">(</span>

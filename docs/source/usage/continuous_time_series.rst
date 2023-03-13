@@ -19,7 +19,7 @@ If you have a list of InterPausalUnits with some feature of interest already cal
        k=8,
    )
 
-Moreover, you can predict over some points in time (a float or an np.ndarray) or an interval between some start and end with some granularity.
+Once the TimeSeries object has been constructed, you can use it predict the feature value for specific time points (a float, or an np.ndarray), or for the points in a given interval (with a specified granularity degree).
 
 .. code-block:: python
 
