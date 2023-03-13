@@ -42,7 +42,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Usage</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">InterPausalUnit</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#visualization">Visualization</a><ul class="simple">
+<li class="toctree-l2"><a class="reference internal" href="#module-entrainment_metrics.utils">Visualization</a><ul class="simple">
 </ul>
 </li>
 </ul>
@@ -74,10 +74,112 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="interpausalunit">
-<span id="ipu"></span><h1>InterPausalUnit<a class="headerlink" href="#interpausalunit" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="visualization">
-<h2>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="module-entrainment_metrics.interpausal_unit">
+<span id="interpausalunit"></span><span id="ipu"></span><h1>InterPausalUnit<a class="headerlink" href="#module-entrainment_metrics.interpausal_unit" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="entrainment_metrics.interpausal_unit.InterPausalUnit">
+<em class="property">class </em><code class="descclassname">entrainment_metrics.interpausal_unit.</code><code class="descname">InterPausalUnit</code><span class="sig-paren">(</span><em>start: float</em>, <em>end: float</em>, <em>features_values: Optional[Dict[str</em>, <em>float]] = None</em><span class="sig-paren">)</span><a class="headerlink" href="#entrainment_metrics.interpausal_unit.InterPausalUnit" title="Permalink to this definition">¶</a></dt>
+<dd><p>It’s an interval of time between silences of a speaker in a conversation.</p>
+<dl class="attribute">
+<dt id="entrainment_metrics.interpausal_unit.InterPausalUnit.start">
+<code class="descname">start</code><a class="headerlink" href="#entrainment_metrics.interpausal_unit.InterPausalUnit.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start time of the IPU</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="entrainment_metrics.interpausal_unit.InterPausalUnit.end">
+<code class="descname">end</code><a class="headerlink" href="#entrainment_metrics.interpausal_unit.InterPausalUnit.end" title="Permalink to this definition">¶</a></dt>
+<dd><p>End time of the IPU</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="entrainment_metrics.interpausal_unit.InterPausalUnit.calculate_features">
+<code class="descname">calculate_features</code><span class="sig-paren">(</span><em>audio_file: Optional[pathlib.Path] = None</em>, <em>pitch_gender: Optional[str] = None</em>, <em>extractor: Optional[str] = None</em><span class="sig-paren">)</span> &#x2192; Optional[Dict[str, float]]<a class="headerlink" href="#entrainment_metrics.interpausal_unit.InterPausalUnit.calculate_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lazy feature extraction for an InterPausalUnit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>audio_file</strong> (<em>Optional</em><em>[</em><em>Path</em><em>]</em>) – A path to a wav file.</li>
+<li><strong>pitch_gender</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Useful for a more accurate praat extraction. “M” or “F”, or None.</li>
+<li><strong>extractor</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The extractor to calculate features. It can be either “praat” or “opensmile”. Default is “opensmile”.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A dictionary with the value for each feature calculated.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Dict[str, float]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="entrainment_metrics.interpausal_unit.InterPausalUnit.feature_value">
+<code class="descname">feature_value</code><span class="sig-paren">(</span><em>feature: str</em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#entrainment_metrics.interpausal_unit.InterPausalUnit.feature_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the value for the feature given if already extracted</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="module-entrainment_metrics.utils">
+<span id="visualization"></span><h2>Visualization<a class="headerlink" href="#module-entrainment_metrics.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="entrainment_metrics.utils.print_ipus_information">
+<code class="descclassname">entrainment_metrics.utils.</code><code class="descname">print_ipus_information</code><span class="sig-paren">(</span><em>ipus: List[entrainment_metrics.interpausal_unit.InterPausalUnit], feature: str</em><span class="sig-paren">)</span><a class="headerlink" href="#entrainment_metrics.utils.print_ipus_information" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print lenght, std, mean, min, max, min start, and max end
+from the list of IPUs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ipus</strong> (<em>List</em><em>[</em><a class="reference internal" href="#entrainment_metrics.interpausal_unit.InterPausalUnit" title="entrainment_metrics.interpausal_unit.InterPausalUnit"><em>InterPausalUnit</em></a><em>]</em>) – The list of IPUs from which to extract information.</li>
+<li><strong>feature</strong> (<em>str</em>) – The feature from which to extract the feature value of each InterPausalUnit.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="entrainment_metrics.utils.plot_ipus">
+<code class="descclassname">entrainment_metrics.utils.</code><code class="descname">plot_ipus</code><span class="sig-paren">(</span><em>ipus: List[entrainment_metrics.interpausal_unit.InterPausalUnit], feature: str, **kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#entrainment_metrics.utils.plot_ipus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the IPU’s feature values with its corresponding lenght.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ipus</strong> (<em>List</em><em>[</em><a class="reference internal" href="#entrainment_metrics.interpausal_unit.InterPausalUnit" title="entrainment_metrics.interpausal_unit.InterPausalUnit"><em>InterPausalUnit</em></a><em>]</em>) – The list of IPUs from which to extract information.</li>
+<li><strong>feature</strong> (<em>str</em>) – The feature from which to extract the feature value of each InterPausalUnit.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <div class="toctree-wrapper compound">
 </div>
 </div>

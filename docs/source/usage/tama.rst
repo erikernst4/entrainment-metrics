@@ -88,11 +88,11 @@ Having two time series calculated you can calculate the sample cross-correlation
 Measuring acoustic-prosodic synchrony
 -------------------------------------
 
-We provide two ways of measuring acoustic-prosodic synchrony in the library. Signed and Unsigned Synchrony Measure.
+The library provides two ways of measuring acoustic-prosodic synchrony: Signed and Unsigned Synchrony Measures.
 
-For Signed Synchrony Measure positive values represent positive synchrony (or entrainment) in a straightforward way, and negative values represent negative synchrony (disentrainment).
+For the Signed Synchrony Measure, positive values represent positive synchrony (or entrainment) in a straightforward way, and negative values represent negative synchrony (disentrainment).
 
-In the other hand, for Unsigned Synchrony Measure, by taking the absolute value, this second measure gives equal treatment to positive and negative synchrony values. In other words, high values of the time series are indicative of high levels of either entrainment or disentrainment; and low values correspond to a total lack of coordination in either direction.
+On the other hand, the Unsigned Synchrony Measure, by taking the absolute value, gives an equal treatment to positive and negative synchrony values. In other words, high values in the time series are indicative of high levels of either entrainment or disentrainment; and low values correspond to a total lack of coordination in either direction.
 
 Here's an example of how to get both metrics:
 
@@ -102,12 +102,12 @@ Here's an example of how to get both metrics:
    res_signed_synchrony = signed_synchrony(
        time_series_a=time_series_a,
        time_series_b=time_series_b,
-       lags=an_amount_of_lags,
+       lags=an_amount_of_lags,       # e.g., lags=???
    )
 
    res_unsigned_synchrony = unsigned_synchrony(
        time_series_a=time_series_a,
        time_series_b=time_series_b,
-       lags=an_amount_of_lags,
+       lags=an_amount_of_lags,       # e.g., lags=???
    )
 
