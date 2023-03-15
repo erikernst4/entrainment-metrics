@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html class="writer-html4" lang="en" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Time-Aligned Moving Average (TAMA) &mdash; entrainment-metrics  documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <title>Time-Aligned Moving Average (TAMA) &mdash; entrainment-metrics  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -25,15 +27,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="../index.html" class="icon icon-home">
-            entrainment-metrics
+            <a href="../index.html" class="icon icon-home"> entrainment-metrics
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -71,9 +69,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html">Usage</a></li>
-      <li class="breadcrumb-item active">Time-Aligned Moving Average (TAMA)</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Usage</a> &raquo;</li>
+      <li>Time-Aligned Moving Average (TAMA)</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/usage/tama.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -84,16 +82,16 @@
            <div itemprop="articleBody">
              
   <div class="section" id="time-aligned-moving-average-tama">
-<span id="tama"></span><h1>Time-Aligned Moving Average (TAMA)<a class="headerlink" href="#time-aligned-moving-average-tama" title="Permalink to this headline">¶</a></h1>
+<span id="tama"></span><h1>Time-Aligned Moving Average (TAMA)<a class="headerlink" href="#time-aligned-moving-average-tama" title="Permalink to this heading"></a></h1>
 <div class="section" id="using-frames">
-<h2>Using Frames<a class="headerlink" href="#using-frames" title="Permalink to this headline">¶</a></h2>
+<h2>Using Frames<a class="headerlink" href="#using-frames" title="Permalink to this heading"></a></h2>
 <p>The TAMA method first divides each speaker’s speech into overlapping frames of fixed length. We empirically adjust two method parameters, frame length at 16s and time step at 8s. A particular frame could contain no InterPausalUnits, in which case its a/p feature values are considered ‘missing’, for those we use the MissingFrame object.</p>
 <p>If you already have the list of InterPausalUnit’s that fall entirely or partially within a frame, you can create your Frame object with its constructor:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entrainment_metrics.tama</span> <span class="kn">import</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">MissingFrame</span>
 <span class="n">frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span>
     <span class="n">start</span><span class="o">=</span><span class="mf">8.0</span><span class="p">,</span>
     <span class="n">end</span><span class="o">=</span><span class="mf">24.0</span><span class="p">,</span>
-    <span class="n">is_missing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">is_missing</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
     <span class="n">interpausal_units</span><span class="o">=</span><span class="p">[</span>
         <span class="n">InterPausalUnit</span><span class="p">(</span><span class="mf">8.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;F0_MAX&#39;</span><span class="p">:</span> <span class="mf">200.002</span><span class="p">}),</span>
         <span class="n">InterPausalUnit</span><span class="p">(</span><span class="mf">16.0</span><span class="p">,</span> <span class="mf">24.0</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;F0_MAX&#39;</span><span class="p">:</span> <span class="mf">300.002</span><span class="p">}),</span>
@@ -115,7 +113,7 @@
 </div>
 </div>
 <div class="section" id="constructing-time-series-of-acoustic-prosodic-features">
-<h2>Constructing time series of acoustic-prosodic features<a class="headerlink" href="#constructing-time-series-of-acoustic-prosodic-features" title="Permalink to this headline">¶</a></h2>
+<h2>Constructing time series of acoustic-prosodic features<a class="headerlink" href="#constructing-time-series-of-acoustic-prosodic-features" title="Permalink to this heading"></a></h2>
 <p>Once you have a list of frames from an audio, you can generate time-series data of several a/p features. If for the InterPausalUnits in your frames the features of interest have already been calculated, then you can directly compute the time series like this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entrainment_metrics.tama</span> <span class="kn">import</span> <span class="n">calculate_time_series</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
@@ -141,7 +139,7 @@
 </div>
 </div>
 <div class="section" id="sample-cross-correlation-as-a-proxy-for-entrainment">
-<h2>Sample cross-correlation as a proxy for entrainment<a class="headerlink" href="#sample-cross-correlation-as-a-proxy-for-entrainment" title="Permalink to this headline">¶</a></h2>
+<h2>Sample cross-correlation as a proxy for entrainment<a class="headerlink" href="#sample-cross-correlation-as-a-proxy-for-entrainment" title="Permalink to this heading"></a></h2>
 <p>The sample cross-correlation is a measure which aims at capturing the correlation between two series as one of them is lagged (i.e., its points are shifted a number of positions). Intuitively, it can be interpreted similarly to Pearson’s correlation coefficient between a time-series and a lagged version of another one.</p>
 <p>Having two time series calculated you can calculate the sample cross-correlation as simply as this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entrainment_metrics.tama</span> <span class="kn">import</span> <span class="n">calculate_sample_correlation</span>
@@ -156,7 +154,7 @@
 </div>
 </div>
 <div class="section" id="measuring-acoustic-prosodic-synchrony">
-<h2>Measuring acoustic-prosodic synchrony<a class="headerlink" href="#measuring-acoustic-prosodic-synchrony" title="Permalink to this headline">¶</a></h2>
+<h2>Measuring acoustic-prosodic synchrony<a class="headerlink" href="#measuring-acoustic-prosodic-synchrony" title="Permalink to this heading"></a></h2>
 <p>The library provides two ways of measuring acoustic-prosodic synchrony: Signed and Unsigned Synchrony Measures.</p>
 <p>For the Signed Synchrony Measure, positive values represent positive synchrony (or entrainment) in a straightforward way, and negative values represent negative synchrony (disentrainment).</p>
 <p>On the other hand, the Unsigned Synchrony Measure, by taking the absolute value, gives an equal treatment to positive and negative synchrony values. In other words, high values in the time series are indicative of high levels of either entrainment or disentrainment; and low values correspond to a total lack of coordination in either direction.</p>

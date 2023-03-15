@@ -33,3 +33,16 @@ For speech feature extraction it is also required praat:
    # on Ubuntu or Debian
    sudo apt update && sudo apt install praat
 
+
+Troubleshoot
+^^^^^^^^^^^^
+
+- cannot import name 'quote' from 'urllib' (/usr/lib/python3.8/urllib/__init__.py)
+
+    This error comes from a problem between parselmouth and praat-parselmouth. If you bump into this error while installing the library, you can solve it by running the following:
+    
+    .. code-block:: console
+
+       pip uninstall parselmouth && pip install praat-parselmouth
+
+- Please, if you have any other error feel free to leave an issue in the github repository.

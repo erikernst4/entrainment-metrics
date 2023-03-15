@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html class="writer-html4" lang="en" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Getting started &mdash; entrainment-metrics  documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <title>Getting started &mdash; entrainment-metrics  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/language_data.js"></script>
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -25,15 +27,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="../index.html" class="icon icon-home">
-            entrainment-metrics
+            <a href="../index.html" class="icon icon-home"> entrainment-metrics
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -69,9 +67,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="index.html">Usage</a></li>
-      <li class="breadcrumb-item active">Getting started</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Usage</a> &raquo;</li>
+      <li>Getting started</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/usage/getting_started.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -82,10 +80,10 @@
            <div itemprop="articleBody">
              
   <div class="section" id="getting-started">
-<span id="id1"></span><h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this heading"></a></h1>
 <p>In order to use this library you’ll need at least two things: a wav file for each speaker and the start and end of each InterPausalUnit. What is an Interpausal Unit? It’s an interval of time between silences of a single speaker in a conversation. You only need the start and end of each Interpausal Unit. What if you don’t have that piece of information? Well, the task you need to solve is Voice Activity Detection (VAD), there are many good tools you can use to solve this!</p>
 <div class="section" id="creating-interpausal-units">
-<h2>Creating Interpausal Units<a class="headerlink" href="#creating-interpausal-units" title="Permalink to this headline">¶</a></h2>
+<h2>Creating Interpausal Units<a class="headerlink" href="#creating-interpausal-units" title="Permalink to this heading"></a></h2>
 <p>If you already have the Interpausal Units from a wav file, you can create your InterPausalUnit objects like this (note that feature_values are an optional parameter):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entrainment_metrics</span> <span class="kn">import</span> <span class="n">InterPausalUnit</span>
 
@@ -116,11 +114,11 @@ For example, if you have a list of InterPausalUnit’s called “ipus”:</p>
 <p>For further information check the <a class="reference internal" href="../modules/ipu.html#ipu"><span class="std std-ref">InterPausalUnit</span></a> documentation.</p>
 </div>
 <div class="section" id="approximating-the-evolution-of-each-speakers-a-p-features">
-<h2>Approximating the evolution of each speaker’s a/p features<a class="headerlink" href="#approximating-the-evolution-of-each-speakers-a-p-features" title="Permalink to this headline">¶</a></h2>
+<h2>Approximating the evolution of each speaker’s a/p features<a class="headerlink" href="#approximating-the-evolution-of-each-speakers-a-p-features" title="Permalink to this heading"></a></h2>
 <p>Once you have your InterPausalUnits, the next step towards measuring entrainment is to approximate the evolution of each speaker’s a/p features. With this library you can follow two paths:</p>
 <ul class="simple">
-<li>Discrete approximation -&gt; <a class="reference internal" href="tama.html#tama"><span class="std std-ref">Time-Aligned Moving Average (TAMA)</span></a>.</li>
-<li>Continuous approximation -&gt; <a class="reference internal" href="continuous_time_series.html#continuous-time-series"><span class="std std-ref">Continuous TimeSeries</span></a></li>
+<li><p>Discrete approximation -&gt; <a class="reference internal" href="tama.html#tama"><span class="std std-ref">Time-Aligned Moving Average (TAMA)</span></a>.</p></li>
+<li><p>Continuous approximation -&gt; <a class="reference internal" href="continuous_time_series.html#continuous-time-series"><span class="std std-ref">Continuous TimeSeries</span></a></p></li>
 </ul>
 <p>For in-depth information for choosing one, please refer to the referenced papers. For beginners, we recommend you to go straight to the Continuous TimeSeries.</p>
 <p>In the next sections you’ll learn how to follow each path and get your entrainment metrics.</p>
