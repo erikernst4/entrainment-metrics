@@ -102,12 +102,11 @@ Here's an example of how to get both metrics:
    res_signed_synchrony = signed_synchrony(
        time_series_a=time_series_a,
        time_series_b=time_series_b,
-       lags=an_amount_of_lags,       # e.g., lags=???
+       lags=an_amount_of_lags,       # e.g., lags=6
    )
 
    res_unsigned_synchrony = unsigned_synchrony(
        time_series_a=time_series_a,
        time_series_b=time_series_b,
-       lags=an_amount_of_lags,       # e.g., lags=???
-   )
+       lags=an_amount_of_lags,
 

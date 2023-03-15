@@ -1,3 +1,5 @@
+.. _continuous:
+
 Continuous
 ===============
 

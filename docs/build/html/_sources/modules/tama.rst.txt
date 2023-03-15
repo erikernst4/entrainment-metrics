@@ -15,7 +15,7 @@ Utils
 Entrainment
 -----------
 .. automodule:: entrainment_metrics.tama.entrainment
-    :members: calculate_sample_correlation, calculate_time_series, signed_synchrony, unsigned_synchony
+    :members: calculate_sample_correlation, calculate_time_series, signed_synchrony, unsigned_synchrony
 
 
 .. toctree::

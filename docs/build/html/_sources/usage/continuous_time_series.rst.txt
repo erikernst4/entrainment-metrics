@@ -1,10 +1,12 @@
+.. _continuous_time_series:
+
 Continuous TimeSeries
 =====================
 
 Using Continuous TimeSeries
 ---------------------------
 
-When you already have a list of InterpausalUnit with some feature of interest calculated you can already create a TimeSeries object for some feature that the IPUs have precalculated. Here's an example using knn.
+If you have a list of InterPausalUnits with some feature of interest already calculated, you can create a TimeSeries object for such a feature. Here is an example that uses k-Nearest-Neighbors (kNN) regressor, as explained in Gálvez et al. (2020). 
 
 .. code-block:: python
 
@@ -17,7 +19,7 @@ When you already have a list of InterpausalUnit with some feature of interest ca
        k=8,
    )
 
-Moreover, you can predict over some points in time (a float or an np.ndarray) or an interval between some start and end with some granularity.
+Once the TimeSeries object has been constructed, you can use it predict the feature value for specific time points (a float, or an np.ndarray), or for the points in a given interval (with a specified granularity degree).
 
 .. code-block:: python
 
