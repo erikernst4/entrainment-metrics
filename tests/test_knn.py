@@ -209,3 +209,18 @@ class KNNTestCase(TestCase):
             ),
             decimal=4,
         )
+
+    def test_predict_time_series_with_invalid_input_raises_exception(self):
+        case_a = self.cases['long_100-200-300_x2']
+
+        time_series_a = TimeSeries(
+            feature='F0_MAX', interpausal_units=case_a['ipus'], method='knn', k=4
+        )
+
+        invalid_inputs = [1, np.array([[1]])]
+        for invalid_input in invalid_inputs:
+            self.assertRaises(
+                ValueError,
+                time_series_a.predict,
+                invalid_input,
+            )
