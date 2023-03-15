@@ -52,16 +52,16 @@ class KNNTestCase(TestCase):
         model.fit(X, y)
 
         samplerate, data = case['audio']
-        audio_lenght = data.shape[0] // samplerate
-        values_to_predict = [i for i in range(0, audio_lenght, int(0.01 * samplerate))]
-        values_to_predict = np.array(values_to_predict)
-        values_to_predict = values_to_predict.reshape(-1, 1)
+        values_to_predict = [
+            i / samplerate
+            for i in range(2 * samplerate, 48 * samplerate, int(0.01 * samplerate))
+        ]
 
         time_series = TimeSeries(
             feature='F0_MAX', interpausal_units=case['ipus'], method='knn', k=4
         )
         np.testing.assert_almost_equal(
-            model.predict(values_to_predict),
+            model.predict(np.array(values_to_predict).reshape(-1, 1)),
             time_series.predict(values_to_predict),
         )
 
@@ -70,8 +70,8 @@ class KNNTestCase(TestCase):
         time_series = TimeSeries(
             feature='F0_MAX', interpausal_units=case['ipus'], method='knn', k=4
         )
-        values_before_start_to_predict = np.array([-1.0]).reshape(-1, 1)
-        values_after_end_to_predict = np.array([53.0]).reshape(-1, 1)
+        values_before_start_to_predict = [-1.0]
+        values_after_end_to_predict = [53.0]
 
         self.assertWarns(Warning, time_series.predict, values_before_start_to_predict)
 

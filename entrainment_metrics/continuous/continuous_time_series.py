@@ -152,28 +152,39 @@ class TimeSeries:
 
         Parameters
         ----------
-        X: float or np.ndarray
-            A point or an array of points in time.
+        X: float, list or np.ndarray
+            A point or an array/list of points in time.
 
         Returns
         -------
         np.ndarray
-            The predicted value/s.
+            The predicted value/s for the point/s in time given.
         """
         # Convert float to expected predict type
         if isinstance(X, float):
-            X = np.array([X]).reshape(-1, 1)
+            X = [X]
+
+        # Validate input
+        if isinstance(X, list) or (isinstance(X, np.ndarray) and X.ndim == 1):
+            X = np.array(X).reshape(-1, 1)
+        else:
+            raise ValueError(
+                """Invalid input: the value/s to predict must be a float or
+                a 1 dimentional list or numpy array with the points in time to predict.
+                """
+            )
+
         for x in X:
             if x > self.end():
                 warnings.warn(
                     f"""Out of bounds {x}: A value in X is greater than TimeSeries end.
-                    Remember the end of a TimeSeries is the end of the last non-outlier IPU.
+                    Remember the end of a TimeSeries is the middle point of the last non-outlier IPU.
                 """
                 )
             if x < self.start():
                 warnings.warn(
                     f"""Out of bounds {x}: A value in X is smaller than TimeSeries start.
-                    Remember the start of a TimeSeries is the start of the first non-outlier IPU.
+                    Remember the start of a TimeSeries is the middle point of the first non-outlier IPU.
                 """
                 )
         return self.model.predict(X)
@@ -219,9 +230,7 @@ class TimeSeries:
         if values_to_predict_in_s[-1] > end:
             values_to_predict_in_s[-1] = end
 
-        values_to_predict = values_to_predict_in_s.reshape(-1, 1)
-
-        return self.predict(values_to_predict)
+        return self.predict(values_to_predict_in_s)
 
     def plot(
         self,
