@@ -282,8 +282,7 @@ class TimeSeries:
         if values_to_predict_in_s[-1] > self.end():
             values_to_predict_in_s[-1] = self.end()
 
-        values_to_predict = values_to_predict_in_s.reshape(-1, 1)
-        ys = self.predict(values_to_predict)
+        ys = self.predict(values_to_predict_in_s)
         plt.plot(xs, ys, **kwargs)
 
         if plot_ipus:
