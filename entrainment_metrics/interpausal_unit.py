@@ -204,3 +204,6 @@ class InterPausalUnit:
         ipu_phones_qty = len(ipu_phones.split())
         ipu_speech_rate = ipu_phones_qty / self.duration()
         self._features_values.update({"speech_rate": ipu_speech_rate})
+
+        # Remove tempoary wav
+        os.remove(cropped_wav_path)
