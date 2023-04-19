@@ -35,7 +35,7 @@ class InterPausalUnit:
     ) -> None:
         self.start = start
         self.end = end
-        self._features_values = features_values if features_values is not None else {}
+        self.features_values = features_values if features_values is not None else {}
 
     def __eq__(self, other):
         res = False
@@ -57,9 +57,9 @@ class InterPausalUnit:
         """
         Return the value for the feature given if already extracted
         """
-        if self._features_values is None or feature not in self._features_values:
+        if self.features_values is None or feature not in self.features_values:
             raise ValueError(f"Feature {feature} not extracted yet")
-        return self._features_values[feature]
+        return self.features_values[feature]
 
     def calculate_features(
         self,
@@ -68,7 +68,7 @@ class InterPausalUnit:
         extractor: Optional[str] = None,
     ) -> Optional[Dict[str, float]]:
         """
-        Lazy feature extraction for an InterPausalUnit.
+        Feature extraction for an InterPausalUnit.
 
         Parameters
         ----------
@@ -77,7 +77,7 @@ class InterPausalUnit:
         pitch_gender: Optional[str]
             Useful for a more accurate praat extraction. "M" or "F", or None.
         extractor: Optional[str]
-            The extractor to calculate features. It can be either "praat" or "opensmile". Default is "opensmile".
+            The extractor to calculate features. It can be either "praat" ,"opensmile", or "allosaurus"/"speech-rate". Default is "opensmile".
         Returns
         -------
         Dict[str, float]
@@ -85,7 +85,7 @@ class InterPausalUnit:
         """
         available_extractors = ["praat", "opensmile", "allosaurus", "speech-rate"]
         # Set opensmile as default
-        if extractor is None and self._features_values is None:
+        if extractor is None and self.features_values is None:
             extractor = "opensmile"
 
         if extractor is None:
@@ -101,7 +101,7 @@ class InterPausalUnit:
         elif extractor in ["speech-rate", "allosaurus"]:
             self._calculate_speech_rate(audio_file)
 
-        return self._features_values
+        return self.features_values
 
     def _calculate_praat_features(
         self,
@@ -115,49 +115,48 @@ class InterPausalUnit:
         This features are calculated with praat using the script
         in praat_scripts
         """
-        if self._features_values is None:
-            min_pitch = None
-            max_pitch = None
-            if pitch_gender == "M":
-                min_pitch = 50
-                max_pitch = 300
-            elif pitch_gender == "F":
-                min_pitch = 75
-                max_pitch = 500
-            elif pitch_gender is None:
-                min_pitch = 50
-                max_pitch = 500
-            else:
-                raise ValueError("Not a valid pitch gender")
+        min_pitch = None
+        max_pitch = None
+        if pitch_gender == "M":
+            min_pitch = 50
+            max_pitch = 300
+        elif pitch_gender == "F":
+            min_pitch = 75
+            max_pitch = 500
+        elif pitch_gender is None:
+            min_pitch = 50
+            max_pitch = 500
+        else:
+            raise ValueError("Not a valid pitch gender")
 
-            audio_file = Path(audio_file)
-            audio_file_absolute = os.fspath(audio_file.resolve())
-            praat_script_absolute = os.path.abspath(
-                os.path.join(
-                    os.path.dirname(__file__),
-                    'extractStandardAcoustics.praat',
-                )
+        audio_file = Path(audio_file)
+        audio_file_absolute = os.fspath(audio_file.resolve())
+        praat_script_absolute = os.path.abspath(
+            os.path.join(
+                os.path.dirname(__file__),
+                'extractStandardAcoustics.praat',
             )
-            f = io.StringIO()
-            with redirect_stdout(f):
-                run_file(
-                    praat_script_absolute,
-                    audio_file_absolute,
-                    str(self.start),
-                    str(self.end),
-                    str(min_pitch),
-                    str(max_pitch),
-                )
+        )
+        f = io.StringIO()
+        with redirect_stdout(f):
+            run_file(
+                praat_script_absolute,
+                audio_file_absolute,
+                str(self.start),
+                str(self.end),
+                str(min_pitch),
+                str(max_pitch),
+            )
 
-            # Parse results
-            result: List[str] = f.getvalue().rstrip().splitlines()
-            features_results: Dict[str, float] = {}
-            for line in result:
-                feature, value = line.split(":")
-                if value != "--undefined--":
-                    features_results[feature] = float(value)
+        # Parse results
+        result: List[str] = f.getvalue().rstrip().splitlines()
+        features_results: Dict[str, float] = {}
+        for line in result:
+            feature, value = line.split(":")
+            if value != "--undefined--":
+                features_results[feature] = float(value)
 
-            self._features_values.update(features_results)
+        self.features_values.update(features_results)
 
     def _calculate_opensmile_features(self, audio_file: Path):
         smile = opensmile.Smile(
@@ -170,7 +169,7 @@ class InterPausalUnit:
             duration=self.duration(),
         )
         opensmile_features_csv = smile.process_signal(signal, sampling_rate)
-        self._features_values.update(
+        self.features_values.update(
             self._convert_opensmile_output(opensmile_features_csv)
         )
 
@@ -203,7 +202,7 @@ class InterPausalUnit:
         # Calculate speech rate
         ipu_phones_qty = len(ipu_phones.split())
         ipu_speech_rate = ipu_phones_qty / self.duration()
-        self._features_values.update({"speech_rate": ipu_speech_rate})
+        self.features_values.update({"speech_rate": ipu_speech_rate})
 
         # Remove tempoary wav
         os.remove(cropped_wav_path)
