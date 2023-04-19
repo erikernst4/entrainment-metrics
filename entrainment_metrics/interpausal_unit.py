@@ -155,7 +155,7 @@ class InterPausalUnit:
                 if value != "--undefined--":
                     features_results[feature] = float(value)
 
-            self._features_values = features_results
+            self._features_values.update(features_results)
 
     def _calculate_opensmile_features(self, audio_file: Path):
         smile = opensmile.Smile(
@@ -168,7 +168,9 @@ class InterPausalUnit:
             duration=self.duration(),
         )
         opensmile_features_csv = smile.process_signal(signal, sampling_rate)
-        self._features_values = self._convert_opensmile_output(opensmile_features_csv)
+        self._features_values.update(
+            self._convert_opensmile_output(opensmile_features_csv)
+        )
 
     def _convert_opensmile_output(self, df: pd.DataFrame) -> Dict[str, float]:
         return df.to_dict(orient='records')[0]
@@ -199,4 +201,4 @@ class InterPausalUnit:
         # Calculate speech rate
         ipu_phones_qty = len(ipu_phones.split())
         ipu_speech_rate = ipu_phones_qty / self.duration()
-        self._features_values = {"speech_rate": ipu_speech_rate}
+        self._features_values.update({"speech_rate": ipu_speech_rate})
