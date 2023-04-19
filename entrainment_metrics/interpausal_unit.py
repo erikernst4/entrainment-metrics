@@ -7,7 +7,9 @@ from typing import Dict, List, Optional
 import audiofile
 import opensmile
 import pandas as pd
+from allosaurus.app import read_recognizer
 from parselmouth.praat import run_file
+from scipy.io import wavfile
 
 
 class InterPausalUnit:
@@ -33,7 +35,7 @@ class InterPausalUnit:
     ) -> None:
         self.start = start
         self.end = end
-        self._features_values = features_values
+        self._features_values = features_values if features_values is not None else {}
 
     def __eq__(self, other):
         res = False
@@ -97,7 +99,7 @@ class InterPausalUnit:
         elif extractor == "opensmile":
             self._calculate_opensmile_features(audio_file)  # type: ignore
         elif extractor in ["speech-rate", "allosaurus"]:
-            self._calculate_speech_rate(audiofile)
+            self._calculate_speech_rate(audio_file)
 
         return self._features_values
 
@@ -181,7 +183,7 @@ class InterPausalUnit:
         # Create cropped wav
         audio_file = Path(audio_file)
         audio_file_absolute = os.fspath(audio_file.resolve())
-        samplerate, data = wavfile.read(wav_file)
+        samplerate, data = wavfile.read(audio_file)
         wav_start, wav_end = int(self.start * samplerate), int(self.end * samplerate)
         cropped_wav: np.ndarray = data[wav_start:wav_end]
 
@@ -192,7 +194,7 @@ class InterPausalUnit:
                 'temp_crop.wav',
             )
         )
-        wavfile.write(cropped_wav_path, samplerate, cutted_data)
+        wavfile.write(cropped_wav_path, samplerate, cropped_wav)
 
         # Phonemize wav
         model = read_recognizer()
