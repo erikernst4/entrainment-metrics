@@ -20,11 +20,13 @@ class InterPausalUnit:
     Attributes
     ----------
     start: float
-        Start time of the IPU
+        Start time of the IPU.
 
     end: float
-        End time of the IPU
+        End time of the IPU.
 
+    features_values: Optional[Dict[str, float]]
+        A dictionary with the features calculated and their values.
     """
 
     def __init__(
@@ -63,7 +65,7 @@ class InterPausalUnit:
 
     def calculate_features(
         self,
-        audio_file: Optional[Path] = None,
+        audio_file: Path,
         pitch_gender: Optional[str] = None,
         extractor: Optional[str] = None,
     ) -> Optional[Dict[str, float]]:
@@ -72,7 +74,7 @@ class InterPausalUnit:
 
         Parameters
         ----------
-        audio_file: Optional[Path]
+        audio_file: Path
             A path to a wav file.
         pitch_gender: Optional[str]
             Useful for a more accurate praat extraction. "M" or "F", or None.
@@ -92,8 +94,6 @@ class InterPausalUnit:
             pass
         elif extractor not in available_extractors:
             raise ValueError('Not a valid extractor')
-        elif extractor in available_extractors and audio_file is None:
-            raise ValueError('audio_file is a required parameter')
         elif extractor == "praat":
             self._calculate_praat_features(audio_file, pitch_gender)  # type: ignore
         elif extractor == "opensmile":
