@@ -459,3 +459,13 @@ class TAMATestCase(TestCase):
             ),
             1.0,
         )
+
+    def test_calculate_speech_rate_spoken(self):
+        case = self.cases['spoken']
+        np.testing.assert_almost_equal(
+            11.67528692,
+            case["expected_ipus"][0].calculate_features(
+                audio_file=case['audio_fname'],
+                extractor="speech-rate",
+            )["speech_rate"],
+        )

@@ -13,6 +13,7 @@ coverage = "^6.4.4"
 sklearn = "^0.0"
 matplotlib = "^3.6.3"
 praat-parselmouth = "^0.4.3"
+allosaurus = "^1.0.2"
 
 [tool.poetry.dev-dependencies]
 
