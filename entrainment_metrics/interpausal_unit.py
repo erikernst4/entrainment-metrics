@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 import audiofile
+import numpy as np
 import opensmile
 import pandas as pd
 from allosaurus.app import read_recognizer
