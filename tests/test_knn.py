@@ -1,3 +1,4 @@
+from math import nan
 from unittest import TestCase
 
 import numpy as np
@@ -37,6 +38,26 @@ class KNNTestCase(TestCase):
                     InterPausalUnit(12.0, 16.0, {'F0_MAX': 200.002}),
                     InterPausalUnit(20.0, 24.0, {'F0_MAX': 100.003}),
                     InterPausalUnit(28.0, 36.0, {'F0_MAX': 300.002}),
+                    InterPausalUnit(40.0, 44.0, {'F0_MAX': 200.002}),
+                    InterPausalUnit(48.0, 52.0, {'F0_MAX': 100.003}),
+                ],
+            },
+            'ipu_with_None_value': {
+                'ipus': [
+                    InterPausalUnit(0.0, 8.0, {'F0_MAX': None}),
+                    InterPausalUnit(12.0, 16.0, {'F0_MAX': 200.002}),
+                    InterPausalUnit(20.0, 24.0, {'F0_MAX': 100.003}),
+                    InterPausalUnit(28.0, 36.0, {'F0_MAX': 300.002}),
+                    InterPausalUnit(40.0, 44.0, {'F0_MAX': 200.002}),
+                    InterPausalUnit(48.0, 52.0, {'F0_MAX': 100.003}),
+                ],
+            },
+            'ipu_with_nan_value': {
+                'ipus': [
+                    InterPausalUnit(0.0, 8.0, {'F0_MAX': 300.002}),
+                    InterPausalUnit(12.0, 16.0, {'F0_MAX': 200.002}),
+                    InterPausalUnit(20.0, 24.0, {'F0_MAX': 100.003}),
+                    InterPausalUnit(28.0, 36.0, {'F0_MAX': nan}),
                     InterPausalUnit(40.0, 44.0, {'F0_MAX': 200.002}),
                     InterPausalUnit(48.0, 52.0, {'F0_MAX': 100.003}),
                 ],
@@ -224,3 +245,21 @@ class KNNTestCase(TestCase):
                 time_series_a.predict,
                 invalid_input,
             )
+
+    def test_calculate_knn_time_series_warns_none_feature_value(self):
+        case = self.cases['ipu_with_None_value']
+        self.assertWarns(
+            Warning,
+            TimeSeries,
+            feature='F0_MAX',
+            interpausal_units=case['ipus'],
+        )
+
+    def test_calculate_knn_time_series_warns_nan_feature_value(self):
+        case = self.cases['ipu_with_nan_value']
+        self.assertWarns(
+            Warning,
+            TimeSeries,
+            feature='F0_MAX',
+            interpausal_units=case['ipus'],
+        )

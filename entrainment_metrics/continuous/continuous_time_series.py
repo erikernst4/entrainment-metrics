@@ -1,5 +1,6 @@
 import warnings
 from copy import deepcopy
+from math import isnan
 from typing import List, Optional
 
 import matplotlib.pyplot as plt
@@ -43,7 +44,7 @@ class TimeSeries:
         **kwargs,
     ) -> None:
         #: The InterPausalUnits of the TimeSeries.
-        self.ipus: List[InterPausalUnit] = deepcopy(interpausal_units)
+        self.ipus: List[InterPausalUnit] = self._clean_ipus(interpausal_units, feature)
 
         #: The feature to get the value from each InterPausalUnit.
         self.feature: str = feature
@@ -80,6 +81,26 @@ class TimeSeries:
 
     def __repr__(self):
         return f"TimeSeries(start={self.start()}, end={self.end()}, feature={self.feature}, interpausal_units={self.ipus})"
+
+    def _clean_ipus(
+        self,
+        interpausal_units: List[InterPausalUnit],
+        feature: str,
+    ) -> List[InterPausalUnit]:
+        ipus = deepcopy(interpausal_units)
+        ipus_wo_feature = [
+            ipu
+            for ipu in ipus
+            if ipu.feature_value(feature) is None or isnan(ipu.feature_value(feature))
+        ]
+        if ipus_wo_feature:
+            warnings.warn(
+                f"""InterPausalUnit with None or NaN value: the following InterPausalUnit's do not have a value for {feature}:
+                    {ipus_wo_feature}
+                    Default behaviour discards this InterPausalUnit/s
+                """
+            )
+        return [ipu for ipu in ipus if ipu not in ipus_wo_feature]
 
     def _get_interpausal_units_feature_values(
         self,
