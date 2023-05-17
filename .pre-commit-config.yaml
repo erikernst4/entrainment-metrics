@@ -19,20 +19,20 @@ repos:
       types: [python]
       stages: [commit]
       args: [--skip-string-normalization]
-      exclude: docs/*
+      exclude: docs/
 
     - id: mypy
       name: mypy
       entry: poetry run mypy
-      language: system
+      language: python
       types: [python]
       stages: [commit]
-      exclude: docs/*
+      exclude: docs/
 
     - id: pylint
       name: pylint
       entry: poetry run pylint
-      language: system
+      language: python
       types: [python]
       stages: [commit]
       exclude: (docs/|muttlib/dbconn/|tests/)
