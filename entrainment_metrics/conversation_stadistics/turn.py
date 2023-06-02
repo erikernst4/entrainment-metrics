@@ -1,7 +1,8 @@
+from copy import deepcopy
 from dataclasses import dataclass
-from typing import List
+from typing import List, Optional, Tuple
 
-from .interpausal_unit import InterPausalUnit
+from ..interpausal_unit import InterPausalUnit
 
 
 @dataclass
@@ -58,7 +59,7 @@ def has_speaker_talked_in_interval(
     speaker_ipus: List[InterPausalUnit], interval_start: float, interval_end: float
 ) -> bool:
     res = False
-    for ipu in ipus_list:
+    for ipu in speaker_ipus:
         interval_inside_ipu = ipu.start < interval_start and ipu.end > interval_end
         interval_has_intersection_with_ipu = (
             ipu.start > interval_start and ipu.start < interval_end
@@ -80,7 +81,7 @@ def _collapse(
     for i in range(len(turns_times_list) - 1):
         turn_1_start, turn_1_end = turns_times_list[i]
         turn_2_start, turn_2_end = turns_times_list[i + 1]
-        can_collapse = not has_talked_in_interval(
+        can_collapse = not has_speaker_talked_in_interval(
             ipus_other_speaker, turn_1_end, turn_2_start
         )
         if can_collapse:
@@ -103,7 +104,7 @@ def turns_from_speaker(
 ) -> List[Turn]:
     turns_times = [(ipu.start, ipu.end) for ipu in ipus_speaker]
     for i in range(len(turns_times)):
-        turns_times = _collapse(turns_times, ipus_other_speaker, verbose)
+        turns_times = _collapse(turns_times, ipus_other_speaker)
     return get_turns(turns_times, ipus_other_speaker)
 
 
