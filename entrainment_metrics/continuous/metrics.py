@@ -174,7 +174,7 @@ def calculate_synchrony_montecarlo(
 
     for synchrony_delta in synchrony_deltas:
         # Validate synchrony_delta
-        if synchrony_delta > end - start:
+        if abs(synchrony_delta) > end - start:
             raise ValueError(f"Synchrony delta bigger than interval {start} to {end}")
 
         time_series_values_a_crop = deepcopy(time_series_values_a)
@@ -276,7 +276,7 @@ def calculate_synchrony_trapz(
 
     for synchrony_delta in synchrony_deltas:
         # Validate synchrony_delta
-        if synchrony_delta > end - start:
+        if abs(synchrony_delta) > end - start:
             raise ValueError(f"Synchrony delta bigger than interval {start} to {end}")
 
         time_series_values_a_crop = deepcopy(time_series_values_a)
