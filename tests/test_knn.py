@@ -253,6 +253,8 @@ class KNNTestCase(TestCase):
             TimeSeries,
             feature='F0_MAX',
             interpausal_units=case['ipus'],
+            method='knn',
+            k=3,
         )
 
     def test_calculate_knn_time_series_warns_nan_feature_value(self):
@@ -262,4 +264,6 @@ class KNNTestCase(TestCase):
             TimeSeries,
             feature='F0_MAX',
             interpausal_units=case['ipus'],
+            method='knn',
+            k=3,
         )
