@@ -10,6 +10,8 @@ Entrainment-Metrics is all about being able to measure entrainment. Entrainment 
 
 Checkout the :ref:`getting_started` page for a deeper dive into the library!
 
+A step-by-step tutorial is also available as a Jupyter notebook `here <https://github.com/erikernst4/entrainment-metrics/blob/master/examples/entrainment-example.ipynb>`_.
+
 Bibliography
 ------------
 
