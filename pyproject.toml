@@ -1,8 +1,17 @@
 [tool.poetry]
 name = "entrainment-metrics"
-version = "0.1.2"
+version = "1.0.0"
 description = "Measure acoustic-prosodic entrainment in speech"
 authors = ["Erik Ernst"]
+# New attributes
+license = "APACHE2.0"
+readme = "README.md"
+homepage = "https://github.com/erikernst4/entrainment-metrics"
+repository = "https://github.com/erikernst4/entrainment-metrics"
+keywords = ["speech", "prosody", "speech-analysis", "entrainment", "prosodic-analysis"]
+include = [
+    "LICENSE",
+]
 
 [tool.poetry.dependencies]
 python = "^3.8,<3.11"
