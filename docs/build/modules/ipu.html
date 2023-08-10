@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>InterPausalUnit &mdash; entrainment-metrics  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -9,20 +10,18 @@
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
+
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Modules" href="index.html" />
-    <link rel="prev" title="Visualization" href="../usage/visualization.html" /> 
+    <link rel="prev" title="Visualization" href="../usage/visualization.html" />
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
@@ -40,7 +39,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Usage</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">InterPausalUnit</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-entrainment_metrics.utils">Visualization</a><ul class="simple">
+<li class="toctree-l2"><a class="reference internal" href="#visualization">Visualization</a><ul class="simple">
 </ul>
 </li>
 </ul>
@@ -71,99 +70,15 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
-  <div class="section" id="module-entrainment_metrics.interpausal_unit">
-<span id="interpausalunit"></span><span id="ipu"></span><h1>InterPausalUnit<a class="headerlink" href="#module-entrainment_metrics.interpausal_unit" title="Permalink to this heading"></a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="entrainment_metrics.interpausal_unit.InterPausalUnit">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">entrainment_metrics.interpausal_unit.</span></span><span class="sig-name descname"><span class="pre">InterPausalUnit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#entrainment_metrics.interpausal_unit.InterPausalUnit" title="Permalink to this definition"></a></dt>
-<dd><p>It’s an interval of time between silences of a speaker in a conversation.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="entrainment_metrics.interpausal_unit.InterPausalUnit.start">
-<span class="sig-name descname"><span class="pre">start</span></span><a class="headerlink" href="#entrainment_metrics.interpausal_unit.InterPausalUnit.start" title="Permalink to this definition"></a></dt>
-<dd><p>Start time of the IPU</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="entrainment_metrics.interpausal_unit.InterPausalUnit.end">
-<span class="sig-name descname"><span class="pre">end</span></span><a class="headerlink" href="#entrainment_metrics.interpausal_unit.InterPausalUnit.end" title="Permalink to this definition"></a></dt>
-<dd><p>End time of the IPU</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="entrainment_metrics.interpausal_unit.InterPausalUnit.calculate_features">
-<span class="sig-name descname"><span class="pre">calculate_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">audio_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch_gender</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extractor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#entrainment_metrics.interpausal_unit.InterPausalUnit.calculate_features" title="Permalink to this definition"></a></dt>
-<dd><p>Lazy feature extraction for an InterPausalUnit.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>audio_file</strong> (<em>Optional</em><em>[</em><em>Path</em><em>]</em>) – A path to a wav file.</p></li>
-<li><p><strong>pitch_gender</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Useful for a more accurate praat extraction. “M” or “F”, or None.</p></li>
-<li><p><strong>extractor</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The extractor to calculate features. It can be either “praat” or “opensmile”. Default is “opensmile”.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A dictionary with the value for each feature calculated.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Dict[str, float]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="entrainment_metrics.interpausal_unit.InterPausalUnit.feature_value">
-<span class="sig-name descname"><span class="pre">feature_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#entrainment_metrics.interpausal_unit.InterPausalUnit.feature_value" title="Permalink to this definition"></a></dt>
-<dd><p>Return the value for the feature given if already extracted</p>
-</dd></dl>
-
-</dd></dl>
-
-<div class="section" id="module-entrainment_metrics.utils">
-<span id="visualization"></span><h2>Visualization<a class="headerlink" href="#module-entrainment_metrics.utils" title="Permalink to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="entrainment_metrics.utils.plot_ipus">
-<span class="sig-prename descclassname"><span class="pre">entrainment_metrics.utils.</span></span><span class="sig-name descname"><span class="pre">plot_ipus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipus</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#entrainment_metrics.interpausal_unit.InterPausalUnit" title="entrainment_metrics.interpausal_unit.InterPausalUnit"><span class="pre">InterPausalUnit</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#entrainment_metrics.utils.plot_ipus" title="Permalink to this definition"></a></dt>
-<dd><p>Plot the IPU’s feature values with its corresponding lenght.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>ipus</strong> (<em>List</em><em>[</em><a class="reference internal" href="#entrainment_metrics.interpausal_unit.InterPausalUnit" title="entrainment_metrics.interpausal_unit.InterPausalUnit"><em>InterPausalUnit</em></a><em>]</em>) – The list of IPUs from which to extract information.</p></li>
-<li><p><strong>feature</strong> (<em>str</em>) – The feature from which to extract the feature value of each InterPausalUnit.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="entrainment_metrics.utils.print_ipus_information">
-<span class="sig-prename descclassname"><span class="pre">entrainment_metrics.utils.</span></span><span class="sig-name descname"><span class="pre">print_ipus_information</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ipus</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#entrainment_metrics.interpausal_unit.InterPausalUnit" title="entrainment_metrics.interpausal_unit.InterPausalUnit"><span class="pre">InterPausalUnit</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#entrainment_metrics.utils.print_ipus_information" title="Permalink to this definition"></a></dt>
-<dd><p>Print lenght, std, mean, min, max, min start, and max end
-from the list of IPUs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>ipus</strong> (<em>List</em><em>[</em><a class="reference internal" href="#entrainment_metrics.interpausal_unit.InterPausalUnit" title="entrainment_metrics.interpausal_unit.InterPausalUnit"><em>InterPausalUnit</em></a><em>]</em>) – The list of IPUs from which to extract information.</p></li>
-<li><p><strong>feature</strong> (<em>str</em>) – The feature from which to extract the feature value of each InterPausalUnit.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
+  <section id="interpausalunit">
+<span id="ipu"></span><h1>InterPausalUnit<a class="headerlink" href="#interpausalunit" title="Permalink to this heading"></a></h1>
+<section id="visualization">
+<h2>Visualization<a class="headerlink" href="#visualization" title="Permalink to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -182,7 +97,7 @@ from the list of IPUs.</p>
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+
 
 </footer>
         </div>
@@ -193,7 +108,7 @@ from the list of IPUs.</p>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
 
 </body>
 </html>

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Continuous TimeSeries &mdash; entrainment-metrics  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -9,20 +10,18 @@
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
+
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Visualization" href="visualization.html" />
-    <link rel="prev" title="Time-Aligned Moving Average (TAMA)" href="tama.html" /> 
+    <link rel="prev" title="Time-Aligned Moving Average (TAMA)" href="tama.html" />
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
@@ -78,10 +77,10 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
-  <div class="section" id="continuous-timeseries">
+
+  <section id="continuous-timeseries">
 <span id="continuous-time-series"></span><h1>Continuous TimeSeries<a class="headerlink" href="#continuous-timeseries" title="Permalink to this heading"></a></h1>
-<div class="section" id="using-continuous-timeseries">
+<section id="using-continuous-timeseries">
 <h2>Using Continuous TimeSeries<a class="headerlink" href="#using-continuous-timeseries" title="Permalink to this heading"></a></h2>
 <p>If you have a list of InterPausalUnits with some feature of interest already calculated, you can create a TimeSeries object for such a feature. Here is an example that uses k-Nearest-Neighbors (kNN) regressor, as explained in Gálvez et al. (2020).</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entrainment_metrics.continuous</span> <span class="kn">import</span> <span class="n">TimeSeries</span>
@@ -95,7 +94,7 @@
 </pre></div>
 </div>
 <p>Once the TimeSeries object has been constructed, you can use it predict the feature value for specific time points (a float, or an np.ndarray), or for the points in a given interval (with a specified granularity degree).</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="n">time_series_values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">time_series</span><span class="o">.</span><span class="n">predict_interval</span><span class="p">(</span>
     <span class="n">start</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
@@ -108,8 +107,8 @@
 <span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="calculating-metrics">
+</section>
+<section id="calculating-metrics">
 <h2>Calculating Metrics<a class="headerlink" href="#calculating-metrics" title="Permalink to this heading"></a></h2>
 <p>When you already have some TimeSeries is when fun starts. Now you are able to calculate some metrics over them. The metrics available are ‘proximity’, ‘convergence’, and ‘synchrony’. Calculating any of these metrics is as easy as running the following code:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">entrainment_metrics.continuous</span> <span class="kn">import</span> <span class="n">calculate_metric</span>
@@ -120,8 +119,8 @@
 <span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -140,7 +139,7 @@
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+
 
 </footer>
         </div>
@@ -151,7 +150,7 @@
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
 
 </body>
 </html>

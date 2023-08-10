@@ -16,7 +16,7 @@ Bibliography
 This library is based on two papers:
 
 * Ramiro H. Gálvez, Lara Gauder, Jordi Luque, and Agustín Gravano (2020). "A unifying framework for modeling acoustic/prosodic entrainment: definition and evaluation on two large corpora". In Proceedings of SIGDIAL 2020.
-* Juan M. Pérez, Ramiro H. Gálvez, and Agustín Gravano (2016). "Disentrainment may be a Positive Thing: A Novel Measure of Unsigned Acoustic-Prosodic Synchrony, and its Relation to Speaker Engagement". In Proceedings of INTERSPEECH 2016.
+* Juan M. Pérez, Ramiro H. Gálvez, and Agustín Gravano (2016). `"Disentrainment may be a Positive Thing: A Novel Measure of Unsigned Acoustic-Prosodic Synchrony, and its Relation to Speaker Engagement" <https://www.isca-speech.org/archive/interspeech_2016/perez16_interspeech.html>`_. In Proceedings of INTERSPEECH 2016.
 
 .. toctree::
    :maxdepth: 2

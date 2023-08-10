@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TAMA &mdash; entrainment-metrics  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -9,20 +10,18 @@
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
+
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b3ba4146"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Continuous" href="continuous.html" />
-    <link rel="prev" title="Modules" href="index.html" /> 
+    <link rel="prev" title="Modules" href="index.html" />
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
   <div class="wy-grid-for-nav">
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
@@ -42,9 +41,9 @@
 <li class="toctree-l1"><a class="reference internal" href="ipu.html">InterPausalUnit</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Modules</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">TAMA</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#module-entrainment_metrics.tama.frame">Frame</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-entrainment_metrics.tama.utils">Utils</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-entrainment_metrics.tama.entrainment">Entrainment</a><ul class="simple">
+<li class="toctree-l3"><a class="reference internal" href="#frame">Frame</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#utils">Utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#entrainment">Entrainment</a><ul class="simple">
 </ul>
 </li>
 </ul>
@@ -78,141 +77,21 @@
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
-  <div class="section" id="tama">
+
+  <section id="tama">
 <h1>TAMA<a class="headerlink" href="#tama" title="Permalink to this heading"></a></h1>
-<div class="section" id="module-entrainment_metrics.tama.frame">
-<span id="frame"></span><h2>Frame<a class="headerlink" href="#module-entrainment_metrics.tama.frame" title="Permalink to this heading"></a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="entrainment_metrics.tama.frame.Frame">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">entrainment_metrics.tama.frame.</span></span><span class="sig-name descname"><span class="pre">Frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_missing</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpausal_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="ipu.html#entrainment_metrics.interpausal_unit.InterPausalUnit" title="entrainment_metrics.interpausal_unit.InterPausalUnit"><span class="pre">InterPausalUnit</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#entrainment_metrics.tama.frame.Frame" title="Permalink to this definition"></a></dt>
-<dd><p>An interval of time inside an audio</p>
-<blockquote>
-<div><p>…</p>
-</div></blockquote>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="entrainment_metrics.tama.frame.Frame.start">
-<span class="sig-name descname"><span class="pre">start</span></span><a class="headerlink" href="#entrainment_metrics.tama.frame.Frame.start" title="Permalink to this definition"></a></dt>
-<dd><p>Start time of the frame.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="entrainment_metrics.tama.frame.Frame.end">
-<span class="sig-name descname"><span class="pre">end</span></span><a class="headerlink" href="#entrainment_metrics.tama.frame.Frame.end" title="Permalink to this definition"></a></dt>
-<dd><p>End time of the frame.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="entrainment_metrics.tama.frame.Frame.is_missing">
-<span class="sig-name descname"><span class="pre">is_missing</span></span><a class="headerlink" href="#entrainment_metrics.tama.frame.Frame.is_missing" title="Permalink to this definition"></a></dt>
-<dd><p>Whether the frame has no IPUs inside. In other words, if the frame is fulled with silence.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>bool</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="entrainment_metrics.tama.frame.Frame.interpausal_units">
-<span class="sig-name descname"><span class="pre">interpausal_units</span></span><a class="headerlink" href="#entrainment_metrics.tama.frame.Frame.interpausal_units" title="Permalink to this definition"></a></dt>
-<dd><p>The IPUs that fall inside of the frame</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="ipu.html#entrainment_metrics.interpausal_unit.InterPausalUnit" title="entrainment_metrics.interpausal_unit.InterPausalUnit">InterPausalUnit</a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="entrainment_metrics.tama.frame.Frame.calculate_feature_value">
-<span class="sig-name descname"><span class="pre">calculate_feature_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">audio_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch_gender</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extractor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#entrainment_metrics.tama.frame.Frame.calculate_feature_value" title="Permalink to this definition"></a></dt>
-<dd><p>Return the frame’s value for the feature given</p>
-<p>This value is calculated as the duration-weighted mean
-of the value for the feature of each IPU inside the frame</p>
-<p>Cite Interspeech2016</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="entrainment_metrics.tama.frame.MissingFrame">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">entrainment_metrics.tama.frame.</span></span><span class="sig-name descname"><span class="pre">MissingFrame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#entrainment_metrics.tama.frame.MissingFrame" title="Permalink to this definition"></a></dt>
-<dd><dl class="py method">
-<dt class="sig sig-object py" id="entrainment_metrics.tama.frame.MissingFrame.calculate_feature_value">
-<span class="sig-name descname"><span class="pre">calculate_feature_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">audio_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch_gender</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extractor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#entrainment_metrics.tama.frame.MissingFrame.calculate_feature_value" title="Permalink to this definition"></a></dt>
-<dd><p>Return the frame’s value for the feature given</p>
-<p>This value is calculated as the duration-weighted mean
-of the value for the feature of each IPU inside the frame</p>
-<p>Cite Interspeech2016</p>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-entrainment_metrics.tama.utils">
-<span id="utils"></span><h2>Utils<a class="headerlink" href="#module-entrainment_metrics.tama.utils" title="Permalink to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="entrainment_metrics.tama.utils.get_frames">
-<span class="sig-prename descclassname"><span class="pre">entrainment_metrics.tama.utils.</span></span><span class="sig-name descname"><span class="pre">get_frames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wav_fname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">words_fname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#entrainment_metrics.tama.frame.Frame" title="entrainment_metrics.tama.frame.Frame"><span class="pre">Frame</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#entrainment_metrics.tama.frame.MissingFrame" title="entrainment_metrics.tama.frame.MissingFrame"><span class="pre">MissingFrame</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#entrainment_metrics.tama.utils.get_frames" title="Permalink to this definition"></a></dt>
-<dd><p>Return a list of Frames given a Path to a .word file and a .wav file</p>
-<p>The format of the word file must be:
-- For each line
-f’{starting_time} {ending_time} {word}’
-Where starting_time and ending_time are floats</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>wav_fname</strong> (<em>Path</em>) – The path to the wav file</p></li>
-<li><p><strong>words_fname</strong> (<em>Path</em>) – The path to the words file</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The frames from the wav file with the InterPausalUnits from the word file.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>List[Union[<a class="reference internal" href="#entrainment_metrics.tama.frame.Frame" title="entrainment_metrics.tama.frame.Frame">Frame</a>, <a class="reference internal" href="#entrainment_metrics.tama.frame.MissingFrame" title="entrainment_metrics.tama.frame.MissingFrame">MissingFrame</a>]]</p>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
-<div class="section" id="module-entrainment_metrics.tama.entrainment">
-<span id="entrainment"></span><h2>Entrainment<a class="headerlink" href="#module-entrainment_metrics.tama.entrainment" title="Permalink to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="entrainment_metrics.tama.entrainment.calculate_sample_correlation">
-<span class="sig-prename descclassname"><span class="pre">entrainment_metrics.tama.entrainment.</span></span><span class="sig-name descname"><span class="pre">calculate_sample_correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_series_a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_series_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#entrainment_metrics.tama.entrainment.calculate_sample_correlation" title="Permalink to this definition"></a></dt>
-<dd><p>Calculate the correlations between two series as one of them is lagged</p>
-<p>Intuitively,
-it can be interpreted similarly to Pearson’s correlation coeffi-
-cient between a time-series and a lagged version of another one,
-which means that its value varies from −1 to 1.
-Each value returned can be interpreted as an indication
-of how much a speaker converged (diverged) in a task in
-terms of the behavior of a/p feature φ to the behavior her partner
-had h frames before, where h is the number of lags.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="entrainment_metrics.tama.entrainment.calculate_time_series">
-<span class="sig-prename descclassname"><span class="pre">entrainment_metrics.tama.entrainment.</span></span><span class="sig-name descname"><span class="pre">calculate_time_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#entrainment_metrics.tama.frame.Frame" title="entrainment_metrics.tama.frame.Frame"><span class="pre">Frame</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#entrainment_metrics.tama.frame.MissingFrame" title="entrainment_metrics.tama.frame.MissingFrame"><span class="pre">MissingFrame</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">audio_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extractor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch_gender</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#entrainment_metrics.tama.entrainment.calculate_time_series" title="Permalink to this definition"></a></dt>
-<dd><p>Generate a time series of the frames values for the feature given</p>
-</dd></dl>
-
+<section id="frame">
+<h2>Frame<a class="headerlink" href="#frame" title="Permalink to this heading"></a></h2>
+</section>
+<section id="utils">
+<h2>Utils<a class="headerlink" href="#utils" title="Permalink to this heading"></a></h2>
+</section>
+<section id="entrainment">
+<h2>Entrainment<a class="headerlink" href="#entrainment" title="Permalink to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -231,7 +110,7 @@ had h frames before, where h is the number of lags.</p>
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+
 
 </footer>
         </div>
@@ -242,7 +121,7 @@ had h frames before, where h is the number of lags.</p>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
 
 </body>
 </html>
