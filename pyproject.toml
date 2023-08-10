@@ -8,6 +8,7 @@ license = "APACHE2.0"
 readme = "README.md"
 homepage = "https://github.com/erikernst4/entrainment-metrics"
 repository = "https://github.com/erikernst4/entrainment-metrics"
+documentation="https://entrainment-metrics.readthedocs.io/en/latest/"
 keywords = ["speech", "prosody", "speech-analysis", "entrainment", "prosodic-analysis"]
 include = [
     "LICENSE",
