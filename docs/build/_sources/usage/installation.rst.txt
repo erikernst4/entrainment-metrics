@@ -5,7 +5,7 @@ To use entrainment_metrics, first install it using pip:
 
 .. code-block:: console
 
-   pip install entrainment_metrics
+   pip install entrainment-metrics
 
 It's also required the command-line tool ffmpeg to be installed on your system, which is available from most package managers:
 
