@@ -75,17 +75,55 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="tama.html">TAMA</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tama.html#frame">Frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tama.html#utils">Utils</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tama.html#entrainment">Entrainment</a><ul class="simple">
+<li class="toctree-l2"><a class="reference internal" href="tama.html#module-entrainment_metrics.tama.frame">Frame</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tama.html#entrainment_metrics.tama.frame.Frame"><code class="docutils literal notranslate"><span class="pre">Frame</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tama.html#entrainment_metrics.tama.frame.Frame.start"><code class="docutils literal notranslate"><span class="pre">Frame.start</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tama.html#entrainment_metrics.tama.frame.Frame.end"><code class="docutils literal notranslate"><span class="pre">Frame.end</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tama.html#entrainment_metrics.tama.frame.Frame.is_missing"><code class="docutils literal notranslate"><span class="pre">Frame.is_missing</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tama.html#entrainment_metrics.tama.frame.Frame.interpausal_units"><code class="docutils literal notranslate"><span class="pre">Frame.interpausal_units</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tama.html#entrainment_metrics.tama.frame.Frame.calculate_feature_value"><code class="docutils literal notranslate"><span class="pre">Frame.calculate_feature_value()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tama.html#entrainment_metrics.tama.frame.MissingFrame"><code class="docutils literal notranslate"><span class="pre">MissingFrame</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tama.html#entrainment_metrics.tama.frame.MissingFrame.calculate_feature_value"><code class="docutils literal notranslate"><span class="pre">MissingFrame.calculate_feature_value()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tama.html#module-entrainment_metrics.tama.utils">Utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tama.html#entrainment_metrics.tama.utils.get_frames"><code class="docutils literal notranslate"><span class="pre">get_frames()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tama.html#module-entrainment_metrics.tama.entrainment">Entrainment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tama.html#entrainment_metrics.tama.entrainment.calculate_sample_correlation"><code class="docutils literal notranslate"><span class="pre">calculate_sample_correlation()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tama.html#entrainment_metrics.tama.entrainment.calculate_time_series"><code class="docutils literal notranslate"><span class="pre">calculate_time_series()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="continuous.html">Continuous</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="continuous.html#timeseries">TimeSeries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="continuous.html#metrics">Metrics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="continuous.html#visualization">Visualization</a><ul class="simple">
+<li class="toctree-l2"><a class="reference internal" href="continuous.html#module-entrainment_metrics.continuous.continuous_time_series">TimeSeries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="continuous.html#entrainment_metrics.continuous.continuous_time_series.TimeSeries"><code class="docutils literal notranslate"><span class="pre">TimeSeries</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="continuous.html#entrainment_metrics.continuous.continuous_time_series.TimeSeries.end"><code class="docutils literal notranslate"><span class="pre">TimeSeries.end()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="continuous.html#entrainment_metrics.continuous.continuous_time_series.TimeSeries.feature"><code class="docutils literal notranslate"><span class="pre">TimeSeries.feature</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="continuous.html#entrainment_metrics.continuous.continuous_time_series.TimeSeries.ipus"><code class="docutils literal notranslate"><span class="pre">TimeSeries.ipus</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="continuous.html#entrainment_metrics.continuous.continuous_time_series.TimeSeries.ipus_feature_values"><code class="docutils literal notranslate"><span class="pre">TimeSeries.ipus_feature_values</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="continuous.html#entrainment_metrics.continuous.continuous_time_series.TimeSeries.outlier_ipus"><code class="docutils literal notranslate"><span class="pre">TimeSeries.outlier_ipus()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="continuous.html#entrainment_metrics.continuous.continuous_time_series.TimeSeries.plot"><code class="docutils literal notranslate"><span class="pre">TimeSeries.plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="continuous.html#entrainment_metrics.continuous.continuous_time_series.TimeSeries.predict"><code class="docutils literal notranslate"><span class="pre">TimeSeries.predict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="continuous.html#entrainment_metrics.continuous.continuous_time_series.TimeSeries.predict_interval"><code class="docutils literal notranslate"><span class="pre">TimeSeries.predict_interval()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="continuous.html#entrainment_metrics.continuous.continuous_time_series.TimeSeries.start"><code class="docutils literal notranslate"><span class="pre">TimeSeries.start()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="continuous.html#module-entrainment_metrics.continuous.metrics">Metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="continuous.html#entrainment_metrics.continuous.metrics.calculate_common_support"><code class="docutils literal notranslate"><span class="pre">calculate_common_support()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="continuous.html#entrainment_metrics.continuous.metrics.calculate_metric"><code class="docutils literal notranslate"><span class="pre">calculate_metric()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="continuous.html#module-entrainment_metrics.continuous.utils">Visualization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="continuous.html#entrainment_metrics.continuous.utils.plot_time_series"><code class="docutils literal notranslate"><span class="pre">plot_time_series()</span></code></a></li>
 </ul>
 </li>
 </ul>
