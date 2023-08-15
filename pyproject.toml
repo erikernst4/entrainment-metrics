@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "entrainment-metrics"
-version = "1.0.0"
+version = "1.0.1"
 description = "Measure acoustic-prosodic entrainment in speech"
 authors = ["E. Ernst, Universidad Torcuato Di Tella, Buenos Aires, Argentina", "A. Gravano, Universidad Torcuato Di Tella, Buenos Aires, Argentina", "R. Gálvez, Universidad Torcuato Di Tella, Buenos Aires, Argentina"]
 # New attributes
