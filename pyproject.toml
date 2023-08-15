@@ -2,9 +2,9 @@
 name = "entrainment-metrics"
 version = "1.0.0"
 description = "Measure acoustic-prosodic entrainment in speech"
-authors = ["Erik Ernst"]
+authors = ["E. Ernst, Universidad Torcuato Di Tella, Buenos Aires, Argentina", "A. Gravano, Universidad Torcuato Di Tella, Buenos Aires, Argentina", "R. Gálvez, Universidad Torcuato Di Tella, Buenos Aires, Argentina"]
 # New attributes
-license = "APACHE2.0"
+license = "Apache-2.0"
 readme = "README.md"
 homepage = "https://github.com/erikernst4/entrainment-metrics"
 repository = "https://github.com/erikernst4/entrainment-metrics"
