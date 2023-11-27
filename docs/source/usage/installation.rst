@@ -45,4 +45,16 @@ Troubleshoot
 
        pip uninstall parselmouth && pip install praat-parselmouth
 
+- error: subprocess-exited-with-error × python setup.py egg_info did not run successfully. | While trying to install the library, if you come up with this error, you should run:
+    .. code-block:: console
+      
+       pip install --upgrade pip
+       pip install --upgrade setuptools
+       pip install ez_setup
+
+and run again:
+    .. code-block:: console
+      
+       pip install entrainment-metrics
+
 - Please, if you have any other error feel free to leave an issue in the github repository.
