@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "entrainment-metrics"
-version = "1.0.4"
+version = "1.0.5"
 description = "Measure acoustic-prosodic entrainment in speech"
 authors = [
     "E. Ernst, A. Gravano, R. Gálvez"
@@ -22,10 +22,10 @@ click = "8.0.2"
 scipy = "^1.8.1"
 opensmile = "^2.4.1"
 coverage = "^6.4.4"
-sklearn = "^0.0"
 matplotlib = "^3.6.3"
 praat-parselmouth = "^0.4.3"
 allosaurus = "^1.0.2"
+scikit-learn = "^1.3.2"
 
 [tool.poetry.dev-dependencies]
 
