@@ -62,6 +62,13 @@ class KNNTestCase(TestCase):
                     InterPausalUnit(48.0, 52.0, {'F0_MAX': 100.003}),
                 ],
             },
+            'unordered': {
+                'ipus': [
+                    InterPausalUnit(16.0, 24.0, {'F0_MAX': 300.002}),
+                    InterPausalUnit(0.0, 4.0, {'F0_MAX': 100.003}),
+                    InterPausalUnit(8.0, 12.0, {'F0_MAX': 200.002}),
+                ],
+            },
         }
 
     def test_calculate_knn_time_series_longx2(self):
@@ -267,3 +274,13 @@ class KNNTestCase(TestCase):
             method='knn',
             k=3,
         )
+
+    def test_predict_interval_over_time_series_from_unordered_ipus(self):
+        case = self.cases['unordered']
+        time_series = TimeSeries(
+            feature='F0_MAX',
+            interpausal_units=case['ipus'],
+            method='knn',
+            k=3,
+        )
+        time_series.predict_interval()
