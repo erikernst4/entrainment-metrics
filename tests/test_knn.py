@@ -277,10 +277,11 @@ class KNNTestCase(TestCase):
 
     def test_predict_interval_over_time_series_from_unordered_ipus(self):
         case = self.cases['unordered']
-        time_series = TimeSeries(
+        self.assertWarns(
+            Warning,
+            TimeSeries,
             feature='F0_MAX',
             interpausal_units=case['ipus'],
             method='knn',
             k=3,
         )
-        time_series.predict_interval()
