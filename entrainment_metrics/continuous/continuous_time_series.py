@@ -88,6 +88,13 @@ class TimeSeries:
         feature: str,
     ) -> List[InterPausalUnit]:
         ipus = deepcopy(interpausal_units)
+        ipus.sort(key=lambda ipu: ipu.start)
+        if ipus != interpausal_units:
+            warnings.warn(
+                f"""InterPausalUnits not sorted
+                    Default behaviour sorts InterPausalUnit/s by start.
+                """
+            )
         ipus_wo_feature = [
             ipu
             for ipu in ipus
